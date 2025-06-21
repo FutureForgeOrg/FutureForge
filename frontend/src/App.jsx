@@ -1,9 +1,10 @@
 import React from 'react'
+import Home from './pages/Home'
 
 function App() {
   return (
     <>
-    <div class='bg-gray-600'>Futureforge</div>
+    <Home/>
     </>
   )
 }
