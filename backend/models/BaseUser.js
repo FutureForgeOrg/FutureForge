@@ -22,19 +22,27 @@ const baseUserSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: [4, "Password must be at least 4 characters long"],
-        maxlength: [32, "Password cannot exceed 32 characters"],
     },
     role: {
         type: String,
-        enum: ["baseuser", "admin"],
-        default: "BaseUser",
+        enum: ["user", "admin"],
+        default: "user",
     },
     gender: {
         type : String,
         enum : ["male","female","other"],
         default : "male",
         required : true
-    }
+    },
+    ipAddress: {
+        type: String,
+        required: true,
+    },
+    userAgent: {
+        type: String,
+        required: true,
+    },
+
 }, {
     timestamps: true
 });
