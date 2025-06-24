@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
+import Terms from '../components/Terms';
 export default function Register() {
   const [formData, setFormData] = useState({
     username: '',
@@ -14,7 +15,7 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [error, setError] = useState({});
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     let errorMsg = '';
@@ -78,11 +79,11 @@ export default function Register() {
       return;
     }
 
-    if(!formData.username || !formData.email || !formData.password || !formData.confirmPassword || !formData.gender) {
+    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword || !formData.gender) {
       alert('Please fill in all fields');
       return;
     }
-    
+
     console.log('Form submitted:', formData);
     alert('Account created successfully!');
   };
@@ -262,11 +263,14 @@ export default function Register() {
                     onChange={(e) => setAgreedToTerms(e.target.checked)}
                     className="w-5 h-5 text-blue-500 border-2 border-gray-300 rounded focus:ring-blue-500"
                   />
-                  <div className="text-gray-600">
-                    By signing up, I agree with <span className="text-blue-500 hover:underline cursor-pointer">Terms & Conditions</span>
-                  </div>
+                  <p>By signing up, I agree with</p>
+                  <Link to="/terms">
+                    <span className="text-blue-500 hover:underline cursor-pointer">
+                      Terms & Conditions
+                    </span>
+                  </Link>
                 </div>
-                
+
 
                 {/* Action Buttons */}
                 <div className="flex space-x-4 pt-6">
