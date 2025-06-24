@@ -235,19 +235,21 @@ export default function Register() {
       }}>
 
       {/* Main Container */}
-      <div className="w-full max-w-6xl rounded-3xl overflow-hidden shadow-2xl"
+      <div className="w-full max-w-6xl rounded-3xl overflow-hidden shadow-2xl max-h-[700px]"
         style={{ backgroundColor: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)' }}>
 
         <div className="flex flex-col lg:flex-row min-h-[600px]">
 
           {/* Left Panel - Welcome Section */}
-          <div className="hidden lg:block lg:w-1/2 p-12 flex flex-col justify-center items-center text-white relative overflow-hidden"
+          <div className="hidden lg:block lg:w-1/2 p-4 flex flex-col justify-center items-center text-white relative overflow-hidden"
             style={{
               background: `linear-gradient(135deg, #312e81 0%, #7e22ce 50%, #3b82f6 100%)`
             }}>
 
             {/* Decorative Elements */}
             <div className="absolute top-0 left-0 w-full h-full opacity-10">
+              <div className="absolute top-20 left-20 w-32 h-32 rounded-full border-2 border-white"></div>
+              <div className="absolute top-30 right-20 w-24 h-24 rounded-full border-2 border-white"></div>
               <div className="absolute top-20 left-20 w-32 h-32 rounded-full border-2 border-white"></div>
               <div className="absolute bottom-32 right-16 w-24 h-24 rounded-full border-2 border-white"></div>
               <div className="absolute top-1/2 right-1/4 w-16 h-16 rounded-full border border-white"></div>
@@ -268,10 +270,13 @@ export default function Register() {
               </div>
 
               {/* Description */}
-              <p className="text-lg opacity-90 max-w-md leading-relaxed">
-                Create your FutureForge account.
-                Unlock the next level of digital possibilities today.
-              </p>
+              <div className='p-auto w-full flex justify-center items-center'>
+                <p className="text-center text-lg opacity-90 max-w-md leading-relaxed">
+                  Create your FutureForge account.
+                  Unlock the next level of digital possibilities today.
+                </p>
+              </div>
+
 
               {/* <div className="mt-12 flex space-x-8 text-sm">
                 <button className="hover:text-yellow-400 transition-colors">EXPLORE HERE</button>
@@ -281,22 +286,22 @@ export default function Register() {
           </div>
 
           {/* Right Panel - Registration Form */}
-          <div className="lg:w-1/2 p-12 bg-gray-50">
+          <div className="lg:w-1/2 p-4 bg-gray-50">
             <div className="max-w-md mx-auto">
-              <h3 className="text-3xl font-bold text-gray-800 mb-8 text-center">Create your account</h3>
+              <h3 className="text-3xl font-bold text-gray-800 mb-8 text-center font-monserat">Create your account</h3>
 
-              <div className="space-y-6">
+              <div className="space-y-2">
 
                 {/* Username Field */}
                 <div>
-                  <div className="block text-gray-700 font-medium mb-2">Username</div>
+                  <div className="block text-gray-700 font-medium mb-1">Username</div>
                   <input
                     type="text"
                     name="username"
                     value={formData.username}
                     onChange={handleInputChange}
                     placeholder="Enter your username"
-                    className="w-full px-4 py-3 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
+                    className="w-full px-2 py-1 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
                   />
                 </div>
 
@@ -309,7 +314,7 @@ export default function Register() {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="Enter your email"
-                    className="w-full px-4 py-3 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
+                    className="w-full px-2 py-1 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
                   />
                 </div>
 
@@ -323,7 +328,7 @@ export default function Register() {
                       value={formData.password}
                       onChange={handleInputChange}
                       placeholder="Enter your password"
-                      className="w-full px-4 py-3 pr-12 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
+                      className="w-full px-2 py-1 pr-12 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
                     />
                     <button
                       type="button"
@@ -345,7 +350,7 @@ export default function Register() {
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
                       placeholder="Confirm your password"
-                      className="w-full px-4 py-3 pr-12 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
+                      className="w-full px-2 py-1 pr-12 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
                     />
                     <button
                       type="button"
@@ -364,7 +369,7 @@ export default function Register() {
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800"
+                    className="w-full px-1 py-1 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800"
                   >
                     <option value="">Select your gender</option>
                     <option value="male">Male</option>
@@ -375,7 +380,7 @@ export default function Register() {
                 </div>
 
                 {/* Terms Checkbox */}
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 pt-4">
                   <input
                     type="checkbox"
                     id="terms"
