@@ -1,195 +1,3 @@
-// import { useState } from 'react';
-// import { Link } from 'react-router-dom';
-
-// export default function Register() {
-//   const [formData, setFormData] = useState({
-//     username: '',
-//     email: '',
-//     password: '',
-//     confirmPassword: '',
-//     gender: ''
-//   });
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData(prev => ({
-//       ...prev,
-//       [name]: value
-//     }));
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log('Form submitted:', formData);
-//     // Add your form submission logic here
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-700 flex items-center justify-center p-4">
-
-//       {/* Registration Form Container */}
-//       <div className="w-full max-w-md bg-white bg-opacity-80 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-white border-opacity-20">
-
-//         {/* Header */}
-//         <div className="text-center mb-8">
-//           <h1 className="text-3xl font-bold text-slate-900 mb-2">Create Account</h1>
-//           <p className="text-gray-800 text-sm">Join us today and start your journey</p>
-//         </div>
-
-//         {/* Registration Form */}
-//         <div>
-
-//           {/* Username Field */}
-//           <div className="mb-4">
-//             <label htmlFor="username" className="block text-gray-800 text-sm font-medium mb-2">
-//               Username
-//             </label>
-//             <input 
-//               type="text" 
-//               id="username" 
-//               name="username" 
-//               value={formData.username}
-//               onChange={handleChange}
-//               required
-//               className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-800 bg-white focus:border-purple-400 focus:outline-none"
-//             />
-//           </div>
-
-//           {/* Email Field */}
-//           <div className="mb-4">
-//             <label htmlFor="email" className="block text-gray-800 text-sm font-medium mb-2">
-//               Email Address
-//             </label>
-//             <input 
-//               type="email" 
-//               id="email" 
-//               name="email" 
-//               value={formData.email}
-//               onChange={handleChange}
-//               required
-//               className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-800 bg-white focus:border-purple-400 focus:outline-none"
-//             />
-//           </div>
-
-//           {/* Password Field */}
-//           <div className="mb-4">
-//             <label htmlFor="password" className="block text-gray-800 text-sm font-medium mb-2">
-//               Password
-//             </label>
-//             <input 
-//               type="password" 
-//               id="password" 
-//               name="password" 
-//               value={formData.password}
-//               onChange={handleChange}
-//               required
-//               className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-800 bg-white focus:border-purple-400 focus:outline-none"
-//             />
-//           </div>
-
-//           {/* Confirm Password Field */}
-//           <div className="mb-6">
-//             <label htmlFor="confirmPassword" className="block text-gray-800 text-sm font-medium mb-2">
-//               Confirm Password
-//             </label>
-//             <input 
-//               type="password" 
-//               id="confirmPassword" 
-//               name="confirmPassword" 
-//               value={formData.confirmPassword}
-//               onChange={handleChange}
-//               required
-//               className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-gray-800 bg-white focus:border-purple-400 focus:outline-none"
-//             />
-//           </div>
-
-//           {/* Gender Selection */}
-//           <div className="mb-6">
-//             <label className="block text-gray-800 text-sm font-medium mb-3">Gender</label>
-//             <div className="grid grid-cols-3 gap-3">
-//               <label className="flex items-center">
-//                 <input 
-//                   type="radio" 
-//                   name="gender" 
-//                   value="male"
-//                   checked={formData.gender === 'male'}
-//                   onChange={handleChange}
-//                   className="sr-only"
-//                 />
-//                 <div className={`w-full px-4 py-3 border-2 rounded-lg text-center cursor-pointer font-medium ${
-//                   formData.gender === 'male' 
-//                     ? 'border-purple-400 bg-gradient-to-r from-purple-400 to-pink-500 text-white' 
-//                     : 'border-gray-200 bg-white text-gray-800'
-//                 }`}>
-//                   Male
-//                 </div>
-//               </label>
-
-//               <label className="flex items-center">
-//                 <input 
-//                   type="radio" 
-//                   name="gender" 
-//                   value="female"
-//                   checked={formData.gender === 'female'}
-//                   onChange={handleChange}
-//                   className="sr-only"
-//                 />
-//                 <div className={`w-full px-4 py-3 border-2 rounded-lg text-center cursor-pointer font-medium ${
-//                   formData.gender === 'female' 
-//                     ? 'border-purple-400 bg-gradient-to-r from-purple-400 to-pink-500 text-white' 
-//                     : 'border-gray-200 bg-white text-gray-800'
-//                 }`}>
-//                   Female
-//                 </div>
-//               </label>
-
-//               <label className="flex items-center">
-//                 <input 
-//                   type="radio" 
-//                   name="gender" 
-//                   value="other"
-//                   checked={formData.gender === 'other'}
-//                   onChange={handleChange}
-//                   className="sr-only"
-//                 />
-//                 <div className={`w-full px-4 py-3 border-2 rounded-lg text-center cursor-pointer font-medium ${
-//                   formData.gender === 'other' 
-//                     ? 'border-purple-400 bg-gradient-to-r from-purple-400 to-pink-500 text-white' 
-//                     : 'border-gray-200 bg-white text-gray-800'
-//                 }`}>
-//                   Other
-//                 </div>
-//               </label>
-//             </div>
-//           </div>
-
-//           {/* Submit Button */}
-//           <button 
-//             type="submit" 
-//             onClick={handleSubmit}
-//             className="w-full py-4 bg-gradient-to-r from-indigo-900 via-purple-700 to-pink-500 text-white text-lg font-semibold rounded-xl hover:opacity-90 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-30"
-//           >
-//             Create Account
-//           </button>
-//         </div>
-
-//         {/* Login Link */}
-//         <div className="text-center mt-6 text-gray-800 text-sm">
-//           Already have an account?{' '}
-//           <Link to="/login">
-//           <a href="#login" className="text-purple-700 font-semibold hover:text-pink-500">
-//             Sign in here
-//           </a>
-//           </Link>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -205,17 +13,62 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-
+  const [error, setError] = useState({});
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    let errorMsg = '';
+
+    if (name === 'username') {
+      const validUsername = /^[a-zA-Z0-9]+$/.test(value);
+      if (!validUsername && value !== '') {
+        errorMsg = 'Username can only contain letters and numbers';
+      }
+    }
+
+    if (name === 'email') {
+      const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      if (!validEmail && value !== '') {
+        errorMsg = 'Invalid email address';
+      }
+    }
+
+    if (name === 'password') {
+      if (value.length < 4 && value !== '') {
+        errorMsg = 'Password must be at least 4 characters long';
+      }
+    }
+
+    if (name === 'confirmPassword') {
+      if (value !== formData.password && value !== '') {
+        errorMsg = 'Passwords do not match';
+      }
+    }
+
+    if (name === 'gender') {
+      if (!value) {
+        errorMsg = 'Please select your gender';
+      }
+    }
+
     setFormData(prev => ({
       ...prev,
       [name]: value
+    }));
+
+    setError(prev => ({
+      ...prev,
+      [name]: errorMsg
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (Object.values(error).some(msg => msg !== '')) {
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       alert('Passwords do not match!');
       return;
@@ -224,6 +77,12 @@ export default function Register() {
       alert('Please agree to the Terms & Conditions');
       return;
     }
+
+    if(!formData.username || !formData.email || !formData.password || !formData.confirmPassword || !formData.gender) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
     console.log('Form submitted:', formData);
     alert('Account created successfully!');
   };
@@ -304,6 +163,9 @@ export default function Register() {
                     className="w-full px-2 py-1 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
                   />
                 </div>
+                {error.username && (
+                  <p className="text-red-500 text-sm mt-1">{error.username}</p>
+                )}
 
                 {/* Email Field */}
                 <div>
@@ -316,6 +178,9 @@ export default function Register() {
                     placeholder="Enter your email"
                     className="w-full px-2 py-1 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
                   />
+                  {error.email && (
+                    <p className="text-red-500 text-sm mt-1">{error.email}</p>
+                  )}
                 </div>
 
                 {/* Password Field */}
@@ -339,6 +204,9 @@ export default function Register() {
                     </button>
                   </div>
                 </div>
+                {error.password && (
+                  <p className="text-red-500 text-sm mt-1">{error.password}</p>
+                )}
 
                 {/* Confirm Password Field */}
                 <div>
@@ -361,6 +229,9 @@ export default function Register() {
                     </button>
                   </div>
                 </div>
+                {error.confirmPassword && (
+                  <p className="text-red-500 text-sm mt-1">{error.confirmPassword}</p>
+                )}
 
                 {/* Gender Field */}
                 <div>
@@ -378,6 +249,9 @@ export default function Register() {
 
                   </select>
                 </div>
+                {error.gender && (
+                  <p className="text-red-500 text-sm mt-1">{error.gender}</p>
+                )}
 
                 {/* Terms Checkbox */}
                 <div className="flex items-center space-x-3 pt-4">
@@ -392,6 +266,7 @@ export default function Register() {
                     By signing up, I agree with <span className="text-blue-500 hover:underline cursor-pointer">Terms & Conditions</span>
                   </div>
                 </div>
+                
 
                 {/* Action Buttons */}
                 <div className="flex space-x-4 pt-6">
