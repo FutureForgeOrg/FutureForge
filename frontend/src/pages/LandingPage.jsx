@@ -14,7 +14,7 @@ import {
   Mail,
 } from 'lucide-react';
 
-const FutureForgeLanding = () => {
+const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const features = [
@@ -378,4 +378,4 @@ const FutureForgeLanding = () => {
   );
 };
 
-export default FutureForgeLanding;
+export default LandingPage;
