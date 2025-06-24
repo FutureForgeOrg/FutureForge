@@ -41,7 +41,7 @@ export default function Login() {
         <div className="flex flex-col lg:flex-row min-h-[550px]">
 
           {/* Left Panel - Welcome Back Section */}
-          <div className="hidden lg:block lg:w-1/2 p-12 flex flex-col justify-center items-center text-white relative overflow-hidden"
+          <div className="hidden lg:block lg:w-1/2 p-4 flex flex-col justify-center items-center text-white relative overflow-hidden"
             style={{
               background: `linear-gradient(135deg, #312e81 0%, #7e22ce 50%, #3b82f6 100%)`
             }}>
@@ -49,14 +49,15 @@ export default function Login() {
             {/* Decorative Elements */}
             <div className="absolute top-0 left-0 w-full h-full opacity-10">
               <div className="absolute top-20 left-20 w-32 h-32 rounded-full border-2 border-white"></div>
+              <div className="absolute top-30 right-20 w-24 h-24 rounded-full border-2 border-white"></div>
+              <div className="absolute top-20 left-20 w-32 h-32 rounded-full border-2 border-white"></div>
               <div className="absolute bottom-32 right-16 w-24 h-24 rounded-full border-2 border-white"></div>
               <div className="absolute top-1/2 right-1/4 w-16 h-16 rounded-full border border-white"></div>
-              <div className="absolute top-1/3 left-1/3 w-12 h-12 rounded-full border border-white"></div>
             </div>
 
             <div className="relative z-10 text-center">
               {/* Logo */}
-              <div className="mb-8">
+              <div className="mb-6 p-16">
                 <div className="w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6"
                   style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
                   <img src={logo} alt="logo" />
@@ -69,20 +70,23 @@ export default function Login() {
               </div>
 
               {/* Description */}
-              <p className="text-lg opacity-90 max-w-md leading-relaxed">
-                Welcome back to FutureForge.
-                Sign in to access your personalized gateway to innovation.
-              </p>
+              <div className='p-auto w-full flex justify-center items-center'>
+                <p className="text-center text-lg opacity-90 max-w-md leading-relaxed">
+                  Welcome back to FutureForge.
+                  Sign in to access your personalized gateway to innovation.
+                </p>
+              </div>
+
 
               {/* <div className="mt-12 flex space-x-8 text-sm">
-                <button className="hover:text-yellow-400 transition-colors">EXPLORE MORE</button>
-                <button className="hover:text-yellow-400 transition-colors">LEARN MORE</button>
+                <button className="hover:text-yellow-400 transition-colors">EXPLORE HERE</button>
+                <button className="hover:text-yellow-400 transition-colors">DISCOVER HERE</button>
               </div> */}
             </div>
           </div>
 
           {/* Right Panel - Login Form */}
-          <div className="lg:w-1/2 p-12 bg-gray-50 flex items-center">
+          <div className="lg:w-1/2 md:p-12 p-8 bg-gray-50 flex items-center">
             <div className="max-w-md mx-auto w-full">
               <h3 className="text-3xl font-bold text-gray-800 mb-2 text-center">Sign In</h3>
               <p className="text-gray-600 text-center mb-8">Access your account</p>
@@ -134,9 +138,9 @@ export default function Login() {
                       onChange={(e) => setRememberMe(e.target.checked)}
                       className="w-5 h-5 text-blue-500 border-2 border-gray-300 rounded focus:ring-blue-500"
                     />
-                    <div className="text-gray-600">Remember me</div>
+                    <div className="text-gray-600 ml-10">Remember me</div>
                   </div>
-                  <button className="text-blue-500 hover:text-blue-700 hover:underline transition-colors">
+                  <button className="text-blue-500 hover:text-blue-700 hover:underline transition-colors md:text-md text-sm" >
                     Forgot password?
                   </button>
                 </div>
