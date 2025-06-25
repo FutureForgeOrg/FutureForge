@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
+import { useNavigate } from 'react-router-dom';
+import Dashboard from './Dashboard'; 
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -10,7 +12,7 @@ export default function Login() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-
+  const navigate = useNavigate();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -26,6 +28,7 @@ export default function Login() {
     }
     console.log('Login submitted:', formData);
     alert('Login successful!');
+     navigate('/Dashboard');
   };
 
   return (

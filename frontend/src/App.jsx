@@ -4,7 +4,10 @@ import Register from './pages/Register'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Terms from './components/Terms';
-
+import Dashboard from './pages/Dashboard';
+import JobSearch from './pages/JobSearch';
+import Bookmark from './pages/Bookmark';
+import Profile from './components/Profile';
 function App() {
   return (
     
@@ -14,8 +17,12 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>}/>
         <Route path="/terms" element={<Terms/>} />
+        <Route path='/dashboard' element={<Dashboard/>}/>
+        <Route path='/JobSearch' element={<JobSearch/>}/>
+        <Route path='/Bookmark' element={<Bookmark/>}/>
+        <Route path='/profile' element={<Profile/>} />
         {/* Add more routes as needed */}
-        {/* Example: <Route path="/dashboard" element={<Dashboard />} /> */}
+       
       </Routes>
     </BrowserRouter>
   )
