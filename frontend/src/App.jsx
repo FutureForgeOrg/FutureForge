@@ -8,6 +8,9 @@ import Dashboard from './pages/Dashboard';
 import JobSearch from './pages/JobSearch';
 import Bookmark from './pages/Bookmark';
 import Profile from './components/Profile';
+import Portfolio from './pages/tools/Portfolio';
+import Resume from './pages/tools/Resume';
+import Reviews from './pages/tools/Reviews';
 function App() {
   return (
     
@@ -21,6 +24,11 @@ function App() {
         <Route path='/JobSearch' element={<JobSearch/>}/>
         <Route path='/Bookmark' element={<Bookmark/>}/>
         <Route path='/profile' element={<Profile/>} />
+  
+        {/* Define routes for tools */}
+        <Route path='/tools/portfolio' element={<Portfolio/>} />
+        <Route path='/tools/resume' element={<Resume/>} />
+        <Route path='/tools/reviews' element={<Reviews/>} />
         {/* Add more routes as needed */}
        
       </Routes>
