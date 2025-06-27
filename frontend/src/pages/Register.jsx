@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
-import Terms from '../components/Terms';
+// import Terms from '../components/Terms';
+import toast from 'react-hot-toast';
+
+
 export default function Register() {
   const [formData, setFormData] = useState({
     username: '',
@@ -71,21 +74,21 @@ export default function Register() {
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      toast.error('Passwords do not match!');
       return;
     }
     if (!agreedToTerms) {
-      alert('Please agree to the Terms & Conditions');
+      toast.error('Please agree to the Terms & Conditions');
       return;
     }
 
     if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword || !formData.gender) {
-      alert('Please fill in all fields');
+      toast.error('Please fill in all fields');
       return;
     }
 
     console.log('Form submitted:', formData);
-    alert('Account created successfully!');
+    toast.success('Account created successfully!');
   };
 
   return (

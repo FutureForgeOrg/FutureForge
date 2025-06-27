@@ -11,9 +11,12 @@ import Profile from './components/Profile';
 import Portfolio from './pages/tools/Portfolio';
 import Resume from './pages/tools/Resume';
 import Reviews from './pages/tools/Reviews';
+import {Toaster} from 'react-hot-toast';
+
 function App() {
   return (
-    
+    <>
+    <Toaster/>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage/>} />
@@ -33,6 +36,7 @@ function App() {
        
       </Routes>
     </BrowserRouter>
+    </>
   )
 }
 

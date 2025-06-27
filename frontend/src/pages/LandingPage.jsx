@@ -177,7 +177,7 @@ const LandingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-purple-100/20 to-blue-100/20"></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Heading */}
-          <h2 className="text-3xl mt-6 md:text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+          <h2 className="text-3xl mt-6 md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
             About Us
           </h2>
           <p className="text-gray-600 text-xl  mb-8 font-medium">
@@ -186,14 +186,14 @@ const LandingPage = () => {
 
           {/* Description */}
           <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-gray-200/50 mb-12">
-            <p className="text-gray-700 text-lg md:text-xl mb-6 leading-relaxed">
-              <strong className="text-purple-600">FutureForge</strong> is a comprehensive career platform
+            <p className="text-gray-700 text-lg md:text-xl mb-6 leading-relaxed font-style: italic">
+              <strong className="text-purple-600 ">FutureForge</strong> is a comprehensive career platform
               designed to empower students and professionals in their journey toward
               career success. We understand the challenges of navigating today's
               competitive job market and provide the tools, resources, and guidance
               needed to excel.
             </p>
-            <p className="text-gray-700 text-lg md:text-xl leading-relaxed">
+            <p className="text-gray-700 text-lg md:text-xl leading-relaxed font-style: italic">
               Our platform combines cutting-edge technology with personalized career
               development strategies to help you discover opportunities, build
               essential skills, and connect with industry leaders. Whether you're a
