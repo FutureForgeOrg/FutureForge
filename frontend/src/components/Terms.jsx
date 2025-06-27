@@ -15,6 +15,7 @@ const Terms = () => {
     //   className="p-6 max-w-20xl mx-auto bg-white text-black cursor-pointer min-h-screen"
     //   title="Click anywhere to go back"
     // >
+    <div className="min-h-screen flex items-center justify-center p-10 md:p-4">
       <div className="p-8 max-w-3xl mx-auto bg-white text-gray-800 border border-purple-400 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold mb-6 text-purple-700 border-b-2 border-pink-500 pb-2">
           FutureForge – Terms & Conditions
@@ -42,8 +43,8 @@ const Terms = () => {
         <div className="mt-8 p-4 bg-gray-50 border border-yellow-400 rounded">
           <p className="text-slate-900">
             By registering, you agree to these terms. Contact us at{" "}
-            <a 
-              href="mailto:contact.futureforge@gmail.com" 
+            <a
+              href="mailto:contact.futureforge@gmail.com"
               className="text-purple-700 underline font-semibold hover:bg-pink-500 hover:text-white px-1 transition-colors duration-200"
             >
               contact.futureforge@gmail.com
@@ -59,7 +60,7 @@ const Terms = () => {
           Back to Sign Up
         </button>
       </div>
-    // </div>
+    </div>
   );
 };
 

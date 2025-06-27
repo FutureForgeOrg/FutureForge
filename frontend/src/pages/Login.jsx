@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
 import { useNavigate } from 'react-router-dom';
 import Dashboard from './Dashboard'; 
+import toast from 'react-hot-toast';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -23,11 +24,11 @@ export default function Login() {
 
   const handleSubmit = () => {
     if (!formData.email || !formData.password) {
-      alert('Please fill in all fields');
+      toast.error('Please fill in all fields');
       return;
     }
     console.log('Login submitted:', formData);
-    alert('Login successful!');
+    toast.success('Login successful!');
      navigate('/Dashboard');
   };
 
