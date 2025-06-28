@@ -133,9 +133,9 @@ const LandingPage = () => {
             <Sparkles className="h-4 w-4 text-blue-300" />
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          <h2 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             Forge Ahead <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-pulse">With Us</span>
-          </h1>
+          </h2>
 
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
             Discover your ideal job, track top hackathons, and unlock personalized career insights - powered by AI and smart career tools.
@@ -290,10 +290,9 @@ const LandingPage = () => {
       <section id="testimonials" className="px-6 py-40 bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-100/30 to-blue-100/30"></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-bold mb-16 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
-            Success Stories
+          <h2 className="text-4xl md:text-6xl font-bold mb-16 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 leading-[1.2] pb-2">
+            Voices of the Forge
           </h2>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-white/90 backdrop-blur-sm border-2 border-purple-100 rounded-3xl p-8 shadow-2xl hover:shadow-purple-200/50 transition-all duration-300 transform hover:-translate-y-2">
@@ -343,7 +342,7 @@ const LandingPage = () => {
           </div>
         </div>
       </footer> */}
-      
+
       <footer className="px-6 py-12 bg-gradient-to-br from-gray-900 to-black border-t border-purple-500/20">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between">
