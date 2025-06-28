@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Target, Zap, TrendingUp, Star } from 'lucide-react';
 
+import achievement from '../../assets/dashboard/achievement.svg';
+import growth from '../../assets/dashboard/growth.svg';
+import checklist from '../../assets/dashboard/checklist.svg';
+import creativity from '../../assets/dashboard/creativity.svg';
+import briefcase from '../../assets/dashboard/briefcase.svg';
+
 export default function WelcomeCard({ userName = "Prince Patel" }) {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [currentIcon, setCurrentIcon] = useState(0);
@@ -9,11 +15,11 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
     const [streak, setStreak] = useState(7); // Example streak
 
     const icons = [
-        { icon: '💼', label: 'Career', color: '#7c3aed' },
-        { icon: '🚀', label: 'Growth', color: '#06b6d4' },
-        { icon: '🎯', label: 'Goals', color: '#f59e0b' },
-        { icon: '⭐', label: 'Success', color: '#10b981' },
-        { icon: '💡', label: 'Ideas', color: '#f97316' }
+        { icon: briefcase, label: 'Career', color: '#7c3aed' },
+        { icon: growth, label: 'Growth', color: '#06b6d4' },
+        { icon: checklist, label: 'Goals', color: '#f59e0a' },
+        { icon: achievement, label: 'Success', color: '#10b981' },
+        { icon: creativity, label: 'Ideas', color: '#f97316' }
     ];
 
     const motivationalQuotes = [
@@ -80,26 +86,27 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
     const greeting = getGreeting();
 
     return (
-        <div className={`rounded-3xl shadow-2xl p-8 mb-8 border border-gray-200 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+        <div className={`rounded-3xl shadow-2xl p-4 md:p-8 mb-8 border border-gray-200 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
             style={{ backgroundColor: 'white', backdropFilter: 'blur(20px)' }}>
 
             <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+                
                 {/* Left side - Greeting and Info */}
                 <div className="flex-1 text-center lg:text-left">
                     <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
-                        <span className="text-4xl animate-pulse">{greeting.emoji}</span>
-                        <h1 className="text-4xl lg:text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-[1.2] pb-1">
+                        {/* <span className="text-4xl animate-pulse">{greeting.emoji}</span> */}
+                        <h1 className="md:ml-4 text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-[1.2] pb-1">
                             Welcome to FutureForge
                         </h1>
 
                     </div>
 
-                    <p className="text-2xl font-semibold mb-4 mx-4" style={{ color: greeting.color }}>
+                    <p className="text-xl md:text-2xl font-semibold mb-6 md:mb-4 mx-4" style={{ color: greeting.color }}>
                         {greeting.text}, {userName}!
                     </p>
 
                     {/* Date and Time */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-6">
+                    <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 md:gap-4 mb-2 md:mb-6">
                         <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-xl">
                             <Calendar className="w-5 h-5 text-slate-600" />
                             <span className="text-sm font-medium text-slate-700">{formatDate()}</span>
@@ -112,7 +119,7 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
 
                     {/* Motivational Quote */}
                     <div className="bg-gradient-to-r from-purple-100 to-blue-100 p-4 rounded-xl mb-4">
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="flex items-center justify-center lg:justify-start mb-4 md:mb-2">
                             <Star className="w-5 h-5 text-purple-600" />
                             <span className="text-sm font-semibold text-purple-800">Daily Inspiration</span>
                         </div>
@@ -150,7 +157,7 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
 
                             {/* Center animated icon */}
                             <div className="text-7xl transform transition-all duration-700 ease-in-out scale-110 hover:scale-125 cursor-pointer">
-                                {icons[currentIcon].icon}
+                                <img src={icons[currentIcon].icon} alt={icons[currentIcon].label} className="size-20" />
                             </div>
 
                             {/* Rotating border */}
@@ -181,7 +188,7 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
             </div>
 
             {/* Enhanced progress indicator */}
-            <div className="mt-8 flex justify-center space-x-3">
+            <div className="hidden lg:mt-8 lg:flex justify-center space-x-3">
                 {icons.map((icon, index) => (
                     <div
                         key={index}

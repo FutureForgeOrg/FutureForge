@@ -3,6 +3,8 @@ import logo from '../assets/logo.jpeg';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+import futureForgeLogo from '../assets/futureForgeLogo.svg';
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showToolsDropdown, setShowToolsDropdown] = useState(false);
@@ -39,8 +41,15 @@ const Navbar = () => {
 
           {/* Logo */}
           <div className="flex-shrink-0">
-            <div className="w-12 h-12 rounded-full overflow-hidden shadow-md ring-2 ring-white/20 hover:ring-indigo-300 transition-all duration-300">
-              <img src={logo} alt="logo" />
+            <div className="w-12 h-12 rounded-full overflow-hidden shadow-md ring-2 ring-white/20 hover:ring-indigo-300 
+                transition-all duration-300 cursor-pointer"
+                onClick={() => { 
+                    navigate("/dashboard") 
+                }}
+            >
+              <img src={futureForgeLogo} alt="logo"
+                className=''
+              />
             </div>
           </div>
 
@@ -88,7 +97,7 @@ const Navbar = () => {
                 Job Search
               </button>
             </Link>
-            
+
             {/* Tools Dropdown Container */}
             <div className="relative">
               <button
@@ -103,23 +112,23 @@ const Navbar = () => {
                 `}
               >
                 Tools
-                <svg 
+                <svg
                   className={`w-4 h-4 transition-transform duration-200 ${showToolsDropdown ? 'rotate-180' : ''}`}
-                  fill="none" 
-                  stroke="currentColor" 
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
+
               {/* Improved Dropdown */}
               <div className={`
                 absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-lg 
                 border border-gray-200 shadow-xl rounded-xl z-[60]
                 transition-all duration-300 transform origin-top
-                ${showToolsDropdown 
-                  ? 'opacity-100 scale-100 translate-y-0' 
+                ${showToolsDropdown
+                  ? 'opacity-100 scale-100 translate-y-0'
                   : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
                 }
               `}>
@@ -254,7 +263,7 @@ const Navbar = () => {
               Job Search
             </button>
           </Link>
-          
+
           {/* Mobile Tools Section */}
           <div className="space-y-1">
             <button
@@ -268,16 +277,16 @@ const Navbar = () => {
               `}
             >
               Tools
-              <svg 
+              <svg
                 className={`w-4 h-4 transition-transform duration-200 ${showToolsDropdown ? 'rotate-180' : ''}`}
-                fill="none" 
-                stroke="currentColor" 
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            
+
             {/* Mobile Tools Dropdown */}
             <div className={`
               pl-4 space-y-1 transition-all duration-300 overflow-hidden

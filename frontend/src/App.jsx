@@ -24,8 +24,8 @@ function App() {
         <Route path="/register" element={<Register/>}/>
         <Route path="/terms" element={<Terms/>} />
         <Route path='/dashboard' element={<Dashboard/>}/>
-        <Route path='/JobSearch' element={<JobSearch/>}/>
-        <Route path='/Bookmark' element={<Bookmark/>}/>
+        <Route path='/jobSearch' element={<JobSearch/>}/>
+        <Route path='/bookmark' element={<Bookmark/>}/>
         <Route path='/profile' element={<Profile/>} />
   
         {/* Define routes for tools */}
