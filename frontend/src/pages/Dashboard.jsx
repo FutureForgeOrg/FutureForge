@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import WelcomeCard from '../components/Dashboard/WelcomeCard';
 import Cards from '../components/Dashboard/Cards';
+import PortfolioCard from '../components/Dashboard/PortfolioCard';
+import ResumeCard from '../components/Dashboard/ResumeCard';
 
 export default function Dashboard() {
   const [profileCompletion, setProfileCompletion] = useState(30); // Example completion percentage
@@ -17,6 +19,8 @@ export default function Dashboard() {
 
           {/* Cards Grid */}
           <Cards profileCompletion={profileCompletion} />
+          <PortfolioCard/>
+          <ResumeCard/>
         </div>
       </div>
     </>
