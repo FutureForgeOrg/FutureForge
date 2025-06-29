@@ -1,1 +1,35 @@
-python-dotenv==1.0.0
+# Core Dependencies
+python-dotenv
+pymongo
+requests
+
+# API Integration
+google-search-results
+
+# Data Processing
+pandas
+numpy
+
+# Utilities
+pytz
+schedule
+
+# Logging
+colorlog
+
+# URL and Text Processing
+urllib3
+beautifulsoup4
+lxml
+
+# Date and Time
+python-dateutil
+
+# Development Dependencies (optional)
+pytest
+pytest-cov
+black
+flake8
+
+# GitHub Actions compatibility
+pyyaml
