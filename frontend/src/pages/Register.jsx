@@ -4,9 +4,14 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
 // import Terms from '../components/Terms';
 import toast from 'react-hot-toast';
-
+import { useAuthStore } from '../store/useAuthStore';
+import { Loader } from '../components/ui/Loader';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+
+  const { signup, isSiginingUp } = useAuthStore();
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -18,15 +23,16 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [error, setError] = useState({});
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     let errorMsg = '';
 
     if (name === 'username') {
-      const validUsername = /^[a-zA-Z0-9]+$/.test(value);
+      const validUsername = /^[a-zA-Z0-9 ]+$/.test(value);
       if (!validUsername && value !== '') {
-        errorMsg = 'Username can only contain letters and numbers';
+        errorMsg = 'Username can only contain letters and numbers and spaces';
       }
     }
 
@@ -88,8 +94,26 @@ export default function Register() {
     }
 
     console.log('Form submitted:', formData);
-    toast.success('Account created successfully!');
+    // toast.success('Account created successfully!');
+    signup(formData, navigate);
+    setFormData({
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    });
+    setAgreedToTerms(false);
+    setError({});
   };
+
+
+  if (isSiginingUp) {
+    return (
+      <div className='flex items-center justify-center min-h-screen'>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4"

@@ -3,10 +3,15 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.jpeg';
 import { useNavigate } from 'react-router-dom';
-import Dashboard from './Dashboard'; 
+import Dashboard from './Dashboard';
 import toast from 'react-hot-toast';
+import { useAuthStore } from '../store/useAuthStore';
+import { Loader } from '../components/ui/Loader';
 
 export default function Login() {
+
+  const { login, isLoggingIn } = useAuthStore();
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -14,23 +19,43 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
 
-  const handleSubmit = () => {
-    if (!formData.email || !formData.password) {
-      toast.error('Please fill in all fields');
+  const validateForm = () => {
+    const { email, password } = formData;
+
+    if (!email || !password) {
+      return { valid: false, message: "All fields are required" };
+    }
+    if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      return { valid: false, message: "Invalid email format" };
+    }
+    if (password.length < 4 || password.length > 20) {
+      return { valid: false, message: "Password must be between 4 and 20 characters" };
+    }
+    return { valid: true };
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const validation = validateForm();
+
+    if (!validation.valid) {
+      toast.error(validation.message);
       return;
     }
-    console.log('Login submitted:', formData);
-    toast.success('Login successful!');
-     navigate('/Dashboard');
+
+    await login(formData, navigate);
+    setFormData({ email: '', password: '' });
   };
+
+  if (isLoggingIn) {
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4"
@@ -104,7 +129,7 @@ export default function Login() {
                     type="email"
                     name="email"
                     value={formData.email}
-                    onChange={handleInputChange}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value})}
                     placeholder="Enter your email"
                     className="w-full px-4 py-3 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
                   />
@@ -118,7 +143,7 @@ export default function Login() {
                       type={showPassword ? "text" : "password"}
                       name="password"
                       value={formData.password}
-                      onChange={handleInputChange}
+                      onChange={(e) => setFormData({ ...formData, password : e.target.value})}
                       placeholder="Enter your password"
                       className="w-full px-4 py-3 pr-12 border-b-2 border-blue-200 bg-transparent focus:border-blue-500 focus:outline-none transition-colors text-gray-800 placeholder-gray-400"
                     />
@@ -153,6 +178,7 @@ export default function Login() {
                 <div className="pt-4">
                   <button
                     onClick={handleSubmit}
+                    disabled={isLoggingIn}
                     className="w-full py-3 px-6 rounded-full font-semibold text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                     style={{
                       background: 'linear-gradient(135deg, #3b82f6 0%, #7e22ce 100%)',
