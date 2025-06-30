@@ -3,111 +3,74 @@ import styled from 'styled-components';
 
 export const Loader = () => {
   return (
+    <>
     <StyledWrapper>
-      <div className="terminal-loader">
-        <div className="terminal-header">
-          <div className="terminal-title">Status</div>
-          <div className="terminal-controls">
-            <div className="control close" />
-            <div className="control minimize" />
-            <div className="control maximize" />
-          </div>
+      <section className="loader">
+        <div className="slider" style={{ "--i": 0 }}>
         </div>
-        <div className="text">Loading...</div>
-      </div>
+        <div className="slider" style={{ "--i": 1 }}>
+        </div>
+        <div className="slider" style={{ "--i": 2 }}>
+        </div>
+        <div className="slider" style={{ "--i": 3 }}>
+        </div>
+        <div className="slider" style={{ "--i": 4 }}>
+        </div>
+      </section>
     </StyledWrapper>
+    </>
+    
   );
 }
 
 const StyledWrapper = styled.div`
-  @keyframes blinkCursor {
-    50% {
-      border-right-color: transparent;
-    }
+  .loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
   }
 
-  @keyframes typeAndDelete {
-    0%,
-    10% {
-      width: 0;
-    }
-    45%,
-    55% {
-      width: 6.2em;
-    } /* adjust width based on content */
-    90%,
-    100% {
-      width: 0;
-    }
-  }
-
-  .terminal-loader {
-    border: 0.1em solid #333;
-    background-color: #1a1a1a;
-    color: #0f0;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 1em;
-    padding: 1.5em 1em;
-    width: 12em;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    position: relative;
+  .slider {
     overflow: hidden;
-    box-sizing: border-box;
+    background-color: white;
+    margin: 0 15px;
+    height: 80px;
+    width: 20px;
+    border-radius: 30px;
+    box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.1), -15px -15px 30px #fff,
+      inset -5px -5px 10px rgba(0, 0, 255, 0.1),
+      inset 5px 5px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
   }
 
-  .terminal-header {
+  .slider::before {
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    height: 1.5em;
-    background-color: #333;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    padding: 0 0.4em;
-    box-sizing: border-box;
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    box-shadow: inset 0px 0px 0px rgba(0, 0, 0, 0.3), 0px 420px 0 400px #2697f3,
+      inset 0px 0px 0px rgba(0, 0, 0, 0.1);
+    animation: animate_2 2.5s ease-in-out infinite;
+    animation-delay: calc(-0.5s * var(--i));
   }
 
-  .terminal-controls {
-    float: right;
-  }
+  @keyframes animate_2 {
+    0% {
+      transform: translateY(250px);
+      filter: hue-rotate(0deg);
+    }
 
-  .control {
-    display: inline-block;
-    width: 0.6em;
-    height: 0.6em;
-    margin-left: 0.4em;
-    border-radius: 50%;
-    background-color: #777;
-  }
+    50% {
+      transform: translateY(0);
+    }
 
-  .control.close {
-    background-color: #e33;
-  }
-
-  .control.minimize {
-    background-color: #ee0;
-  }
-
-  .control.maximize {
-    background-color: #0b0;
-  }
-
-  .terminal-title {
-    float: left;
-    line-height: 1.5em;
-    color: #eee;
-  }
-
-  .text {
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 0.2em solid green; /* Cursor */
-    animation:
-      typeAndDelete 4s steps(11) infinite,
-      blinkCursor 0.5s step-end infinite alternate;
-    margin-top: 1.5em;
+    100% {
+      transform: translateY(250px);
+      filter: hue-rotate(180deg);
+    }
   }`;
 
