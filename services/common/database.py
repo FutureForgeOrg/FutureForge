@@ -19,27 +19,27 @@ class JobDatabase:
         self.setup_indexes()
 
     def connect(self):
-        """connect to db"""
+        """Connect to database"""
         try:
             self.client = MongoClient(
                 config.MONGODB_URI,
                 serverSelectionTimeoutMS=5000  # 5 seconds timeout
             )
 
-            # test connection
+            # Test connection
             self.client.server_info()
 
             self.db = self.client[config.DATABASE_NAME]
             self.jobs_collection = self.db[config.JOBS_COLLECTION]
 
-            logger.info(f"connected to db: {config.DATABASE_NAME}")
+            logger.info(f"Connected to database: {config.DATABASE_NAME}")
 
         except Exception as e:
             logger.error(f"Failed to connect to MongoDB: {e}")
             raise
 
     def setup_indexes(self):
-        """create necessary indexes for efficient queries"""
+        """Create necessary indexes for efficient queries"""
         try:
             self.jobs_collection.create_index(
                 "job_id",
@@ -67,12 +67,12 @@ class JobDatabase:
             logger.error(f"Failed to create indexes: {e}")
             
     def generate_job_id(self, company_name: str, job_title: str, location: str) -> str:
-        """generate unique job ID using hash"""
+        """Generate unique job ID using hash"""
         content = f"{company_name.lower().strip()}_{job_title.lower().strip()}_{location.lower().strip()}"
-        return hashlib.md5(content.encode()).hexdigest()[:16]  # Fixed: Added parentheses ()
+        return hashlib.md5(content.encode()).hexdigest()[:16]
     
     def job_exists(self, job_id: str) -> bool:
-        """check if job already exists in database"""
+        """Check if job already exists in database"""
         try:
             return self.jobs_collection.find_one({"job_id": job_id}) is not None
         except Exception as e:
@@ -80,9 +80,9 @@ class JobDatabase:
             return False
         
     def insert_job(self, job_data: Dict[str, Any]) -> bool:
-        """insert a single job into db"""
+        """Insert a single job into database"""
         try:
-            # create job_id if not present
+            # Create job_id if not present
             if "job_id" not in job_data:
                 job_data["job_id"] = self.generate_job_id(
                     job_data['company_name'],
@@ -90,27 +90,27 @@ class JobDatabase:
                     job_data['location']
                 )
 
-            # add scraped date if not present
+            # Add scraped date if not present
             if "scraped_date" not in job_data:
                 job_data["scraped_date"] = datetime.now(timezone.utc)
 
-            # validate required fields
+            # Validate required fields
             required_fields = ["job_id", "company_name", "job_title", "location", "job_link", "scraped_date"]
             for field in required_fields:
-                if field not in job_data or not job_data[field]:  # Fixed: Check if field exists AND has value
+                if field not in job_data or not job_data[field]:
                     logger.error(f"Missing required field: {field} in job data")
                     return False
                 
-            # check if job already exists
+            # Check if job already exists
             if self.job_exists(job_data["job_id"]):
-                self.jobs_collection.update_one(  # Fixed: Removed extra underscore
+                self.jobs_collection.update_one(
                     {"job_id": job_data["job_id"]},
                     {"$set": {"scraped_date": job_data["scraped_date"]}}
                 )
                 logger.info(f"Job already exists, updated scraped date: {job_data['job_id']}")
                 return True
             
-            # insert new job
+            # Insert new job
             self.jobs_collection.insert_one(job_data)
             logger.info(f"Inserted new job: {job_data['job_id']}")
             return True
@@ -124,13 +124,25 @@ class JobDatabase:
         
         for job in jobs:
             try:
-                if self.insert_job(job):
-                    if self.job_exists(job.get('job_id', '')):
+                job_id = job.get('job_id')
+                if not job_id:
+                    job_id = self.generate_job_id(
+                        job.get('company_name', ''),
+                        job.get('job_title', ''),
+                        job.get('location', '')
+                    )
+                    job['job_id'] = job_id
+                
+                if self.job_exists(job_id):
+                    if self.insert_job(job):
                         stats["updated"] += 1
                     else:
-                        stats["inserted"] += 1
+                        stats["skipped"] += 1
                 else:
-                    stats["skipped"] += 1
+                    if self.insert_job(job):
+                        stats["inserted"] += 1
+                    else:
+                        stats["skipped"] += 1
             except Exception as e:
                 logger.error(f"Error processing job in batch: {e}")
                 stats["skipped"] += 1
