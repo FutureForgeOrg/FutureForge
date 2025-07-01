@@ -16,6 +16,7 @@ schedule
 
 # Logging
 colorlog
+colorama
 
 # URL and Text Processing
 urllib3
