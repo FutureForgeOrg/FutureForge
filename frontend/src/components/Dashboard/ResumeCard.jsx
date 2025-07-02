@@ -38,7 +38,7 @@ const ResumeCard = () => {
     return (
         <div className="w-full max-w-screen-xl mx-auto mt-6">
             <div
-                className="relative bg-white rounded-2xl p-6 cursor-pointer shadow-xl border border-gray-200 overflow-hidden"
+                className="relative rounded-3xl shadow-2xl p-4 md:p-8 mb-8 border border-white/10 bg-gradient-to-br from-[#1f1f2f]/60 to-[#1a1a2a]/60 backdrop-blur-md transform transition-all duration-1000 hover:from-transparent hover:to-transparent overflow-hidden"
                 onClick={handleCreateResume}
             >
                 {/* Animated background elements */}
@@ -61,11 +61,11 @@ const ResumeCard = () => {
 
                     {/* Main motivational message */}
                     <div className="mb-4">
-                        <h3 className="text-gray-900 font-bold text-xl mb-2">
+                        <h3 className="text-white font-bold text-xl mb-2">
                             Build Your Resume!
                         </h3>
                         <div className="h-12 flex items-center">
-                            <p className={`text-gray-700 text-sm transition-all duration-500 ${showSparkle ? 'scale-105' : ''
+                            <p className={`text-white text-sm transition-all duration-500 ${showSparkle ? 'scale-105' : ''
                                 }`}>
                                 {motivationalTips[currentTip]}
                             </p>
@@ -80,7 +80,7 @@ const ResumeCard = () => {
                                 className="bg-gray-50 border border-gray-100 rounded-lg p-3 text-center hover:bg-gray-100 hover:shadow-md"
                             >
                                 <benefit.icon className={`w-5 h-5 mx-auto mb-1 ${benefit.color}`} />
-                                <p className="text-gray-700 text-xs font-medium">{benefit.text}</p>
+                                <p className="text-gray-700 text-xs font-bold">{benefit.text}</p>
                             </div>
                         ))}
                     </div>
@@ -108,7 +108,7 @@ const ResumeCard = () => {
 
                     {/* Small motivational footer */}
                     <div className="text-center mt-3">
-                        <p className="text-gray-500 text-xs">
+                        <p className="text-white text-xs">
                             Trusted by 100,000+ job seekers worldwide
                         </p>
                     </div>
