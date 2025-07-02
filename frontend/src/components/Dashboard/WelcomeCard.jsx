@@ -86,32 +86,36 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
     const greeting = getGreeting();
 
     return (
-        <div className={`rounded-3xl shadow-2xl p-4 md:p-8 mb-8 border border-gray-200 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ backgroundColor: 'white', backdropFilter: 'blur(20px)' }}>
+        // <div className={`rounded-3xl shadow-2xl p-4 md:p-8 mb-8 border border-gray-200 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+        //     style={{ backgroundColor: 'white', backdropFilter: 'blur(20px)' }}>
+
+        <div
+            className={`rounded-3xl shadow-2xl p-4 md:p-8 mb-8 border border-white/10 bg-gradient-to-br from-[#1f1f2f]/60 to-[#1a1a2a]/60 backdrop-blur-md transform transition-all duration-1000 hover:from-transparent hover:to-transparent ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+        >
 
             <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-                
+
                 {/* Left side - Greeting and Info */}
                 <div className="flex-1 text-center lg:text-left">
                     <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
                         {/* <span className="text-4xl animate-pulse">{greeting.emoji}</span> */}
-                        <h1 className="md:ml-4 text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-[1.2] pb-1">
+                        <h1 className="md:ml-2 text-2xl md:text-3xl lg:text-4xl font-bold bg-white bg-clip-text text-transparent leading-[1.2] pb-1">
                             Welcome to FutureForge
                         </h1>
 
                     </div>
 
-                    <p className="text-xl md:text-2xl font-semibold mb-6 md:mb-4 mx-4" style={{ color: greeting.color }}>
+                    <p className="text-xl md:text-2xl font-semibold mb-6 md:mb-4 mx-0" style={{ color: greeting.color }}>
                         {greeting.text}, {userName}!
                     </p>
 
                     {/* Date and Time */}
                     <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 md:gap-4 mb-2 md:mb-6">
-                        <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-xl">
+                        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl">
                             <Calendar className="w-5 h-5 text-slate-600" />
                             <span className="text-sm font-medium text-slate-700">{formatDate()}</span>
                         </div>
-                        <div className="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-xl">
+                        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl">
                             <Clock className="w-5 h-5 text-slate-600" />
                             <span className="text-sm font-medium text-slate-700">{formatTime()}</span>
                         </div>
@@ -193,8 +197,8 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
                     <div
                         key={index}
                         className={`rounded-full transition-all duration-500 cursor-pointer hover:scale-125 ${index === currentIcon
-                                ? 'w-10 h-3 shadow-lg'
-                                : 'w-3 h-3 hover:w-6'
+                            ? 'w-10 h-3 shadow-lg'
+                            : 'w-3 h-3 hover:w-6'
                             }`}
                         style={{
                             backgroundColor: index === currentIcon ? icon.color : '#e2e8f0'
