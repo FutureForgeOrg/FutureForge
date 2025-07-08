@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{name}} | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white text-gray-800 dark:bg-gray-900 dark:text-white">
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white p-6 text-center shadow-md">
+      <h1 class="text-3xl font-bold">{{name}}</h1>
+      <p class="text-lg mt-2">{{title}}</p>
+    </header>
+
+    <!-- About -->
+    <section class="p-6 max-w-4xl mx-auto mt-6">
+      <h2 class="text-2xl font-semibold border-b pb-2 mb-4">About Me</h2>
+      <p class="text-gray-700 dark:text-gray-300">{{about}}</p>
+    </section>
+
+    <!-- Skills -->
+    <section class="p-6 max-w-4xl mx-auto">
+      <h2 class="text-2xl font-semibold border-b pb-2 mb-4">Skills</h2>
+      <div class="flex flex-wrap gap-2">
+        {{#each skills}}
+        <span
+          class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium"
+          >{{this}}</span
+        >
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Experience (optional) -->
+    {{#if experience.length}}
+    <section class="p-6 max-w-4xl mx-auto">
+      <h2 class="text-2xl font-semibold border-b pb-2 mb-4">Experience</h2>
+      {{#each experience}}
+      <div class="mb-4">
+        <h3 class="text-xl font-bold">{{role}} - {{company}}</h3>
+        <p class="text-sm text-gray-500">{{duration}}</p>
+        <p class="mt-1 text-gray-700 dark:text-gray-300">{{description}}</p>
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    <!-- Projects -->
+    <section class="p-6 max-w-4xl mx-auto">
+      <h2 class="text-2xl font-semibold border-b pb-2 mb-4">Projects</h2>
+      <div class="grid gap-6 sm:grid-cols-2">
+        {{#each projects}}
+        <div class="p-4 border rounded-lg shadow hover:shadow-lg transition">
+          <h3 class="text-lg font-bold">{{title}}</h3>
+          <p class="text-sm mt-1">{{description}}</p>
+          <a
+            href="{{link}}"
+            class="text-indigo-600 mt-2 inline-block hover:underline"
+            target="_blank"
+            >Live Demo</a
+          >
+        </div>
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="p-6 max-w-4xl mx-auto">
+      <h2 class="text-2xl font-semibold border-b pb-2 mb-4">Education</h2>
+      {{#each education}}
+      <div class="mb-4">
+        <h3 class="text-lg font-bold">{{degree}}</h3>
+        <p class="text-sm text-gray-500">{{institution}} ({{year}})</p>
+      </div>
+      {{/each}}
+    </section>
+
+    <!-- Social -->
+    <footer class="p-6 bg-gray-100 dark:bg-gray-800 mt-12 text-center">
+      <h2 class="text-xl font-semibold mb-4">Connect with Me</h2>
+      <div class="flex justify-center gap-4">
+        {{#each social}}
+        <a
+          href="{{link}}"
+          target="_blank"
+          class="text-indigo-600 hover:underline"
+          >{{platform}}</a
+        >
+        {{/each}}
+      </div>
+      <p class="mt-4 text-sm text-gray-500">© {{name}} - Portfolio</p>
+    </footer>
+  </body>
+</html>

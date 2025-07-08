@@ -4,8 +4,17 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import authRoutes from "./routes/authRoutes.js";
 import rateLimit from "express-rate-limit";
+
+import authRoutes from "./routes/authRoutes.js";
+import portfolioRoutes from "./routes/portfolioRoutes.js";
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const app = express();
 
@@ -44,6 +53,12 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/portfolio", portfolioRoutes);
+
+// to serve previews :-
+// Now any file saved under userPortfolios/param-bhavsar/index.html becomes visible at: http://localhost:8080/previews/param-bhavsar/index.html
+
+app.use("/previews", express.static(path.join(__dirname, "userPortfolios")));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
