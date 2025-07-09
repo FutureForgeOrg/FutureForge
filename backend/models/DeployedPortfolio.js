@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const deployedPortfolioSchema = new mongoose.Schema({
+  userId : { type: mongoose.Schema.Types.ObjectId, ref: "BaseUser", required: true },
   username: { type: String, required: true },
   folderPath: { type: String, required: true },
   deployedUrl: { type: String, required: true },
