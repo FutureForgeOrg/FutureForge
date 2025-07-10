@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>johnny | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            animation: {
+              fadeUp: 'fadeUp 0.8s ease-out both',
+            },
+            keyframes: {
+              fadeUp: {
+                '0%': { opacity: 0, transform: 'translateY(20px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
+              },
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-gradient-to-br from-white to-slate-100 text-gray-800 leading-relaxed font-sans">
+
+    <!-- Header -->
+    <header class="text-center py-12 bg-indigo-600 text-white shadow-lg animate-fadeUp">
+      <h1 class="text-4xl font-bold">johnny</h1>
+      <p class="text-lg mt-2">laksjfd</p>
+    </header>
+
+    <!-- About -->
+    <section class="max-w-4xl mx-auto px-6 py-10 animate-fadeUp">
+      <div class="bg-white rounded-xl shadow p-6 border">
+        <h2 class="text-2xl font-semibold mb-4">About Me</h2>
+        <p class="text-gray-700">slfdkjsd</p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-fadeUp">
+      <div class="bg-white rounded-xl shadow p-6 border">
+        <h2 class="text-2xl font-semibold mb-4">Skills</h2>
+        <div class="flex flex-wrap gap-3">
+          <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
+            sdf
+          </span>
+          <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
+            sdf
+          </span>
+          <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
+            sdf
+          </span>
+          <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
+            sdf
+          </span>
+          <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
+            sdf
+          </span>
+          <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
+            sdfsa
+          </span>
+          <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
+            df
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-fadeUp">
+      <div class="bg-white rounded-xl shadow p-6 border">
+        <h2 class="text-2xl font-semibold mb-4">Experience</h2>
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-indigo-700">sadfsd - sfdsdf</h3>
+          <p class="text-sm text-gray-500">sdfsadf</p>
+          <p class="mt-2 text-gray-700">sdfsadfs</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-fadeUp">
+      <div class="bg-white rounded-xl shadow p-6 border">
+        <h2 class="text-2xl font-semibold mb-4">Projects</h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="p-4 border rounded-lg shadow hover:shadow-md transition hover:border-indigo-400">
+            <h3 class="text-lg font-bold text-indigo-700">asdfsdfsfd</h3>
+            <p class="text-sm mt-2 text-gray-700">sdfsdf</p>
+            <a
+              href="sdfsad"
+              class="text-indigo-600 hover:underline inline-block mt-2"
+              target="_blank"
+              >Live Demo</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-fadeUp">
+      <div class="bg-white rounded-xl shadow p-6 border">
+        <h2 class="text-2xl font-semibold mb-4">Education</h2>
+        <div class="mb-4">
+          <h3 class="text-lg font-bold text-indigo-700">sfsdfa</h3>
+          <p class="text-sm text-gray-500">dsfsdf (sfdsdfsa)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 mt-12 py-8 text-center text-sm animate-fadeUp">
+      <h2 class="text-lg font-semibold text-indigo-700 mb-3">Connect with Me</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="sdfsdfas" target="_blank" class="text-indigo-600 hover:underline">
+          sadfsd
+        </a>
+      </div>
+      <p class="mt-4 text-gray-500 text-xs">© johnny — Portfolio</p>
+    </footer>
+
+  </body>
+</html>

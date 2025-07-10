@@ -6,40 +6,72 @@ import path from 'path'
 import DeployedPortfolio from "../models/DeployedPortfolio.js";
 
 
+// export const handleGeneratePortfolio = async (req, res) => {
+//     const userData = req.body;
+
+//     // Use deployUsername from frontend, fallback to name if not present
+//     const username = userData.deployUsername?.toLowerCase().replace(/\s+/g, "-") 
+//         || userData.name?.toLowerCase().replace(/\s+/g, "-");
+
+//     console.log("Username:", username);
+
+//     if (!username || !userData) {
+//         return res.status(400).json({
+//             success: false,
+//             message: "Invalid data"
+//         });
+//     }
+
+//     const result = await renderPortfolio(userData, username);
+
+//     if (result.success) {
+//         res.json({
+//             success: true,
+//             message: "Portfolio generated successfully",
+//             username,
+//             previewUrl: `${process.env.BACKEND_URL}/previews/${username}/index.html`
+//         });
+
+//     } else {
+//         res.status(500).json({
+//             success: false,
+//             error: result.error
+//         });
+//     }
+// };
+
 export const handleGeneratePortfolio = async (req, res) => {
     const userData = req.body;
 
-    // Use deployUsername from frontend, fallback to name if not present
-    const username = userData.deployUsername?.toLowerCase().replace(/\s+/g, "-") 
-        || userData.name?.toLowerCase().replace(/\s+/g, "-");
+    const username =
+        userData.deployUsername?.toLowerCase().replace(/\s+/g, "-") ||
+        userData.name?.toLowerCase().replace(/\s+/g, "-");
 
-    console.log("Username:", username);
+    const theme = userData.theme || "modern"; // default to "modern"
 
     if (!username || !userData) {
         return res.status(400).json({
             success: false,
-            message: "Invalid data"
+            message: "Invalid data",
         });
     }
 
-    const result = await renderPortfolio(userData, username);
+    const result = await renderPortfolio(userData, username, theme); // passing theme
 
     if (result.success) {
         res.json({
             success: true,
             message: "Portfolio generated successfully",
             username,
-            previewUrl: `${process.env.BACKEND_URL}/previews/${username}/index.html`
+            previewUrl: `${process.env.BACKEND_URL}/previews/${username}/index.html`,
         });
-
     } else {
         res.status(500).json({
             success: false,
-            error: result.error
+            error: result.error,
         });
     }
 };
-
 
 
 export const handleDeployPortfolio = async (req, res) => {
@@ -56,7 +88,7 @@ export const handleDeployPortfolio = async (req, res) => {
         success: false,
         message: "Invalid username"
     });
-    
+
     const folderPath = path.resolve(`./userPortfolios/${correctedUsername}`);
 
     try {

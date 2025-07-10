@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>johnny | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            animation: {
+              fade: "fade 1s ease-in-out both",
+              zoomIn: "zoomIn 0.6s ease-in-out both",
+            },
+            keyframes: {
+              fade: {
+                "0%": { opacity: 0 },
+                "100%": { opacity: 1 },
+              },
+              zoomIn: {
+                "0%": { opacity: 0, transform: "scale(0.95)" },
+                "100%": { opacity: 1, transform: "scale(1)" },
+              },
+            },
+            fontFamily: {
+              mono: ["Fira Code", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+  </head>
+
+  <body class="bg-gray-950 text-gray-200 font-mono leading-relaxed">
+
+    <!-- Header -->
+    <header class="bg-gray-900 py-8 px-4 text-center shadow-md border-b border-gray-800">
+      <h1 class="text-4xl font-bold text-white animate-zoomIn">johnny</h1>
+      <p class="text-sm text-gray-400 mt-2 animate-fade">laksjfd</p>
+    </header>
+
+    <!-- About -->
+    <section class="max-w-4xl mx-auto px-6 py-10 animate-fade">
+      <div class="bg-gray-900 rounded-lg p-6 border border-gray-800 shadow">
+        <h2 class="text-2xl font-semibold mb-4 text-white">About Me</h2>
+        <p class="text-gray-400">slfdkjsd</p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-fade">
+      <div class="bg-gray-900 rounded-lg p-6 border border-gray-800 shadow">
+        <h2 class="text-2xl font-semibold mb-4 text-white">Skills</h2>
+        <div class="flex flex-wrap gap-3">
+          <span class="bg-gray-800 text-indigo-400 px-3 py-1 rounded-full text-sm shadow">
+            sdf
+          </span>
+          <span class="bg-gray-800 text-indigo-400 px-3 py-1 rounded-full text-sm shadow">
+            sdf
+          </span>
+          <span class="bg-gray-800 text-indigo-400 px-3 py-1 rounded-full text-sm shadow">
+            sdf
+          </span>
+          <span class="bg-gray-800 text-indigo-400 px-3 py-1 rounded-full text-sm shadow">
+            sdf
+          </span>
+          <span class="bg-gray-800 text-indigo-400 px-3 py-1 rounded-full text-sm shadow">
+            sdf
+          </span>
+          <span class="bg-gray-800 text-indigo-400 px-3 py-1 rounded-full text-sm shadow">
+            sdfsa
+          </span>
+          <span class="bg-gray-800 text-indigo-400 px-3 py-1 rounded-full text-sm shadow">
+            df
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-fade">
+      <div class="bg-gray-900 rounded-lg p-6 border border-gray-800 shadow">
+        <h2 class="text-2xl font-semibold mb-4 text-white">Experience</h2>
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-indigo-300">sadfsd - sfdsdf</h3>
+          <p class="text-sm text-gray-500">sdfsadf</p>
+          <p class="mt-2 text-gray-400">sdfsadfs</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-fade">
+      <div class="bg-gray-900 rounded-lg p-6 border border-gray-800 shadow">
+        <h2 class="text-2xl font-semibold mb-4 text-white">Projects</h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-indigo-500 transition shadow-sm">
+            <h3 class="text-lg font-bold text-indigo-400">asdfsdfsfd</h3>
+            <p class="text-sm mt-2 text-gray-400">sdfsdf</p>
+            <a
+              href="sdfsad"
+              class="text-indigo-400 hover:underline inline-block mt-2"
+              target="_blank"
+              >Live Demo</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-fade">
+      <div class="bg-gray-900 rounded-lg p-6 border border-gray-800 shadow">
+        <h2 class="text-2xl font-semibold mb-4 text-white">Education</h2>
+        <div class="mb-4">
+          <h3 class="text-lg font-bold text-indigo-300">sfsdfa</h3>
+          <p class="text-sm text-gray-500">dsfsdf (sfdsdfsa)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer / Social -->
+    <footer class="mt-10 py-8 text-center text-sm border-t border-gray-800 animate-fade">
+      <h2 class="text-base font-semibold text-white mb-3">Connect with Me</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a
+          href="sdfsdfas"
+          target="_blank"
+          class="text-indigo-400 hover:underline"
+          >sadfsd</a
+        >
+      </div>
+      <p class="mt-4 text-xs text-gray-600">© johnny — Portfolio</p>
+    </footer>
+
+  </body>
+</html>
