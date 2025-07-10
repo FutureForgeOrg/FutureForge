@@ -4,6 +4,12 @@ import { axiosInstance } from '../../lib/axios';
 import { Plus, SquareArrowUpRight, Monitor, Flame } from 'lucide-react';
 import GridBackground from '../../components/ui/GridBackground';
 
+const themeImages = import.meta.glob('/src/assets/themes/*.webp', {
+  eager: true,
+  import: 'default',
+});
+
+
 const Portfolio = () => {
   const [previous, setPrevious] = useState([]);
   const [step, setStep] = useState('dashboard');
@@ -147,14 +153,14 @@ const Portfolio = () => {
             {/* Fixed top bar with button */}
             <div className="sticky top-0 z-10 backdrop-blur-md bg-white/30 dark:bg-black/30 border-b border-gray-200 dark:border-gray-700 py-4 px-4 flex justify-between items-center mb-6 shadow-sm">
               <h1 className="text-xl md:text-2xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
-                📜 Your Previous Portfolios
+                📜 Your Portfolios
               </h1>
 
               <button
                 onClick={() => setStep('form')}
                 className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-90 text-white px-4 py-2 rounded-xl shadow-lg flex items-center gap-2 transition-all duration-200"
               >
-                <span className="text-lg"><Plus /></span>
+                <span className="text-lg hover:animate-spin"><Plus /></span>
                 <span className="hidden sm:inline">Create New Portfolio</span>
               </button>
             </div>
@@ -199,31 +205,42 @@ const Portfolio = () => {
           <>
             <div className="bg-white/30 dark:bg-white/5 backdrop-blur-md p-6 md:p-10 rounded-xl shadow-xl max-w-5xl mx-auto">
               <h2 className="text-xl md:text-4xl font-bold mb-4 text-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">Create Your Portfolio</h2>
-              <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Select Theme</label>
-              <select
-                name="theme"
-                value={form.theme}
-                onChange={handleChange}
-                className="w-full px-4 py-2 mb-4 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white transition"
-              >
-                <option className="text-black" value="modern">Modern</option>
-                <option className="text-black" value="classic">Classic</option>
-                <option className="text-black" value="glass">Glass</option>
-                <option className="text-black" value="darkcard">Darkcard</option>
-                <option className="text-black" value="neobrutal">Neobrutal</option>
-                <option className="text-black" value="pastel">Pastel</option>
-                <option className="text-black" value="resume">Resume</option>
-                <option className="text-black" value="terminal">Terminal</option>
-                <option className="text-black" value="neon">Neon</option>
-                <option className="text-black" value="retro">Retro</option>
-              </select>
+              <label className="block mb-6 mt-4 text-center text-md sm:text-2xl font-medium text-gray-700 dark:text-gray-300">Select Theme</label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
+                {[
+                  'modern', 'classic', 'glass', 'darkcard',
+                  'neobrutal', 'pastel', 'resume', 'terminal',
+                  'neon', 'retro', 'space', 'funky'
+                ].map((themeKey) => (
+                  <div
+                    key={themeKey}
+                    onClick={() => setForm((prev) => ({ ...prev, theme: themeKey }))}
+                    className={`cursor-pointer border p-4 rounded-xl text-center shadow-md transition-all 
+                        duration-300 backdrop-blur-sm hover:scale-105
+                      ${form.theme === themeKey
+                        ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white border-white'
+                        : 'bg-white/60 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20'
+                      }`
+                    }
+                  >
+                    <img
+                      src={themeImages[`/src/assets/themes/${themeKey}.webp`]}
+                      alt={themeKey}
+                      className="w-full h-24 object-cover rounded-md mb-2"
+                    />
+                    <span className="text-sm text-gray-800 dark:text-gray-200">
+                      {themeKey.charAt(0).toUpperCase() + themeKey.slice(1)}
+                    </span>
+                  </div>
+                ))}
+              </div>
 
 
               <input name="name"
                 value={form.name}
                 onChange={handleChange}
                 className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition"
-                placeholder="username"
+                placeholder="Username"
               />
               {errors.name && <p className="text-red-500 text-sm ">{errors.name}</p>}
 
@@ -260,7 +277,7 @@ const Portfolio = () => {
                   <div className="flex gap-2">
                     <input placeholder="Link" value={proj.link} onChange={(e) => handleArrayChange('projects', i, 'link', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition flex-1" />
                     {form.projects.length > 1 && (
-                      <button onClick={() => removeField('projects', i)} className="text-red-500">✕</button>
+                      <button onClick={() => removeField('projects', i)} className=" font-extrabold text-red-500">✕</button>
                     )}
                   </div>
                 </div>
@@ -277,7 +294,7 @@ const Portfolio = () => {
                   <div className="flex gap-2">
                     <input placeholder="Year" value={edu.year} onChange={(e) => handleArrayChange('education', i, 'year', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition flex-1" />
                     {form.education.length > 1 && (
-                      <button onClick={() => removeField('education', i)} className="text-red-500">✕</button>
+                      <button onClick={() => removeField('education', i)} className=" font-extrabold text-red-500">✕</button>
                     )}
                   </div>
                 </div>
@@ -293,7 +310,7 @@ const Portfolio = () => {
                   <div className="flex gap-2">
                     <input placeholder="Link" value={s.link} onChange={(e) => handleArrayChange('social', i, 'link', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition flex-1" />
                     {form.social.length > 1 && (
-                      <button onClick={() => removeField('social', i)} className="text-red-500">✕</button>
+                      <button onClick={() => removeField('social', i)} className="font-extrabold text-red-500">✕</button>
                     )}
                   </div>
                 </div>
@@ -310,7 +327,7 @@ const Portfolio = () => {
                   <input placeholder="Duration" value={exp.duration} onChange={(e) => handleArrayChange('experience', i, 'duration', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition col-span-2" />
                   <div className="flex gap-2 col-span-2">
                     <textarea placeholder="Description" value={exp.description} onChange={(e) => handleArrayChange('experience', i, 'description', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition flex-1" />
-                    <button onClick={() => removeField('experience', i)} className="text-red-500">✕</button>
+                    <button onClick={() => removeField('experience', i)} className="font-extrabold text-red-500">✕</button>
                   </div>
                 </div>
               ))}

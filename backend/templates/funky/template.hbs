@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{name}} | Funky Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Customizations -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              funky: ['"Comic Neue"', 'cursive'],
+            },
+            colors: {
+              bg: '#fff8f0',
+              funPink: '#ff4da6',
+              funYellow: '#fff75d',
+              funBlue: '#3fddff',
+              darkText: '#222',
+            },
+            animation: {
+              bouncey: 'bouncey 1s ease-in-out infinite',
+              pop: 'pop 0.5s ease forwards',
+            },
+            keyframes: {
+              bouncey: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-6px)' },
+              },
+              pop: {
+                from: { transform: 'scale(0.8)', opacity: 0 },
+                to: { transform: 'scale(1)', opacity: 1 },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Funky Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
+
+    <style>
+      ::selection {
+        background-color: #ff4da6;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body class="bg-bg text-darkText font-funky px-6 py-10">
+
+    <!-- Header -->
+    <header class="text-center animate-pop">
+      <h1 class="text-5xl font-bold text-funPink tracking-wider">{{name}}</h1>
+      <p class="text-lg mt-2 text-funBlue">{{title}}</p>
+    </header>
+
+    <!-- About -->
+    <section class="max-w-3xl mx-auto mt-16 animate-pop">
+      <h2 class="text-3xl text-funYellow font-bold mb-4">🎨 About Me</h2>
+      <p class="text-[1.05rem]">{{about}}</p>
+    </section>
+
+    <!-- Skills -->
+    <section class="max-w-3xl mx-auto mt-12 animate-pop">
+      <h2 class="text-3xl text-funBlue font-bold mb-4">🧠 Skills</h2>
+      <div class="flex flex-wrap gap-3">
+        {{#each skills}}
+        <span class="px-3 py-1 text-sm rounded-full bg-funPink text-white shadow-md hover:scale-105 transition-all">
+          {{this}}
+        </span>
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Experience -->
+    {{#if experience.length}}
+    <section class="max-w-3xl mx-auto mt-12 animate-pop">
+      <h2 class="text-3xl text-funPink font-bold mb-4">💼 Experience</h2>
+      {{#each experience}}
+      <div class="mb-6 bg-funYellow p-4 rounded-md shadow">
+        <h3 class="text-lg font-bold">{{role}} @ {{company}}</h3>
+        <p class="text-sm text-gray-700">{{duration}}</p>
+        <p class="mt-2 text-darkText">{{description}}</p>
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    <!-- Projects -->
+    <section class="max-w-3xl mx-auto mt-12 animate-pop">
+      <h2 class="text-3xl text-funBlue font-bold mb-4 text-center">🚀 Projects</h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+        {{#each projects}}
+        <div class="bg-white border-2 border-funPink rounded-xl p-4 hover:scale-105 transition-all shadow-md">
+          <h3 class="text-xl font-bold text-funPink">{{title}}</h3>
+          <p class="mt-1">{{description}}</p>
+          <a href="{{link}}" class="text-funBlue mt-2 inline-block hover:underline" target="_blank">Live Link →</a>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="max-w-3xl mx-auto mt-12 animate-pop">
+      <h2 class="text-3xl text-funYellow font-bold mb-4">📚 Education</h2>
+      {{#each education}}
+      <div class="mb-4">
+        <h3 class="text-lg font-bold">{{degree}}</h3>
+        <p class="text-sm text-gray-500">{{institution}} ({{year}})</p>
+      </div>
+      {{/each}}
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-16 text-center animate-bouncey">
+      <h2 class="text-xl text-funPink font-bold mb-3">💌 Let’s Connect</h2>
+      <div class="flex flex-wrap justify-center gap-4 text-funBlue font-semibold">
+        {{#each social}}
+        <a href="{{link}}" target="_blank" class="hover:underline">{{platform}}</a>
+        {{/each}}
+      </div>
+      <p class="mt-4 text-xs text-gray-500">© {{name}} — Keep it funky!</p>
+    </footer>
+
+  </body>
+</html>

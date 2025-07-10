@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{name}} | Space Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              space: ['Orbitron', 'sans-serif'],
+            },
+            colors: {
+              star: '#ffffff',
+              galaxy: '#0f172a',
+              neon: '#38bdf8',
+              nebula: '#9333ea',
+            },
+            animation: {
+              fadeIn: 'fadeIn 1.2s ease-out',
+              float: 'float 4s ease-in-out infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                from: { opacity: 0 },
+                to: { opacity: 1 },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Orbitron Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Background Stars -->
+    <style>
+      body {
+        background: radial-gradient(ellipse at bottom, #0d0d2b 0%, #000 100%);
+        background-attachment: fixed;
+        color: #fff;
+        overflow-x: hidden;
+        font-family: 'Orbitron', sans-serif;
+      }
+
+      .stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 200%;
+        background: url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+        animation: float 60s linear infinite;
+        opacity: 0.2;
+        z-index: -1;
+      }
+    </style>
+  </head>
+
+  <body class="px-6 py-10">
+
+    <div class="stars"></div>
+
+    <!-- Header -->
+    <header class="text-center animate-fadeIn">
+      <h1 class="text-4xl sm:text-5xl text-neon font-bold tracking-wider">{{name}}</h1>
+      <p class="text-nebula mt-2 text-lg">{{title}}</p>
+    </header>
+
+    <!-- About -->
+    <section class="max-w-3xl mx-auto mt-16 animate-fadeIn">
+      <h2 class="text-2xl text-nebula border-b border-neon pb-2 mb-4">🛰️ About Me</h2>
+      <p class="text-star text-[1.05rem] leading-relaxed">{{about}}</p>
+    </section>
+
+    <!-- Skills -->
+    <section class="max-w-3xl mx-auto mt-14 animate-fadeIn">
+      <h2 class="text-2xl text-nebula border-b border-neon pb-2 mb-4">🚀 Skills</h2>
+      <div class="flex flex-wrap gap-3">
+        {{#each skills}}
+        <span class="px-3 py-1 text-sm rounded-full bg-neon/20 text-neon border border-neon shadow hover:scale-105 transition">
+          {{this}}
+        </span>
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Experience -->
+    {{#if experience.length}}
+    <section class="max-w-3xl mx-auto mt-14 animate-fadeIn">
+      <h2 class="text-2xl text-nebula border-b border-neon pb-2 mb-4">🛠️ Experience</h2>
+      {{#each experience}}
+      <div class="mb-6">
+        <h3 class="text-xl font-bold text-star">{{role}} @ {{company}}</h3>
+        <p class="text-sm text-neon">{{duration}}</p>
+        <p class="mt-2 text-gray-300">{{description}}</p>
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    <!-- Projects -->
+    <section class="max-w-3xl mx-auto mt-14 animate-fadeIn">
+      <h2 class="text-2xl text-nebula border-b border-neon pb-2 mb-6">🪐 Projects</h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+        {{#each projects}}
+        <div class="bg-black/40 backdrop-blur-md border border-neon rounded-lg p-5 shadow-lg hover:scale-[1.02] transition">
+          <h3 class="text-xl font-semibold text-neon">{{title}}</h3>
+          <p class="mt-2 text-gray-300">{{description}}</p>
+          <a href="{{link}}" class="text-nebula mt-3 inline-block hover:underline" target="_blank">
+            View Project →
+          </a>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="max-w-3xl mx-auto mt-14 animate-fadeIn">
+      <h2 class="text-2xl text-nebula border-b border-neon pb-2 mb-4">📚 Education</h2>
+      {{#each education}}
+      <div class="mb-4">
+        <h3 class="text-lg font-bold">{{degree}}</h3>
+        <p class="text-sm text-gray-400">{{institution}} ({{year}})</p>
+      </div>
+      {{/each}}
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-20 text-center text-sm text-gray-500 border-t border-neon pt-6 animate-fadeIn">
+      <p class="mb-2">🌌 Connect with Me</p>
+      <div class="flex justify-center flex-wrap gap-4 text-neon">
+        {{#each social}}
+        <a href="{{link}}" target="_blank" class="hover:underline">
+          {{platform}}
+        </a>
+        {{/each}}
+      </div>
+      <p class="mt-6 text-xs">© {{name}} — Portfolio from the stars ✨</p>
+    </footer>
+
+  </body>
+</html>
