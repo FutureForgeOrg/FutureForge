@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{name}} | Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              body: ['"Source Sans Pro"', "sans-serif"],
+            },
+            colors: {
+              primary: "#1a202c",
+              accent: "#2b6cb0",
+              muted: "#718096",
+              bg: "#f7fafc",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @media print {
+        body {
+          background: white !important;
+          color: black !important;
+        }
+        header,
+        footer {
+          background: none !important;
+          color: black !important;
+        }
+        a {
+          color: black !important;
+          text-decoration: underline !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-bg text-primary font-body px-4 py-8 sm:px-8 max-w-3xl mx-auto">
+
+    <!-- Header -->
+    <header class="text-center mb-10">
+      <h1 class="text-4xl font-bold">{{name}}</h1>
+      <p class="text-lg text-muted mt-1">{{title}}</p>
+    </header>
+
+    <!-- About -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-accent border-b border-accent mb-3 pb-1">About Me</h2>
+      <p class="text-base">{{about}}</p>
+    </section>
+
+    <!-- Skills -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-accent border-b border-accent mb-3 pb-1">Skills</h2>
+      <ul class="flex flex-wrap gap-3 text-sm">
+        {{#each skills}}
+        <li class="bg-accent text-white px-3 py-1 rounded-full">{{this}}</li>
+        {{/each}}
+      </ul>
+    </section>
+
+    <!-- Experience -->
+    {{#if experience.length}}
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-accent border-b border-accent mb-3 pb-1">Experience</h2>
+      {{#each experience}}
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold">{{role}} — <span class="text-accent">{{company}}</span></h3>
+        <p class="text-sm text-muted">{{duration}}</p>
+        <p class="mt-1 text-base">{{description}}</p>
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    <!-- Projects -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-accent border-b border-accent mb-3 pb-1">Projects</h2>
+      {{#each projects}}
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold">{{title}}</h3>
+        <p class="text-base mt-1">{{description}}</p>
+        <a href="{{link}}" target="_blank" class="text-accent text-sm hover:underline">Live Demo</a>
+      </div>
+      {{/each}}
+    </section>
+
+    <!-- Education -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-accent border-b border-accent mb-3 pb-1">Education</h2>
+      {{#each education}}
+      <div class="mb-3">
+        <h3 class="text-lg font-semibold">{{degree}}</h3>
+        <p class="text-sm text-muted">{{institution}} ({{year}})</p>
+      </div>
+      {{/each}}
+    </section>
+
+    <!-- Social -->
+    <footer class="text-center text-sm mt-12 print:hidden">
+      <p class="text-muted mb-2">Connect with me:</p>
+      <div class="flex justify-center flex-wrap gap-4">
+        {{#each social}}
+        <a href="{{link}}" target="_blank" class="text-accent hover:underline">
+          {{platform}}
+        </a>
+        {{/each}}
+      </div>
+      <p class="mt-4 text-xs text-muted">© {{name}} — Resume</p>
+    </footer>
+
+  </body>
+</html>

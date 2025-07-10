@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{name}} | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Space Grotesk"', 'sans-serif'],
+            },
+            colors: {
+              primary: '#ff3c38',
+              accent: '#ffb703',
+              bg: '#fafafa',
+            },
+            animation: {
+              pop: 'pop 0.5s ease-out both',
+            },
+            keyframes: {
+              pop: {
+                '0%': { transform: 'scale(0.95)', opacity: 0 },
+                '100%': { transform: 'scale(1)', opacity: 1 },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-bg text-gray-900 font-display">
+
+    <!-- Header -->
+    <header class="text-center bg-primary text-white py-10 shadow-lg animate-pop">
+      <h1 class="text-5xl font-bold uppercase">{{name}}</h1>
+      <p class="text-md mt-2 tracking-wide">{{title}}</p>
+    </header>
+
+    <!-- About -->
+    <section class="max-w-4xl mx-auto px-6 py-10 animate-pop">
+      <div class="border-4 border-black p-6 bg-white rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">About Me</h2>
+        <p class="text-gray-800">{{about}}</p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-pop">
+      <div class="border-4 border-black p-6 bg-white rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Skills</h2>
+        <div class="flex flex-wrap gap-3">
+          {{#each skills}}
+          <span class="bg-accent text-black px-3 py-1 rounded-full border-2 border-black text-sm">
+            {{this}}
+          </span>
+          {{/each}}
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    {{#if experience.length}}
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-pop">
+      <div class="border-4 border-black p-6 bg-white rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Experience</h2>
+        {{#each experience}}
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-primary">{{role}} - {{company}}</h3>
+          <p class="text-sm text-gray-600">{{duration}}</p>
+          <p class="mt-2 text-gray-700">{{description}}</p>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+    {{/if}}
+
+    <!-- Projects -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-pop">
+      <div class="border-4 border-black p-6 bg-white rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Projects</h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {{#each projects}}
+          <div class="bg-accent border-2 border-black p-4 rounded-lg hover:scale-105 transition-all duration-200 shadow">
+            <h3 class="text-lg font-bold text-black">{{title}}</h3>
+            <p class="text-sm mt-2 text-black">{{description}}</p>
+            <a
+              href="{{link}}"
+              class="text-black underline mt-2 inline-block"
+              target="_blank"
+              >Live Demo</a
+            >
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="max-w-4xl mx-auto px-6 py-6 animate-pop">
+      <div class="border-4 border-black p-6 bg-white rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Education</h2>
+        {{#each education}}
+        <div class="mb-4">
+          <h3 class="text-lg font-bold text-primary">{{degree}}</h3>
+          <p class="text-sm text-gray-700">{{institution}} ({{year}})</p>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white mt-12 py-8 text-center animate-pop">
+      <h2 class="text-lg font-bold mb-3">Connect with Me</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        {{#each social}}
+        <a href="{{link}}" target="_blank" class="underline hover:text-accent">
+          {{platform}}
+        </a>
+        {{/each}}
+      </div>
+      <p class="mt-4 text-sm text-gray-400">© {{name}} — Portfolio</p>
+    </footer>
+
+  </body>
+</html>
