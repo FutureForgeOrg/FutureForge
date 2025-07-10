@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>john dev | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['"Playfair Display"', 'serif'],
+            },
+            animation: {
+              fade: 'fade 1s ease-in-out both',
+              slideUp: 'slideUp 0.8s ease-out both',
+            },
+            keyframes: {
+              fade: {
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: 0 },
+                '100%': { transform: 'translateY(0)', opacity: 1 },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-white text-gray-800 font-serif leading-relaxed tracking-wide">
+    <!-- Header -->
+    <header class="text-center py-10 border-b border-gray-300 bg-gray-50 shadow-sm">
+      <h1 class="text-4xl font-bold animate-slideUp">john dev</h1>
+      <p class="text-lg text-gray-500 mt-2 animate-fade">adsfs</p>
+    </header>
+
+    <!-- About -->
+    <section class="max-w-3xl mx-auto px-6 py-10 animate-slideUp">
+      <h2 class="text-2xl font-semibold mb-4 border-b pb-2">About Me</h2>
+      <p class="text-gray-700">sdfsdfs</p>
+    </section>
+
+    <!-- Skills -->
+    <section class="max-w-3xl mx-auto px-6 py-6 animate-slideUp">
+      <h2 class="text-2xl font-semibold mb-4 border-b pb-2">Skills</h2>
+      <div class="flex flex-wrap gap-3">
+        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm shadow">
+          sadfsdfa
+        </span>
+        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm shadow">
+          sfdsdfsdf
+        </span>
+        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm shadow">
+          sfsfds
+        </span>
+        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm shadow">
+          dfsadfsfdasd
+        </span>
+        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm shadow">
+          fsdfsafs
+        </span>
+        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm shadow">
+          dfsdfsa
+        </span>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="max-w-3xl mx-auto px-6 py-6 animate-slideUp">
+      <h2 class="text-2xl font-semibold mb-4 border-b pb-2">Experience</h2>
+      <div class="mb-6">
+        <h3 class="text-xl font-bold text-gray-800">sdf - sadfsa</h3>
+        <p class="text-sm text-gray-500">sdfsadfs</p>
+        <p class="mt-2 text-gray-700">sdfsdfsadfsadf</p>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="max-w-3xl mx-auto px-6 py-6 animate-slideUp">
+      <h2 class="text-2xl font-semibold mb-4 border-b pb-2">Projects</h2>
+      <div class="grid gap-6 sm:grid-cols-2">
+        <div class="p-4 border border-gray-200 rounded-lg bg-white hover:shadow-md transition">
+          <h3 class="text-lg font-semibold text-indigo-700">sfds</h3>
+          <p class="text-sm mt-2 text-gray-700">sdlfkewif</p>
+          <a
+            href="sdfnaie "
+            class="text-indigo-600 hover:underline inline-block mt-2"
+            target="_blank"
+            >View Live</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="max-w-3xl mx-auto px-6 py-6 animate-slideUp">
+      <h2 class="text-2xl font-semibold mb-4 border-b pb-2">Education</h2>
+      <div class="mb-4">
+        <h3 class="text-lg font-bold">sodijfoeiw</h3>
+        <p class="text-sm text-gray-500">osidfnosiaf (asinf)</p>
+      </div>
+    </section>
+
+    <!-- Footer / Social -->
+    <footer class="bg-gray-100 border-t mt-12 py-8 text-center animate-fade">
+      <h2 class="text-lg font-semibold mb-3">Connect with Me</h2>
+      <div class="flex justify-center flex-wrap gap-4">
+        <a
+          href="osindfoeiw"
+          target="_blank"
+          class="text-indigo-600 hover:underline"
+          >sldfnioew</a
+        >
+      </div>
+      <p class="mt-6 text-xs text-gray-500">© john dev — Portfolio</p>
+    </footer>
+  </body>
+</html>

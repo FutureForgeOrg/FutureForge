@@ -11,6 +11,7 @@ const Portfolio = () => {
   const [errors, setErrors] = useState({});
 
   const [form, setForm] = useState({
+    theme: 'modern', // default theme
     name: '', // display name
     deployUsername: '', // for backend/URL
     title: '',
@@ -161,6 +162,18 @@ const Portfolio = () => {
 
       {step === 'form' && (
         <>
+          <h2 className="text-xl font-bold mb-4">📝 Create Your Portfolio</h2>
+          <select
+            name="theme"
+            value={form.theme}
+            onChange={handleChange}
+            className="w-full border p-2 mb-4"
+          >
+            <option value="modern">Modern</option>
+            <option value="classic">Classic</option>
+            <option value="glass">Glass</option>
+            <option value="darkcard">Darkcard</option>
+          </select>
           <input name="name" value={form.name} onChange={handleChange} className="w-full border p-2 mt-2" placeholder="username - (enter new or diffrent username for new deploy link of your portfolio)" />
           {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
