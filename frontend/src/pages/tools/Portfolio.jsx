@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { axiosInstance } from '../../lib/axios';
+import { Plus, SquareArrowUpRight, Monitor, Flame } from 'lucide-react';
+import GridBackground from '../../components/ui/GridBackground';
 
 const Portfolio = () => {
   const [previous, setPrevious] = useState([]);
@@ -138,155 +140,235 @@ const Portfolio = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      {step === 'dashboard' && (
-        <>
-          <h1 className="text-2xl font-bold mb-4">📜 Your Previous Portfolios</h1>
-          {previous.length > 0 ? (
-            <ul className="space-y-2 mb-4">
-              {previous.map((p, i) => (
-                <li key={i} className="border p-2 rounded flex justify-between">
-                  <span>{p.deployedUrl}</span>
-                  <a href={p.deployedUrl} target="_blank" rel="noreferrer" className="text-indigo-600 underline">View</a>
-                </li>
+    <GridBackground>
+      <div className="max-w-4xl mx-auto p-6">
+        {step === 'dashboard' && (
+          <>
+            {/* Fixed top bar with button */}
+            <div className="sticky top-0 z-10 backdrop-blur-md bg-white/30 dark:bg-black/30 border-b border-gray-200 dark:border-gray-700 py-4 px-4 flex justify-between items-center mb-6 shadow-sm">
+              <h1 className="text-xl md:text-2xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+                📜 Your Previous Portfolios
+              </h1>
+
+              <button
+                onClick={() => setStep('form')}
+                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:opacity-90 text-white px-4 py-2 rounded-xl shadow-lg flex items-center gap-2 transition-all duration-200"
+              >
+                <span className="text-lg"><Plus /></span>
+                <span className="hidden sm:inline">Create New Portfolio</span>
+              </button>
+            </div>
+
+            {previous.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {previous.map((p, i) => (
+                  <div
+                    key={i}
+                    className="rounded-xl p-4 shadow-md border hover:scale-[1.02] transition-transform duration-300 
+                      backdrop-blur-md dark:bg-gray-800 bg-white/50 dark:border-gray-700 border-gray-200"
+                    style={{
+                      background: `linear-gradient(135deg, hsl(${i * 40}, 70%, 80%), hsl(${i * 40 + 60}, 70%, 60%))`,
+                      onhover: { transform: 'scale(2.05)' },
+                      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                    }}
+                  >
+                    <div className="text-gray-900 font-semibold break-words">{p.deployedUrl}</div>
+                    <a
+                      href={p.deployedUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-3 inline-block bg-white text-indigo-600 hover:text-indigo-800 px-3 py-1 rounded text-sm font-medium"
+                    >
+                      <div className='flex items-center justify-center gap-2'>
+                        <SquareArrowUpRight className="w-4 h-4" />
+                        <span>View Portfolio</span>
+                      </div>
+
+                    </a>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400 mt-6">No previous deployments.</p>
+            )}
+          </>
+        )}
+
+
+        {step === 'form' && (
+          <>
+            <div className="bg-white/30 dark:bg-white/5 backdrop-blur-md p-6 md:p-10 rounded-xl shadow-xl max-w-5xl mx-auto">
+              <h2 className="text-xl md:text-4xl font-bold mb-4 text-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">Create Your Portfolio</h2>
+              <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Select Theme</label>
+              <select
+                name="theme"
+                value={form.theme}
+                onChange={handleChange}
+                className="w-full px-4 py-2 mb-4 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white transition"
+              >
+                <option className="text-black" value="modern">Modern</option>
+                <option className="text-black" value="classic">Classic</option>
+                <option className="text-black" value="glass">Glass</option>
+                <option className="text-black" value="darkcard">Darkcard</option>
+              </select>
+
+
+              <input name="name"
+                value={form.name}
+                onChange={handleChange}
+                className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition"
+                placeholder="username"
+              />
+              {errors.name && <p className="text-red-500 text-sm ">{errors.name}</p>}
+
+              <input name="title"
+                value={form.title}
+                onChange={handleChange}
+                className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition"
+                placeholder="Title"
+              />
+              {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
+
+              <textarea name="about"
+                value={form.about}
+                onChange={handleChange}
+                className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition"
+                placeholder="About"
+              />
+              {errors.about && <p className="text-red-500 text-sm">{errors.about}</p>}
+
+              <input
+                className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition"
+                placeholder="Skills (comma separated) eg. JavaScript, React, Node.js"
+                value={form.skills.join(', ')}
+                onChange={(e) => setForm(prev => ({ ...prev, skills: e.target.value.split(',').map(s => s.trim()) }))}
+              />
+              {errors.skills && <p className="text-red-500 text-sm">{errors.skills}</p>}
+
+              {/* Projects Section */}
+              <h3 className="font-semibold mt-4">Projects</h3>
+              {form.projects.map((proj, i) => (
+                <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2 items-center">
+                  <input placeholder="Title" value={proj.title} onChange={(e) => handleArrayChange('projects', i, 'title', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition" />
+                  <input placeholder="Description" value={proj.description} onChange={(e) => handleArrayChange('projects', i, 'description', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition" />
+                  <div className="flex gap-2">
+                    <input placeholder="Link" value={proj.link} onChange={(e) => handleArrayChange('projects', i, 'link', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition flex-1" />
+                    {form.projects.length > 1 && (
+                      <button onClick={() => removeField('projects', i)} className="text-red-500">✕</button>
+                    )}
+                  </div>
+                </div>
               ))}
-            </ul>
-          ) : (
-            <p>No previous deployments.</p>
-          )}
-          <button onClick={() => setStep('form')} className="bg-indigo-600 text-white px-4 py-2 rounded mt-4">
-            ➕ Create New Portfolio
-          </button>
-        </>
-      )}
 
-      {step === 'form' && (
-        <>
-          <h2 className="text-xl font-bold mb-4">📝 Create Your Portfolio</h2>
-          <select
-            name="theme"
-            value={form.theme}
-            onChange={handleChange}
-            className="w-full border p-2 mb-4"
-          >
-            <option value="modern">Modern</option>
-            <option value="classic">Classic</option>
-            <option value="glass">Glass</option>
-            <option value="darkcard">Darkcard</option>
-          </select>
-          <input name="name" value={form.name} onChange={handleChange} className="w-full border p-2 mt-2" placeholder="username - (enter new or diffrent username for new deploy link of your portfolio)" />
-          {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+              <button onClick={() => addField('projects', { title: '', description: '', link: '' })} className="text-blue-600 text-sm mb-2">+ Add Project</button>
 
-          <input name="title" value={form.title} onChange={handleChange} className="w-full border p-2 mt-2" placeholder="Title" />
-          {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
+              {/* Education Section */}
+              <h3 className="font-semibold mt-4">Education</h3>
+              {form.education.map((edu, i) => (
+                <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2 items-center">
+                  <input placeholder="Degree" value={edu.degree} onChange={(e) => handleArrayChange('education', i, 'degree', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition" />
+                  <input placeholder="Institution" value={edu.institution} onChange={(e) => handleArrayChange('education', i, 'institution', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition" />
+                  <div className="flex gap-2">
+                    <input placeholder="Year" value={edu.year} onChange={(e) => handleArrayChange('education', i, 'year', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition flex-1" />
+                    {form.education.length > 1 && (
+                      <button onClick={() => removeField('education', i)} className="text-red-500">✕</button>
+                    )}
+                  </div>
+                </div>
+              ))}
 
-          <textarea name="about" value={form.about} onChange={handleChange} className="w-full border p-2 mt-2" placeholder="About" />
-          {errors.about && <p className="text-red-500 text-sm">{errors.about}</p>}
+              <button onClick={() => addField('education', { degree: '', institution: '', year: '' })} className="text-blue-600 text-sm mb-2">+ Add Education</button>
 
-          <input
-            className="w-full border p-2 mt-2"
-            placeholder="Skills (comma separated) eg. JavaScript, React, Node.js"
-            value={form.skills.join(', ')}
-            onChange={(e) => setForm(prev => ({ ...prev, skills: e.target.value.split(',').map(s => s.trim()) }))}
-          />
-          {errors.skills && <p className="text-red-500 text-sm">{errors.skills}</p>}
+              {/* Social/Contact Section */}
+              <h3 className="font-semibold mt-4">Social Links</h3>
+              {form.social.map((s, i) => (
+                <div key={i} className="grid grid-cols-2 gap-2 mb-2 items-center">
+                  <input placeholder="Platform" value={s.platform} onChange={(e) => handleArrayChange('social', i, 'platform', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition" />
+                  <div className="flex gap-2">
+                    <input placeholder="Link" value={s.link} onChange={(e) => handleArrayChange('social', i, 'link', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition flex-1" />
+                    {form.social.length > 1 && (
+                      <button onClick={() => removeField('social', i)} className="text-red-500">✕</button>
+                    )}
+                  </div>
+                </div>
+              ))}
 
-          {/* Projects Section */}
-          <h3 className="font-semibold mt-4">Projects</h3>
-          {form.projects.map((proj, i) => (
-            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2 items-center">
-              <input placeholder="Title" value={proj.title} onChange={(e) => handleArrayChange('projects', i, 'title', e.target.value)} className="border p-2" />
-              <input placeholder="Description" value={proj.description} onChange={(e) => handleArrayChange('projects', i, 'description', e.target.value)} className="border p-2" />
-              <div className="flex gap-2">
-                <input placeholder="Link" value={proj.link} onChange={(e) => handleArrayChange('projects', i, 'link', e.target.value)} className="border p-2 flex-1" />
-                {form.projects.length > 1 && (
-                  <button onClick={() => removeField('projects', i)} className="text-red-500">✕</button>
+              <button onClick={() => addField('social', { platform: '', link: '' })} className="text-blue-600 text-sm mb-4">+ Add Social</button>
+
+              {/* Optional Experience Section */}
+              <h3 className="font-semibold mt-4">Experience (Optional)</h3>
+              {form.experience.map((exp, i) => (
+                <div key={i} className="grid grid-cols-2 gap-2 mb-2">
+                  <input placeholder="Role" value={exp.role} onChange={(e) => handleArrayChange('experience', i, 'role', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition" />
+                  <input placeholder="Company" value={exp.company} onChange={(e) => handleArrayChange('experience', i, 'company', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition" />
+                  <input placeholder="Duration" value={exp.duration} onChange={(e) => handleArrayChange('experience', i, 'duration', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition col-span-2" />
+                  <div className="flex gap-2 col-span-2">
+                    <textarea placeholder="Description" value={exp.description} onChange={(e) => handleArrayChange('experience', i, 'description', e.target.value)} className="w-full px-4 py-2 mt-2 rounded-md border border-white/20 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-white/10 dark:text-white dark:placeholder-gray-400 transition flex-1" />
+                    <button onClick={() => removeField('experience', i)} className="text-red-500">✕</button>
+                  </div>
+                </div>
+              ))}
+
+              <button onClick={() => addField('experience', { role: '', company: '', duration: '', description: '' })} className="text-blue-600 text-sm mb-4">+ Add Experience</button>
+
+              <div className="mt-6 flex justify-between items-center">
+                <button onClick={() => setStep('dashboard')} className="text-black rounded-md px-4 py-2">← Back</button>
+                <button onClick={handleGenerate} className="font-semibold bg-gradient-to-t from-purple-500 via-pink-500 to-red-500 text-clip px-4 py-2 rounded">
+                  {loading ? "Generating..." : "Preview Portfolio"}
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+
+        {step === 'preview' && (
+          <>
+            <div className="bg-white/30 dark:bg-white/5 backdrop-blur-md p-6 md:p-10 rounded-xl shadow-xl max-w-5xl mx-auto">
+              <div className='mb-10'>
+                <h2 className="text-2xl md:text-4xl font-bold mb-4 text-center 
+                  bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+                  Portfolio Ready
+                </h2>
+              </div>
+              <div className='flex flex-col items-center'>
+
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4 items-center">
+                  <button
+                    onClick={() => window.open(previewUrl, "_blank")}
+                    className="bg-green-600 text-white px-5 md:px-7 py-2 rounded">
+                    <span className="flex items-center gap-2">
+                      <Monitor className="" />
+                      View Preview
+                    </span>
+                  </button>
+                  <button
+                    onClick={handleDeploy}
+                    className="bg-indigo-600 text-white px-5 md:px-7 py-2 rounded"
+                    disabled={loading}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Flame className="" />
+                      {loading ? "Deploying..." : "Deploy Portfolio"}
+                    </span>
+                  </button>
+                </div>
+                {deployedUrl && (
+                  <div className="mt-4 text-[16px] text-center">
+                    <p className="text-green-500">Deployed URL</p>
+                    <a href={deployedUrl} target="_blank" rel="noreferrer" className="text-blue-200 underline ">{deployedUrl}</a>
+                    <p className='text-green-400'>Note : open after 2-3 seconds if throw any error </p>
+                  </div>
                 )}
               </div>
+
+              <button onClick={() => setStep('dashboard')} className="text-black mt-4">← Back to Dashboard</button>
             </div>
-          ))}
+          </>
+        )}
+      </div>
 
-          <button onClick={() => addField('projects', { title: '', description: '', link: '' })} className="text-blue-600 text-sm mb-2">+ Add Project</button>
-
-          {/* Education Section */}
-          <h3 className="font-semibold mt-4">Education</h3>
-          {form.education.map((edu, i) => (
-            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2 items-center">
-              <input placeholder="Degree" value={edu.degree} onChange={(e) => handleArrayChange('education', i, 'degree', e.target.value)} className="border p-2" />
-              <input placeholder="Institution" value={edu.institution} onChange={(e) => handleArrayChange('education', i, 'institution', e.target.value)} className="border p-2" />
-              <div className="flex gap-2">
-                <input placeholder="Year" value={edu.year} onChange={(e) => handleArrayChange('education', i, 'year', e.target.value)} className="border p-2 flex-1" />
-                {form.education.length > 1 && (
-                  <button onClick={() => removeField('education', i)} className="text-red-500">✕</button>
-                )}
-              </div>
-            </div>
-          ))}
-
-          <button onClick={() => addField('education', { degree: '', institution: '', year: '' })} className="text-blue-600 text-sm mb-2">+ Add Education</button>
-
-          {/* Social/Contact Section */}
-          <h3 className="font-semibold mt-4">Social Links</h3>
-          {form.social.map((s, i) => (
-            <div key={i} className="grid grid-cols-2 gap-2 mb-2 items-center">
-              <input placeholder="Platform" value={s.platform} onChange={(e) => handleArrayChange('social', i, 'platform', e.target.value)} className="border p-2" />
-              <div className="flex gap-2">
-                <input placeholder="Link" value={s.link} onChange={(e) => handleArrayChange('social', i, 'link', e.target.value)} className="border p-2 flex-1" />
-                {form.social.length > 1 && (
-                  <button onClick={() => removeField('social', i)} className="text-red-500">✕</button>
-                )}
-              </div>
-            </div>
-          ))}
-
-          <button onClick={() => addField('social', { platform: '', link: '' })} className="text-blue-600 text-sm mb-4">+ Add Social</button>
-
-          {/* Optional Experience Section */}
-          <h3 className="font-semibold mt-4">Experience (Optional)</h3>
-          {form.experience.map((exp, i) => (
-            <div key={i} className="grid grid-cols-2 gap-2 mb-2">
-              <input placeholder="Role" value={exp.role} onChange={(e) => handleArrayChange('experience', i, 'role', e.target.value)} className="border p-2" />
-              <input placeholder="Company" value={exp.company} onChange={(e) => handleArrayChange('experience', i, 'company', e.target.value)} className="border p-2" />
-              <input placeholder="Duration" value={exp.duration} onChange={(e) => handleArrayChange('experience', i, 'duration', e.target.value)} className="border p-2 col-span-2" />
-              <div className="flex gap-2 col-span-2">
-                <textarea placeholder="Description" value={exp.description} onChange={(e) => handleArrayChange('experience', i, 'description', e.target.value)} className="border p-2 flex-1" />
-                <button onClick={() => removeField('experience', i)} className="text-red-500">✕</button>
-              </div>
-            </div>
-          ))}
-
-          <button onClick={() => addField('experience', { role: '', company: '', duration: '', description: '' })} className="text-blue-600 text-sm mb-4">+ Add Experience</button>
-
-          <div className="mt-6 flex justify-between items-center">
-            <button onClick={() => setStep('dashboard')} className="text-gray-600">← Back</button>
-            <button onClick={handleGenerate} className="bg-blue-600 text-white px-4 py-2 rounded">
-              {loading ? "Generating..." : "Preview Portfolio"}
-            </button>
-          </div>
-        </>
-      )}
-
-      {step === 'preview' && (
-        <>
-          <h2 className="text-xl font-bold mb-4">🎉 Portfolio Ready</h2>
-          <div className="flex gap-4">
-            <button onClick={() => window.open(previewUrl, "_blank")} className="bg-green-600 text-white px-4 py-2 rounded">🔍 Preview</button>
-            <button onClick={handleDeploy} className="bg-indigo-600 text-white px-4 py-2 rounded" disabled={loading}>
-              {loading ? "Deploying..." : "🚀 Deploy"}
-            </button>
-          </div>
-          {deployedUrl && (
-            <div className="mt-4">
-              <p className="text-green-600">✅ Deployed URL:</p>
-              <a href={deployedUrl} target="_blank" rel="noreferrer" className="text-blue-600 underline">{deployedUrl}</a>
-              <p>Note : open after 2-3 seconds if throw any error </p>
-            </div>
-          )}
-
-          <button onClick={() => setStep('dashboard')} className="text-gray-600 mt-4">← Back to Dashboard</button>
-        </>
-      )}
-    </div>
+    </GridBackground>
   );
 };
 
