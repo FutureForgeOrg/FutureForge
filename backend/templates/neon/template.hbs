@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{name}} | Neon Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              glow: ['Orbitron', 'sans-serif'],
+            },
+            colors: {
+              bg: '#0d0d0d',
+              neon: '#39ff14',
+              accent: '#00ffff',
+              pinkish: '#ff00ff',
+              borderGlow: '#2bff88',
+            },
+            animation: {
+              glowPulse: 'glowPulse 1.6s infinite alternate',
+            },
+            keyframes: {
+              glowPulse: {
+                '0%': { boxShadow: '0 0 5px #39ff14' },
+                '100%': { boxShadow: '0 0 20px #39ff14, 0 0 40px #39ff14' },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      ::selection {
+        background: #39ff14;
+        color: #000;
+      }
+    </style>
+  </head>
+
+  <body class="bg-bg text-neon font-glow px-6 py-8">
+
+    <!-- Header -->
+    <header class="text-center border-b border-borderGlow pb-8 animate-glowPulse">
+      <h1 class="text-4xl sm:text-5xl font-bold text-accent drop-shadow-md">{{name}}</h1>
+      <p class="text-md mt-2 text-pinkish">{{title}}</p>
+    </header>
+
+    <!-- About -->
+    <section class="max-w-4xl mx-auto mt-10 animate-glowPulse">
+      <h2 class="text-2xl border-b border-neon mb-4 pb-2">> About Me</h2>
+      <p class="text-neon">{{about}}</p>
+    </section>
+
+    <!-- Skills -->
+    <section class="max-w-4xl mx-auto mt-10 animate-glowPulse">
+      <h2 class="text-2xl border-b border-neon mb-4 pb-2">> Skills</h2>
+      <div class="flex flex-wrap gap-3">
+        {{#each skills}}
+        <span class="px-3 py-1 text-sm rounded-full bg-pinkish text-black font-semibold shadow hover:shadow-neon transition">
+          {{this}}
+        </span>
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Experience -->
+    {{#if experience.length}}
+    <section class="max-w-4xl mx-auto mt-10 animate-glowPulse">
+      <h2 class="text-2xl border-b border-neon mb-4 pb-2">> Experience</h2>
+      {{#each experience}}
+      <div class="mb-6">
+        <h3 class="text-lg font-bold text-accent">{{role}} — {{company}}</h3>
+        <p class="text-sm text-pinkish">{{duration}}</p>
+        <p class="mt-1">{{description}}</p>
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    <!-- Projects -->
+    <section class="max-w-4xl mx-auto mt-10 animate-glowPulse">
+      <h2 class="text-2xl border-b border-neon mb-4 pb-2">> Projects</h2>
+      <div class="grid gap-6 sm:grid-cols-2">
+        {{#each projects}}
+        <div class="border border-neon p-4 rounded-lg hover:scale-105 transition-all bg-black/30 backdrop-blur shadow-neon">
+          <h3 class="text-xl font-bold text-accent">{{title}}</h3>
+          <p class="mt-2 text-neon">{{description}}</p>
+          <a href="{{link}}" target="_blank" class="text-pinkish mt-2 inline-block hover:underline">Live Demo</a>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="max-w-4xl mx-auto mt-10 animate-glowPulse">
+      <h2 class="text-2xl border-b border-neon mb-4 pb-2">> Education</h2>
+      {{#each education}}
+      <div class="mb-4">
+        <h3 class="text-lg font-bold text-accent">{{degree}}</h3>
+        <p class="text-sm text-pinkish">{{institution}} ({{year}})</p>
+      </div>
+      {{/each}}
+    </section>
+
+    <!-- Footer -->
+    <footer class="max-w-4xl mx-auto mt-12 text-center border-t border-borderGlow pt-6 animate-glowPulse">
+      <h2 class="text-lg font-bold text-neon mb-3">Connect with Me</h2>
+      <div class="flex justify-center flex-wrap gap-4 text-accent">
+        {{#each social}}
+        <a href="{{link}}" target="_blank" class="hover:underline">
+          {{platform}}
+        </a>
+        {{/each}}
+      </div>
+      <p class="mt-4 text-xs text-pinkish">© {{name}} — Neon Portfolio</p>
+    </footer>
+
+  </body>
+</html>

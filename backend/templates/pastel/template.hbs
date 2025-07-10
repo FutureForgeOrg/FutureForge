@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{name}} | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["'Quicksand'", "sans-serif"],
+            },
+            colors: {
+              soft: "#fef6e4",
+              accent: "#f582ae",
+              text: "#001858",
+              highlight: "#8bd3dd",
+            },
+            animation: {
+              fadeSlide: "fadeSlide 0.8s ease-out both",
+            },
+            keyframes: {
+              fadeSlide: {
+                "0%": { opacity: 0, transform: "translateY(20px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-soft text-text font-display">
+
+    <!-- Header -->
+    <header class="text-center py-10 bg-accent text-white shadow animate-fadeSlide">
+      <h1 class="text-4xl font-bold">{{name}}</h1>
+      <p class="text-md mt-2 tracking-wide">{{title}}</p>
+    </header>
+
+    <!-- About -->
+    <section class="max-w-3xl mx-auto px-6 py-10 animate-fadeSlide">
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-accent mb-4">About Me</h2>
+        <p class="text-text">{{about}}</p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="max-w-3xl mx-auto px-6 py-6 animate-fadeSlide">
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-accent mb-4">Skills</h2>
+        <div class="flex flex-wrap gap-3">
+          {{#each skills}}
+          <span class="bg-highlight text-text px-3 py-1 rounded-full text-sm font-medium shadow-sm">
+            {{this}}
+          </span>
+          {{/each}}
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    {{#if experience.length}}
+    <section class="max-w-3xl mx-auto px-6 py-6 animate-fadeSlide">
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-accent mb-4">Experience</h2>
+        {{#each experience}}
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-highlight">{{role}} - {{company}}</h3>
+          <p class="text-sm text-gray-500">{{duration}}</p>
+          <p class="mt-2 text-text">{{description}}</p>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+    {{/if}}
+
+    <!-- Projects -->
+    <section class="max-w-3xl mx-auto px-6 py-6 animate-fadeSlide">
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-accent mb-4">Projects</h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {{#each projects}}
+          <div class="bg-soft border border-accent p-4 rounded-lg shadow hover:scale-105 transition-all duration-200">
+            <h3 class="text-lg font-bold text-text">{{title}}</h3>
+            <p class="text-sm mt-2 text-text">{{description}}</p>
+            <a
+              href="{{link}}"
+              class="text-accent hover:underline inline-block mt-2"
+              target="_blank"
+              >Live Demo</a
+            >
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="max-w-3xl mx-auto px-6 py-6 animate-fadeSlide">
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-accent mb-4">Education</h2>
+        {{#each education}}
+        <div class="mb-4">
+          <h3 class="text-lg font-bold text-highlight">{{degree}}</h3>
+          <p class="text-sm text-gray-500">{{institution}} ({{year}})</p>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-accent text-white mt-12 py-8 text-center animate-fadeSlide">
+      <h2 class="text-lg font-semibold mb-3">Connect with Me</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        {{#each social}}
+        <a href="{{link}}" target="_blank" class="hover:underline">
+          {{platform}}
+        </a>
+        {{/each}}
+      </div>
+      <p class="mt-4 text-sm text-pink-100">© {{name}} — Portfolio</p>
+    </footer>
+
+  </body>
+</html>

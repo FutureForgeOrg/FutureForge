@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{name}} | Retro Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pixel Font -->
+    <link href="https://fonts.cdnfonts.com/css/press-start-2p" rel="stylesheet" />
+
+    <style>
+      body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: #1b1b1b;
+        color: #00ffcc;
+        image-rendering: pixelated;
+        letter-spacing: 1px;
+      }
+
+      h1, h2, h3 {
+        color: #ff00aa;
+        text-shadow: 2px 2px #000;
+      }
+
+      a {
+        color: #ffff00;
+        text-decoration: underline;
+      }
+
+      .window {
+        background: #222;
+        border: 4px solid #ff00aa;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 4px 4px #000;
+      }
+
+      .section-title {
+        font-size: 16px;
+        margin-bottom: 10px;
+        border-bottom: 2px dashed #ff00aa;
+        display: inline-block;
+      }
+
+      .pixel-btn {
+        background: #ff00aa;
+        color: #000;
+        padding: 5px 10px;
+        border: 2px solid #000;
+        box-shadow: 2px 2px #000;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .pixel-btn:hover {
+        background: #00ffcc;
+      }
+    </style>
+  </head>
+
+  <body class="p-6 sm:p-12 max-w-5xl mx-auto">
+
+    <!-- Header -->
+    <header class="text-center window">
+      <h1 class="text-3xl">{{name}}</h1>
+      <p class="text-sm mt-2">{{title}}</p>
+    </header>
+
+    <!-- About -->
+    <section class="window">
+      <h2 class="section-title">[ ABOUT ME ]</h2>
+      <p class="mt-2">{{about}}</p>
+    </section>
+
+    <!-- Skills -->
+    <section class="window">
+      <h2 class="section-title">[ SKILLS ]</h2>
+      <ul class="flex flex-wrap gap-2 mt-2">
+        {{#each skills}}
+        <li class="bg-[#333] px-3 py-1 border border-[#00ffcc] text-sm">{{this}}</li>
+        {{/each}}
+      </ul>
+    </section>
+
+    <!-- Experience -->
+    {{#if experience.length}}
+    <section class="window">
+      <h2 class="section-title">[ EXPERIENCE ]</h2>
+      {{#each experience}}
+      <div class="mt-4">
+        <h3>{{role}} @ {{company}}</h3>
+        <p class="text-xs text-[#00ffaa]">{{duration}}</p>
+        <p class="mt-1">{{description}}</p>
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    <!-- Projects -->
+    <section class="window">
+      <h2 class="section-title">[ PROJECTS ]</h2>
+      {{#each projects}}
+      <div class="mt-4">
+        <h3>{{title}}</h3>
+        <p class="mt-1">{{description}}</p>
+        <a href="{{link}}" class="pixel-btn mt-2 inline-block" target="_blank">Play Demo</a>
+      </div>
+      {{/each}}
+    </section>
+
+    <!-- Education -->
+    <section class="window">
+      <h2 class="section-title">[ EDUCATION ]</h2>
+      {{#each education}}
+      <div class="mt-3">
+        <h3>{{degree}}</h3>
+        <p class="text-xs text-[#00ffaa]">{{institution}} ({{year}})</p>
+      </div>
+      {{/each}}
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center mt-10 text-xs">
+      <p>[ CONNECT WITH ME ]</p>
+      <div class="flex flex-wrap justify-center gap-4 mt-2">
+        {{#each social}}
+        <a href="{{link}}" target="_blank">{{platform}}</a>
+        {{/each}}
+      </div>
+      <p class="mt-4">© {{name}} — Retro Pixel Portfolio</p>
+    </footer>
+
+  </body>
+</html>

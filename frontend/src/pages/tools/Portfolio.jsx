@@ -210,6 +210,12 @@ const Portfolio = () => {
                 <option className="text-black" value="classic">Classic</option>
                 <option className="text-black" value="glass">Glass</option>
                 <option className="text-black" value="darkcard">Darkcard</option>
+                <option className="text-black" value="neobrutal">Neobrutal</option>
+                <option className="text-black" value="pastel">Pastel</option>
+                <option className="text-black" value="resume">Resume</option>
+                <option className="text-black" value="terminal">Terminal</option>
+                <option className="text-black" value="neon">Neon</option>
+                <option className="text-black" value="retro">Retro</option>
               </select>
 
 
