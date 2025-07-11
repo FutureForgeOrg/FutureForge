@@ -37,19 +37,19 @@ class Config:
         # Job Roles to Search
         self.JOB_ROLES = [
             "Software Engineer",
-            "Full Stack Developer", 
-            "Backend Developer",
-            "Frontend Developer",
+            "Full Stack Web Developer",
+            "Backend Software Developer",
+            "Frontend Web Developer",
             "Data Scientist",
             "Machine Learning Engineer",
-            "AI Engineer",
-            "Cloud Engineer",
+            "Artificial Intelligence Engineer",
+            "Cloud Solutions Architect",
             "DevOps Engineer",
             "Cybersecurity Analyst",
-            "Mobile App Developer",
-            "UI/UX Designer"
+            "Mobile Application Developer",
+            "UI UX Designer"
         ]
-        
+
         # Location Configuration
         self.LOCATION_CONFIG = self._get_location_config()
 
