@@ -4,6 +4,7 @@ import { renderPortfolio } from "../renderPortfolio.js";
 import { deployToVercel } from "../utils/deployToVercel.js";
 import path from 'path'
 import DeployedPortfolio from "../models/DeployedPortfolio.js";
+import Portfolio from "../models/Portfolio.js";
 
 
 // export const handleGeneratePortfolio = async (req, res) => {
@@ -42,6 +43,7 @@ import DeployedPortfolio from "../models/DeployedPortfolio.js";
 
 export const handleGeneratePortfolio = async (req, res) => {
     const userData = req.body;
+    const userId = req.user._id;
 
     const username =
         userData.deployUsername?.toLowerCase().replace(/\s+/g, "-") ||
@@ -57,6 +59,28 @@ export const handleGeneratePortfolio = async (req, res) => {
     }
 
     const result = await renderPortfolio(userData, username, theme); // passing theme
+
+    if (!result.success) {
+        return res.status(500).json({
+            success: false,
+            error: result.error,
+        });
+    }
+
+    // Save the generated portfolio to the database
+    try {
+        await Portfolio.create({
+            userId, 
+            username,
+            folderPath: result.outputDir,
+        });
+    } catch (err) {
+        console.error("Error saving portfolio to database:", err);  
+        return res.status(500).json({
+            success: false,
+            error: "Failed to save portfolio to database",
+        }); 
+    }
 
     if (result.success) {
         res.json({

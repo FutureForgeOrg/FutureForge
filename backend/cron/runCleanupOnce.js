@@ -6,10 +6,11 @@
 
 import fs from "fs-extra";
 import DeployedPortfolio from "../models/DeployedPortfolio.js";
+import Portfolio from "../models/Portfolio.js";
 
 export async function runCleanupOnce() {
   const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000); // 24h ago
-  const oldPortfolios = await DeployedPortfolio.find({ createdAt: { $lt: cutoff } });
+  const oldPortfolios = await Portfolio.find({ createdAt: { $lt: cutoff } });
 
   let cleanedCount = 0;
   const failed = [];
