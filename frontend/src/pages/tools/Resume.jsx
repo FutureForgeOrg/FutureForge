@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import GridBackground from '../../components/ui/GridBackground';
 
 // Header Component
 const Header = () => {
@@ -138,8 +139,9 @@ const Resume = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-600 to-purple-700">
-      <div className="max-w-6xl mx-auto px-5 py-5">
+    // <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-600 to-purple-700">
+    <GridBackground>
+    <div className="max-w-6xl mx-auto px-5 py-5">
         <Header />
         
         {!showPreview ? (
@@ -155,7 +157,8 @@ const Resume = () => {
           />
         )}
       </div>
-    </div>
+      </GridBackground>
+    // </div>
   );
 };
 
