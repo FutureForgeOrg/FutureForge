@@ -13,6 +13,9 @@ import cleanupRoutes from "./routes/cleanupRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { createInitialAdmin } from "./utils/initialAdmin.js"; 
+import adminRoutes from "./routes/adminRoutes.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -56,7 +59,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/cleanup", cleanupRoutes);
-
+app.use("/api/admin", adminRoutes);
 
 // to serve previews :-
 // Now any file saved under userPortfolios/param-bhavsar/index.html becomes visible at: http://localhost:8080/previews/param-bhavsar/index.html
@@ -67,6 +70,9 @@ app.use("/previews", express.static(path.join(__dirname, "userPortfolios")));
 if (process.env.NODE_ENV !== "production") {
   import("./cron/cleanupLocalOnly.js").then(mod => mod.startLocalCleanupJob());
 }
+
+// create initial admin user if it doesn't exist
+createInitialAdmin();
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
