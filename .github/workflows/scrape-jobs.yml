@@ -40,6 +40,14 @@ jobs:
           pip install -r services/requirements.txt
 
       - name: Validate environment
+        env:
+          SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          JOBS_COLLECTION: ${{ secrets.JOBS_COLLECTION }}
+          LOCATION_MODE: India
+          GITHUB_ACTIONS_MODE: true
+          SCRAPING_ENABLED: true
         run: |
           echo "Validating scraping environment..."
           python -c "
