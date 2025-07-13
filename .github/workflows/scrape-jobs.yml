@@ -76,7 +76,7 @@ jobs:
 
       - name: Upload results (if save-results flag used)
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: scraping-results-${{ github.run_number }}
           path: services/scraping_results_*.json
