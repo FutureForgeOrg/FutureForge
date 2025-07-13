@@ -22,6 +22,7 @@ colorama
 urllib3
 beautifulsoup4
 lxml
+certifi
 
 # Date and Time
 python-dateutil
