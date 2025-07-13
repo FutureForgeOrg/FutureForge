@@ -1,0 +1,95 @@
+name: Automated Job Scraping
+
+on:
+  # Schedule: 6 times per month at 6:30 AM IST (1:00 AM UTC)
+  schedule:
+    - cron: "0 1 5,10,15,20,25,30 * *" # 5th, 10th, 15th, 20th, 25th, 30th of each month
+
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      max_jobs:
+        description: "Maximum jobs per role"
+        required: false
+        default: "15"
+        type: string
+      test_mode:
+        description: "Run in test mode (first 3 roles only)"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  scrape-jobs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30 # Prevent hanging jobs
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate environment
+        run: |
+          echo "Validating scraping environment..."
+          python -c "
+          import sys
+          sys.path.append('services')
+          from common.config import config
+          print(f'Location Mode: {config.LOCATION_MODE}')
+          print(f'Job Roles: {len(config.get_job_roles())} configured')
+          print(f'GitHub Actions Mode: {config.GITHUB_ACTIONS_MODE}')
+          print('Environment validation successful')
+          "
+
+      - name: Run job scraping
+        env:
+          SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          JOBS_COLLECTION: ${{ secrets.JOBS_COLLECTION }}
+          SCRAPING_ENABLED: true
+          LOCATION_MODE: India
+          GITHUB_ACTIONS_MODE: true
+          MAX_RESULTS_PER_QUERY: 20
+          API_TIMEOUT: 30
+          REQUEST_DELAY: 2
+        run: |
+          cd services
+          if [ "${{ github.event.inputs.test_mode }}" = "true" ]; then
+            echo "Running in test mode..."
+            python scripts/run_scraper.py --test --max-jobs ${{ github.event.inputs.max_jobs || '15' }} --quiet
+          else
+            echo "Running full scraping session..."
+            python scripts/run_scraper.py --all --max-jobs ${{ github.event.inputs.max_jobs || '15' }} --quiet
+          fi
+
+      - name: Upload results (if save-results flag used)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: scraping-results-${{ github.run_number }}
+          path: services/scraping_results_*.json
+          if-no-files-found: ignore
+          retention-days: 7
+
+      # This step prints a helpful error summary when something fails. Useful for debugging.
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "Job scraping failed! Check the logs above for details."
+          echo "Common issues:"
+          echo "1. API key expired or invalid"
+          echo "2. Database connection issues"
+          echo "3. Rate limiting from SerpAPI"
+          echo "4. Network connectivity issues"

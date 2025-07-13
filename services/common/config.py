@@ -3,7 +3,9 @@ from dotenv import load_dotenv
 from typing import List,Dict,Any
 import logging
 
-load_dotenv()
+# Only load .env file if not in GitHub Actions
+if not os.getenv('GITHUB_ACTIONS'):
+    load_dotenv()
 
 class Config:
     """Configuration manger for job scraper service."""
@@ -34,6 +36,13 @@ class Config:
         self.API_TIMEOUT = int(os.getenv('API_TIMEOUT', 30))
         self.REQUEST_DELAY = int(os.getenv('REQUEST_DELAY', 2))
 
+        # GitHub Actions specific settings
+        if self.GITHUB_ACTIONS_MODE or os.getenv('GITHUB_ACTIONS'):
+            self.GITHUB_ACTIONS_MODE = True
+            self.SCRAPING_ENABLED = True
+            # Reduce delay for GitHub Actions to save execution time
+            self.REQUEST_DELAY = max(1, self.REQUEST_DELAY - 1)
+
         # Job Roles to Search
         self.JOB_ROLES = [
             "Software Engineer",
@@ -45,9 +54,12 @@ class Config:
             "Artificial Intelligence Engineer",
             "Cloud Solutions Architect",
             "DevOps Engineer",
-            "Cybersecurity Analyst",
+            "Cybersecurity Engineer",
             "Mobile Application Developer",
-            "UI UX Designer"
+            "UI UX Designer",
+            "Data Engineer",
+            "Product Manager",
+            "Blockchain Engineer"
         ]
 
         # Location Configuration
@@ -89,6 +101,10 @@ class Config:
     def get_job_roles(self) -> List[str]:
         """Get list of job roles to search"""
         return self.JOB_ROLES
+    
+    def is_github_actions_mode(self) -> bool:
+        """Check if running in GitHub Actions mode"""
+        return self.GITHUB_ACTIONS_MODE
     
     def __str__(self):
         """String representation of config (safe, no sensitive data)"""
