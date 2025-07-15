@@ -1,0 +1,70 @@
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes gradientMesh {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+.animate-gradient-mesh {
+  background: linear-gradient(-45deg, #ff4ecd, #00ffe5, #1a0e2a);
+  background-size: 600% 600%;
+  animation: gradientMesh 30s ease infinite;
+}
+
+/* Aurora blobs */
+.aurora {
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  filter: blur(100px);
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  animation: float 20s ease-in-out infinite;
+}
+
+.aurora-1 {
+  top: -20%;
+  left: -10%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 0, 150, 0.4), transparent 70%);
+  animation-delay: 0s;
+}
+
+.aurora-2 {
+  bottom: -30%;
+  right: -15%;
+  background: radial-gradient(circle at 60% 40%, rgba(0, 200, 255, 0.35), transparent 70%);
+  animation-delay: 4s;
+}
+
+.aurora-3 {
+  top: 10%;
+  right: 25%;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 255, 150, 0.3), transparent 70%);
+  animation-delay: 8s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
