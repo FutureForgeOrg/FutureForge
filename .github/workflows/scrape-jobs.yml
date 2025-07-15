@@ -88,7 +88,28 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-      # This step prints a helpful error summary when something fails. Useful for debugging.
+      # Clear Redis cache key after successful scrape
+      - name: Clear Redis job cache
+        env:
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+        run: |
+          pip install redis
+          python -c "
+          import redis
+          r = redis.Redis(
+              host='${{ secrets.REDIS_HOST }}',
+              port=int('${{ secrets.REDIS_PORT }}'),
+              username='default',
+              password='${{ secrets.REDIS_PASSWORD }}',
+              decode_responses=True
+          )
+          deleted = r.delete('latest_jobs_static')
+          print(f'Redis key cleared: latest_jobs_static | Deleted: {deleted}')
+          "
+
+      # Error summary for debugging
       - name: Notify on failure
         if: failure()
         run: |

@@ -9,12 +9,15 @@ import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/authRoutes.js";
 import portfolioRoutes from "./routes/portfolioRoutes.js";
 import cleanupRoutes from "./routes/cleanupRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js"
 
 import path from "path";
 import { fileURLToPath } from "url";
 
 import { createInitialAdmin } from "./utils/initialAdmin.js"; 
 import adminRoutes from "./routes/adminRoutes.js";
+
+// import redisClient from "./utils/redis.js"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -60,6 +63,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/cleanup", cleanupRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/jobs",jobRoutes)
 
 // to serve previews :-
 // Now any file saved under userPortfolios/param-bhavsar/index.html becomes visible at: http://localhost:8080/previews/param-bhavsar/index.html
@@ -73,6 +77,12 @@ if (process.env.NODE_ENV !== "production") {
 
 // create initial admin user if it doesn't exist
 createInitialAdmin();
+
+// testing redis connection !!
+// await redisClient.set('hello', 'world');
+// const result = await redisClient.get('hello');
+// console.log(result); // "world"
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
