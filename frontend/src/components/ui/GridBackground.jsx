@@ -3,7 +3,7 @@ import React from 'react';
 const GridBackground = ({ children }) => {
   return (
     // <div className="relative min-h-screen overflow-hidden bg-[#0f0f23]">
-     <div className="relative min-h-screen overflow-hidden bg-[#1b1b6cd4]">
+     <div className="relative min-h-screen overflow-hidden bg-[#a737a7d4]">
       {/* Grid overlay */}
       <div
         className="absolute inset-0 z-0 pointer-events-none"

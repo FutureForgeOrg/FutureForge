@@ -294,19 +294,19 @@ const Navbar = () => {
             `}>
               <button
                 onClick={() => { handleLinkClick(); navigate('/tools/Resume'); }}
-                className="block w-full text-left px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-blue-50 hover:text-indigo-800 transition-all duration-200"
+                className="block w-full text-left px-4 py-2 rounded-lg text-sm text-gray-950 hover:bg-blue-50 hover:text-indigo-800 transition-all duration-200"
               >
-                📄 Resume Builder
+                 Resume Builder
               </button>
               <button
                 onClick={() => { handleLinkClick(); navigate('/tools/Portfolio'); }}
-                className="block w-full text-left px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-blue-50 hover:text-indigo-800 transition-all duration-200"
+                className="block w-full text-left px-4 py-2 rounded-lg text-sm text-gray-950 hover:bg-blue-50 hover:text-indigo-800 transition-all duration-200"
               >
-                💼 Portfolio Builder
+                 Portfolio Builder
               </button>
               <button
                 onClick={() => { handleLinkClick(); navigate('/tools/Reviews'); }}
-                className="block w-full text-left px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-blue-50 hover:text-indigo-800 transition-all duration-200"
+                className="block w-full text-left px-4 py-2 rounded-lg text-sm text-gray-950 hover:bg-blue-50 hover:text-indigo-800 transition-all duration-200"
               >
                 Reviews
               </button>
