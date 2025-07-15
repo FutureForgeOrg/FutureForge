@@ -72,24 +72,12 @@ jobs:
           MAX_RESULTS_PER_QUERY: 20
           API_TIMEOUT: 30
           REQUEST_DELAY: 2
+          MAX_JOBS_PER_ROLE: ${{ github.event.inputs.max_jobs || '15' }}
+          TEST_MODE: ${{ github.event.inputs.test_mode || 'false' }}
+          SAVE_RESULTS: false
         run: |
           cd services
-          if [ "${{ github.event.inputs.test_mode }}" = "true" ]; then
-            echo "Running in test mode..."
-            python scripts/run_scraper.py --test --max-jobs ${{ github.event.inputs.max_jobs || '15' }} --quiet
-          else
-            echo "Running full scraping session..."
-            python scripts/run_scraper.py --all --max-jobs ${{ github.event.inputs.max_jobs || '15' }} --quiet
-          fi
-
-      - name: Upload results (if save-results flag used)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: scraping-results-${{ github.run_number }}
-          path: services/scraping_results_*.json
-          if-no-files-found: ignore
-          retention-days: 7
+          python scripts/github_actions_runner.py
 
       # This step prints a helpful error summary when something fails. Useful for debugging.
       - name: Notify on failure
