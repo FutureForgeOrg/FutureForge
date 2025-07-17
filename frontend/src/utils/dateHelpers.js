@@ -1,5 +1,14 @@
 export function getPostedAgoText(scrappedDate) {
+  if (!scrappedDate) {
+    return 'Posted date unknown';
+  }
+
   const postedDate = new Date(scrappedDate);
+
+  if (isNaN(postedDate.getTime())) {
+    return 'Posted date unknown';
+  }
+
   const now = new Date();
   const diffMs = now - postedDate;
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
