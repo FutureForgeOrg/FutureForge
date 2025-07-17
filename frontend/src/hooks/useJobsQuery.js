@@ -10,7 +10,7 @@ const fetchJobs = async ({ queryKey }) => {
             job_title,
             location,
             keyword,
-            page : page + 1,
+            page : page,
             limit: 10
         }
     });

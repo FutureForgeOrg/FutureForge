@@ -5,10 +5,21 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
 
   return (
     <div className="flex justify-center items-center gap-2 mt-6">
+
+      {/* Go to First Page */}
+      {currentPage !== 1 && (
+        <button
+          onClick={() => onPageChange(1)}
+          className="px-3 py-1 rounded border text-sm"
+        >
+          First (1)
+        </button>
+      )}
+
       {/* Prev Button */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 0}
+        disabled={currentPage === 1}
         className="px-3 py-1 rounded border text-sm disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Prev

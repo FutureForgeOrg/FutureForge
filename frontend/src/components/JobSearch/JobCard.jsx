@@ -1,11 +1,18 @@
 import bookmark from '../../assets/bookmark.png';
+
+import { getPostedAgoText } from '../../utils/dateHelpers.js'
+
 const JobCard = ({ job }) => {
+
+  const postedAgo = getPostedAgoText(job.scraped_date);
+
   return (
     <div className="rounded-3xl shadow-2xl p-4 md:p-8 mb-8 border border-white/10 bg-gradient-to-br from-[#1f1f2f]/60 to-[#1a1a2a]/60 backdrop-blur-md transform transition-all duration-1000 hover:from-transparent hover:to-transparent">
       <h3 className="text-xl font-semibold mb-2">{job.company_name || 'Not specified'}</h3>
       <p className="text-sm md:text-md text-white mb-2">Job Title: {job.job_title || 'Not specified'}</p>
       <p className="text-sm md:text-md text-white mb-2">Location: {job.location || 'Not specified'}</p>
       {job.description && <p className="text-sm text-white mb-2">{job.description || 'Not specified'}</p>}
+      <span className="text-sm text-green-400 whitespace-nowrap">{postedAgo}</span>
 
       <div className="flex gap-3 mt-3">
         {job.job_link && (
