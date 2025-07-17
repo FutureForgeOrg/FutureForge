@@ -83,6 +83,10 @@ createInitialAdmin();
 // const result = await redisClient.get('hello');
 // console.log(result); // "world"
 
+// clear db
+// await redisClient.flushDb(); 
+// console.log("Redis cleared"); 
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

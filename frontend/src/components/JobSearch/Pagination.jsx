@@ -1,19 +1,42 @@
 import React from "react";
 
 const Pagination = ({ totalPages, currentPage, onPageChange }) => {
+  if (totalPages <= 1) return null;
+
   return (
-    <div className="flex justify-center mt-5 gap-2">
-      {[...Array(totalPages)].map((_, i) => (
+    <div className="flex justify-center items-center gap-2 mt-6">
+      {/* Prev Button */}
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 0}
+        className="px-3 py-1 rounded border text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Prev
+      </button>
+
+      {/* Current Page */}
+      <span className="px-3 py-1 border rounded text-sm bg-blue-600 text-white font-semibold">
+        {currentPage}
+      </span>
+
+      {/* Next Button */}
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage >= totalPages - 1}
+        className="px-3 py-1 rounded border text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Next
+      </button>
+
+      {/* Go to Last Page */}
+      {currentPage !== totalPages - 1 && (
         <button
-          key={i}
-          onClick={() => onPageChange(i)}
-          className={`px-3 py-1 rounded ${
-            i === currentPage ? "bg-blue-500 text-white" : "border"
-          }`}
+          onClick={() => onPageChange(totalPages - 1)}
+          className="px-3 py-1 rounded border text-sm"
         >
-          {i + 1}
+          Last ({totalPages})
         </button>
-      ))}
+      )}
     </div>
   );
 };
