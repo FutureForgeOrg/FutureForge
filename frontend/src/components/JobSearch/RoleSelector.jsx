@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 const JOB_ROLES = [
     "Software Engineer",
     "Full Stack Web Developer",
@@ -15,24 +16,53 @@ const JOB_ROLES = [
     "Data Engineer",
     "Product Manager",
     "Blockchain Engineer"
-]
+];
 
 const RoleSelector = ({ selectedRole, onChange }) => {
+    const [showDropdown, setShowDropdown] = useState(false);
 
+    const filteredRoles = JOB_ROLES.filter((role) =>
+        role.toLowerCase().includes(selectedRole.toLowerCase())
+    );
 
     return (
-        <select
-            value={selectedRole}
-            onChange={(e) => onChange(e.target.value)}
-            className="border p-2 rounded w-full"
-        >
-            <option value="">Select your role</option>
-            {JOB_ROLES.map((role, idx) => (
-                <option key={idx} value={role}>
-                    {role}
-                </option>))}
-        </select>
+        <div className="relative w-full">
+            <input
+                type="text"
+                placeholder="Search your role"
+                value={selectedRole}
+                onChange={(e) => {
+                    onChange(e.target.value);
+                    setShowDropdown(true);
+                }}
+                onFocus={() => setShowDropdown(true)}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 150)} // small delay to allow item click
+                className="border p-2 rounded w-full bg-black"
+            />
+
+            {showDropdown && (
+                <ul className="absolute z-10 w-full border rounded bg-black mt-1 max-h-48 overflow-y-auto shadow">
+                    {filteredRoles.length === 0 ? (
+                        <li className="p-2 text-black">No roles found</li>
+                    ) : (
+                        filteredRoles.map((role, index) => (
+                            <li
+                                key={index}
+                                onMouseDown={() => {
+                                    onChange(role);
+                                    setShowDropdown(false);
+                                }}
+                                className="p-2 hover:bg-gray-700 cursor-pointer"
+                            >
+                                {role}
+                            </li>
+
+                        ))
+                    )}
+                </ul>
+            )}
+        </div>
     );
 };
 
-export default RoleSelector;
+export default RoleSelector;    

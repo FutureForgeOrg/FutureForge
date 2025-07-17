@@ -166,5 +166,4 @@ const GridBackground = ({ children }) => {
     </div>
   );
 };
-
 export default GridBackground;
