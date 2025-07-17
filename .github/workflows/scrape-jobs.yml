@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -r services/requirements.txt
+          pip install -r services/job_engine/requirements.txt
 
       - name: Validate environment
         env:
@@ -52,7 +52,7 @@ jobs:
           echo "Validating scraping environment..."
           python -c "
           import sys
-          sys.path.append('services')
+          sys.path.append('services/job_engine')
           from common.config import config
           print(f'Location Mode: {config.LOCATION_MODE}')
           print(f'Job Roles: {len(config.get_job_roles())} configured')
@@ -76,7 +76,7 @@ jobs:
           TEST_MODE: ${{ github.event.inputs.test_mode || 'false' }}
           SAVE_RESULTS: false
         run: |
-          cd services
+          cd services/job_engine
           python scripts/github_actions_runner.py
 
       - name: Upload results (if save-results flag used)
@@ -84,11 +84,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: scraping-results-${{ github.run_number }}
-          path: services/scraping_results_*.json
+          path: services/job_engine/scraping_results_*.json
           if-no-files-found: ignore
           retention-days: 7
 
-      # Clear Redis cache key after successful scrape
       - name: Clear Redis job cache
         env:
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
@@ -109,7 +108,6 @@ jobs:
           print(f'Redis key cleared: latest_jobs_static | Deleted: {deleted}')
           "
 
-      # Error summary for debugging
       - name: Notify on failure
         if: failure()
         run: |
