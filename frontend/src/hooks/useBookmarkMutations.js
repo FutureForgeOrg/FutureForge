@@ -30,8 +30,8 @@ export const useDeleteBookmark = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (jobId) => {
-            const { data } = await axiosInstance.delete(`/bookmarks/${jobId}`);
+        mutationFn: async (bookmarkId) => {
+            const { data } = await axiosInstance.delete(`/bookmarks/${bookmarkId}`);
             return data;
         },
 
