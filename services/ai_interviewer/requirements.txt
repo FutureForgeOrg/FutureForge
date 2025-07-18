@@ -1,0 +1,6 @@
+Flask
+Flask-CORS
+python-dotenv
+pymongo
+groq
+requests
