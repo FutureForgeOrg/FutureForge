@@ -75,8 +75,12 @@ export const getAllScrappedJobs = async (req, res) => {
 
         const filter = {};
 
+        // multiple keywords split by space and build dynamic regex
         if (job_title) {
-            filter.job_title = { $regex: job_title, $options: "i" };
+            const keywords = job_title.split(" ").map(k => k.trim()).filter(Boolean);
+            filter.$and = keywords.map(keyword => ({
+                job_title: { $regex: keyword, $options: "i" }
+            }));
         }
 
         if (location) {

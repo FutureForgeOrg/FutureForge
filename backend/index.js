@@ -10,6 +10,7 @@ import authRoutes from "./routes/authRoutes.js";
 import portfolioRoutes from "./routes/portfolioRoutes.js";
 import cleanupRoutes from "./routes/cleanupRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js"
+import bookmarkRoutes from  "./routes/bookmarkRoutes.js"
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -64,6 +65,8 @@ app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/cleanup", cleanupRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/jobs",jobRoutes)
+app.use('/api/bookmarks', bookmarkRoutes);
+
 
 // to serve previews :-
 // Now any file saved under userPortfolios/param-bhavsar/index.html becomes visible at: http://localhost:8080/previews/param-bhavsar/index.html
