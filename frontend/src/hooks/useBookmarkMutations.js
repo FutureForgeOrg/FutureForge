@@ -14,7 +14,7 @@ export const useAddBookmark = () => {
         },
 
         onSuccess: () => {
-            queryClient.invalidateQueries(['bookmarks'])   // refresh bookmark list
+            queryClient.invalidateQueries({queryKey: ['bookmarks']})   // refresh bookmark list
         },
 
         onError: (error) => {
@@ -24,6 +24,16 @@ export const useAddBookmark = () => {
 
     })
 };
+
+
+//  How It Works Internally :- queryClient.invalidateQueries() method
+
+// After successful mutation (add/delete),
+// React Query calls invalidateQueries(['bookmarks']),
+// It marks the bookmarks query as stale,
+// Automatically triggers a refetch using the original queryFn (useBookmarksQuery),
+// UI updates with the fresh result
+
 
 
 export const useDeleteBookmark = () => {
@@ -36,7 +46,7 @@ export const useDeleteBookmark = () => {
         },
 
         onSuccess: () => {
-            queryClient.invalidateQueries(['bookmarks']); // refresh
+            queryClient.invalidateQueries({queryKey: ['bookmarks']}); // refresh
         },
 
         onError: (error) => {
@@ -45,6 +55,5 @@ export const useDeleteBookmark = () => {
         },
 
     });
-
 
 }
