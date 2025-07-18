@@ -1,10 +1,44 @@
-import bookmark from '../../assets/bookmark.png';
+// import bookmark from '../../assets/bookmark.png';
+import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
 
 import { getPostedAgoText } from '../../utils/dateHelpers.js'
+
+import { useAddBookmark, useDeleteBookmark } from '../../hooks/useBookmarkMutations';
+import useBookmarksQuery from '../../hooks/useBookmarksQuery';
+import { useEffect, useState } from 'react';
 
 const JobCard = ({ job }) => {
 
   const postedAgo = getPostedAgoText(job.scraped_date);
+
+    //   {
+    //   bookmarks: [...], // array
+    //   total: number
+    //   }
+
+  const { data } = useBookmarksQuery();
+  const bookmarks = data?.bookmarks;
+
+  const addBookmark = useAddBookmark();
+  const deleteBookmark = useDeleteBookmark();
+
+  // finding if this job is already bookmarked
+  const bookmarked = bookmarks?.find(b => b.job?._id === job._id);
+  const [isBookmarked, setIsBookmarked] = useState(!!bookmarked); // with !! ensuring that isBookmarked is a clean true or false boolean — not a truthy or falsy value like undefined, null, or {}
+
+  useEffect(() => {
+    setIsBookmarked(!!bookmarked);
+  }, [bookmarked]);
+
+  const handleBookmarkToggle = () => {
+    if (isBookmarked) {
+      deleteBookmark.mutate(bookmarked._id);
+    } else {
+      addBookmark.mutate(job._id);
+    }
+  };
+
 
   return (
     <div className="rounded-3xl shadow-2xl p-4 md:p-8 mb-8 border border-white/10 bg-gradient-to-br from-[#1f1f2f]/60 to-[#1a1a2a]/60 backdrop-blur-md transform transition-all duration-1000 hover:from-transparent hover:to-transparent">
@@ -51,8 +85,12 @@ const JobCard = ({ job }) => {
 
 
       <div className="absolute top-2 right-2">
-        <button className="p-2 bg-white rounded-full shadow hover:bg-gray-100">
-          <img src={bookmark} alt="Bookmark" className="w-5 h-5" />
+        <button
+          onClick={handleBookmarkToggle}
+          className="p-2 bg-white rounded-full shadow hover:bg-gray-100 transition"
+        >
+          {isBookmarked ? <FaBookmark className="text-black"/> : <FaRegBookmark className="text-black"/>}
+
         </button>
       </div>
     </div>
