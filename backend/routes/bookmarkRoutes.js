@@ -7,6 +7,6 @@ const router = express.Router();
 router.get('/', protectRoute, getAllBookmarks);
 router.post('/', protectRoute, postBookmark);
 
-router.delete('/:jobId', protectRoute, deleteBookmark);
+router.delete('/:bookmarkId', protectRoute, deleteBookmark);
 
 export default router;

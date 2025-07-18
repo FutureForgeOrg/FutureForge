@@ -113,9 +113,9 @@ export const deleteBookmark = async (req, res) => {
     try {
         const bookmarkId = req.params.bookmarkId;
 
-        const deleted = await Bookmark.deleteOne({ bookmarkId })
+        const deleted = await Bookmark.deleteOne({ user: req.user.id, _id: bookmarkId })
 
-        if (!deleted) {
+        if (deleted.deletedCount === 0) {
             return res.status(404).json({
                 message: 'Bookmark not found'
             });

@@ -14,7 +14,10 @@ const bookmarkSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
 });
+
+// Create compound unique index to prevent duplicate bookmarks
+bookmarkSchema.index({ user: 1, jobId: 1 }, { unique: true });
 
 export default mongoose.model('Bookmark', bookmarkSchema);
