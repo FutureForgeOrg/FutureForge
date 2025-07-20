@@ -7,10 +7,10 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     <div className="flex justify-center items-center gap-2 mt-6">
 
       {/* Go to First Page */}
-      {currentPage !== 1 && (
+      {currentPage > 1 && (
         <button
           onClick={() => onPageChange(1)}
-          className="px-3 py-1 rounded border text-sm"
+          className="px-3 py-1 rounded border text-sm text-white"
         >
           First (1)
         </button>
@@ -20,7 +20,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-3 py-1 rounded border text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-1 rounded border text-sm text-white disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Prev
       </button>
@@ -33,17 +33,17 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
       {/* Next Button */}
       <button
         onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage >= totalPages - 1}
-        className="px-3 py-1 rounded border text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={currentPage >= totalPages}
+        className="px-3 py-1 rounded border text-sm text-white disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Next
       </button>
 
       {/* Go to Last Page */}
-      {currentPage !== totalPages - 1 && (
+      {currentPage < totalPages && (
         <button
-          onClick={() => onPageChange(totalPages - 1)}
-          className="px-3 py-1 rounded border text-sm"
+          onClick={() => onPageChange(totalPages)}
+          className="px-3 py-1 rounded border text-sm text-white"
         >
           Last ({totalPages})
         </button>

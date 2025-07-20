@@ -39,7 +39,7 @@ export default function Cards({ profileCompletion = 30 }) {
         <div className="flex items-center justify-center w-12 h-12 rounded-lg mb-4 transition-all duration-300" style={{ backgroundColor: getProfileStatus().bgColor }}>
           <User className="w-6 h-6" style={{ color: getProfileStatus().iconColor }} />
         </div>
-        <h3 className="text-base sm:text-lg font-semibold mb-2" style={{ color: 'white' }}>
+        <h3 className="text-base sm:text-lg font-semibold mb-2 text-white">
           {getProfileStatus().title}
         </h3>
         <p className="text-sm mb-3" style={{ color: 'white' }}>
@@ -82,10 +82,10 @@ export default function Cards({ profileCompletion = 30 }) {
           <Briefcase className="w-6 h-6" style={{ color: '#7c3aed' }} />
         </div>
         <h3 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>
-         Speed up your job search 
+          Speed up your job search
         </h3>
         <p className="text-sm" style={{ color: 'white' }}>
-           take a quick match survey
+          take a quick match survey
         </p>
       </div>
 
