@@ -5,7 +5,7 @@ import Job from "../models/JobSchema.js";
 export const getAllBookmarks = async (req, res) => {
     try {
         const userId = req.user.id;
-        const { page = 1, limit = 10, keyword = '' } = req.query;
+        const { page = 1, limit = 5, keyword = '' } = req.query;
 
         // Step 1: Get all bookmarks for user
         const bookmarks = await Bookmark.find({ user: userId }).sort({ createdAt: -1 });

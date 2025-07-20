@@ -37,7 +37,7 @@ const Navbar = () => {
               onClick={() => navigate('/dashboard')}
               className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-white/20 hover:ring-indigo-400/40 transition-all duration-300 cursor-pointer"
             >
-              <img src={futureForgeLogo} alt="logo" className="w-full h-full object-cover" />
+              <img src={futureForgeLogo } loading="lazy" alt="logo" className="w-full h-full object-cover" />
             </div>
           </div>
 

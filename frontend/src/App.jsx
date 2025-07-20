@@ -24,11 +24,14 @@ function App() {
     console.log("Checking authentication status...");
   }, [checkAuth]);
 
-  if (isCheckingAuth && !authUser) {
-    <div className='flex items-center justify-center min-h-screen'>
-      <Loader />
-    </div>
+  if(isCheckingAuth && !authUser) {
+    return (
+      <div className='flex items-center justify-center min-h-screen'>
+        <Loader />
+      </div>
+    );
   }
+
 
   return (
     <>

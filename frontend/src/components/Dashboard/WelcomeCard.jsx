@@ -99,7 +99,7 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
                 <div className="flex-1 text-center lg:text-left">
                     <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
                         {/* <span className="text-4xl animate-pulse">{greeting.emoji}</span> */}
-                        <h1 className="md:ml-2 text-2xl md:text-3xl lg:text-4xl font-bold bg-white bg-clip-text text-transparent leading-[1.2] pb-1">
+                        <h1 className=" text-2xl md:text-3xl lg:text-4xl font-bold bg-white bg-clip-text text-transparent leading-[1.2] pb-1">
                             Welcome to FutureForge
                         </h1>
 
@@ -111,29 +111,29 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
 
                     {/* Date and Time */}
                     <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 md:gap-4 mb-2 md:mb-6">
-                        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl">
-                            <Calendar className="w-5 h-5 text-slate-600" />
-                            <span className="text-sm font-medium text-slate-700">{formatDate()}</span>
+                        <div className="flex items-center gap-2 bg-white/10 border-gray-100 px-4 py-2 rounded-xl">
+                            <Calendar className="w-5 h-5 text-white" />
+                            <span className="text-sm font-medium text-white">{formatDate()}</span>
                         </div>
-                        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl">
-                            <Clock className="w-5 h-5 text-slate-600" />
-                            <span className="text-sm font-medium text-slate-700">{formatTime()}</span>
+                        <div className="flex items-center gap-2 bg-white/10 border-gray-100 px-4 py-2 rounded-xl">
+                            <Clock className="w-5 h-5 text-white" />
+                            <span className="text-sm font-medium text-white">{formatTime()}</span>
                         </div>
                     </div>
 
                     {/* Motivational Quote */}
-                    <div className="bg-gradient-to-r from-purple-100 to-blue-100 p-4 rounded-xl mb-4">
-                        <div className="flex items-center justify-center lg:justify-start mb-4 md:mb-2">
-                            <Star className="w-5 h-5 text-purple-600" />
-                            <span className="text-sm font-semibold text-purple-800">Daily Inspiration</span>
+                    <div className="bg-white/10 border-gray-100 p-4 rounded-xl mb-4 mt-6 md:mt-0">
+                        <div className="flex items-center justify-center lg:justify-start mb-4 md:mb-2 gap-2">
+                            <Star className="w-5 h-5 text-purple-500" />
+                            <span className="text-sm font-semibold text-white">Daily Inspiration</span>
                         </div>
-                        <p className="text-slate-700 italic font-medium transition-all duration-500">
+                        <p className="text-white italic font-medium transition-all duration-500">
                             "{motivationalQuotes[currentQuote]}"
                         </p>
                     </div>
 
                     {/* Streak Counter */}
-                    <div className="flex items-center justify-center lg:justify-start gap-4">
+                    {/* <div className="flex items-center justify-center lg:justify-start gap-4">
                         <div className="flex items-center gap-2 bg-gradient-to-r from-green-100 to-emerald-100 px-4 py-2 rounded-xl">
                             <Zap className="w-5 h-5 text-green-600" />
                             <span className="text-sm font-semibold text-green-800">{streak} day streak!</span>
@@ -142,7 +142,7 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
                             <TrendingUp className="w-5 h-5 text-orange-600" />
                             <span className="text-sm font-semibold text-orange-800">Keep going!</span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Right side - Animated Visual */}
