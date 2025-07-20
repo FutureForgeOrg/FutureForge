@@ -16,7 +16,7 @@ const Profile = () => {
       github: "https://github.com/johndoe",
       linkedin: "https://linkedin.com/in/johndoe",
       twitter: "https://twitter.com/johndoe",
-      website: "https://johndoe.dev"
+      // website: "https://johndoe.dev"
     }
   });
 
@@ -27,14 +27,14 @@ const Profile = () => {
     github: Github,
     linkedin: Linkedin,
     twitter: Twitter,
-    website: Globe
+    // website: Globe
   };
 
   const socialColors = {
     github: "hover:bg-gray-800 hover:text-white",
     linkedin: "hover:bg-blue-600 hover:text-white",
     twitter: "hover:bg-sky-500 hover:text-white",
-    website: "hover:bg-green-600 hover:text-white"
+    // website: "hover:bg-green-600 hover:text-white"
   };
 
   const handleEdit = () => {
@@ -83,7 +83,8 @@ const Profile = () => {
 
               <button
                 onClick={isEditing ? handleCancel : handleEdit}
-                className="absolute top-6 right-6 p-3 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 hover:scale-110 backdrop-blur-sm z-20"
+                className="absolute top-6 right-6 p-3 rounded-full bg-white/20 hover:bg-white/30 transition-transform duration-300 hover:scale-105 z-20"
+
               >
                 {isEditing ? <X className="w-5 h-5" /> : <Edit2 className="w-5 h-5" />}
               </button>
@@ -92,21 +93,21 @@ const Profile = () => {
               <div className="relative z-10 flex-1 flex flex-col justify-center">
                 <div className="text-center mb-8">
                   <div className="relative mx-auto mb-6">
-                    <div className="w-32 h-32 rounded-full bg-white/20 p-1 backdrop-blur-sm mx-auto">
+                    <div className="w-32 h-32 rounded-full bg-white/20 p-1  mx-auto">
                       <img
                         src={isEditing ? editData.avatar : profileData.avatar}
                         alt={isEditing ? editData.name : profileData.name}
                         className="w-full h-full rounded-full object-cover border-2 border-white/50 shadow-xl"
                       />
                     </div>
-                    {!isEditing && (
+                    {/* {!isEditing && (
                       <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-400 rounded-full border-4 border-white flex items-center justify-center">
                         <div className="w-2 h-2 bg-white rounded-full"></div>
                       </div>
-                    )}
+                    )} */}
                   </div>
 
-                  {isEditing && (
+                  {/* {isEditing && (
                     <div className="mb-6">
                       <input
                         type="url"
@@ -116,7 +117,7 @@ const Profile = () => {
                         placeholder="Avatar URL"
                       />
                     </div>
-                  )}
+                  )} */}
 
                   {isEditing ? (
                     <div className="space-y-4">
@@ -124,14 +125,14 @@ const Profile = () => {
                         type="text"
                         value={editData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
-                        className="text-2xl font-bold bg-white/10 border border-white/30 text-white placeholder-white/70 w-full py-3 px-4 rounded-lg backdrop-blur-sm text-center"
+                        className="text-2xl font-bold bg-white/10 border border-white/30 text-white placeholder-white/70 w-full py-3 px-4 rounded-lg  text-center"
                         placeholder="Your Name"
                       />
                       <input
                         type="text"
                         value={editData.title}
                         onChange={(e) => handleInputChange('title', e.target.value)}
-                        className="text-white/90 bg-white/10 border border-white/30 placeholder-white/60 w-full py-3 px-4 rounded-lg backdrop-blur-sm text-center"
+                        className="text-white/90 bg-white/10 border border-white/30 placeholder-white/60 w-full py-3 px-4 rounded-lg text-center"
                         placeholder="Your Job Title"
                       />
                     </div>
@@ -159,7 +160,7 @@ const Profile = () => {
                             href={url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group flex items-center justify-center w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-white/30"
+                            className="group flex items-center justify-center w-12 h-12 rounded-xl bg-white/20  transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-white/30"
                           >
                             <IconComponent className="w-6 h-6 text-white group-hover:text-white transition-colors" />
                           </a>
