@@ -42,3 +42,35 @@
     transform: translateY(-20px) scale(1.05);
   }
 }
+
+/* no scrollbar at all  */
+
+/* ::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;        
+  -ms-overflow-style: none;     
+} 
+*/
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(97, 2, 91)
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ec2fc6;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #9333ea, #2563eb, #0891b2, #db2777);
+}
+
+

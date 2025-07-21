@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import futureForgeLogo from '../assets/logo.jpeg';
+import futureForgeLogo from '/bg-hd.png';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,14 +32,23 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-18 py-2">
 
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex gap-2 items-center">
             <div
               onClick={() => navigate('/dashboard')}
-              className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-white/20 hover:ring-indigo-400/40 transition-all duration-300 cursor-pointer"
+              className="w-12 h-12 p-1 md:p-0 rounded-full cursor-pointer"
             >
-              <img src={futureForgeLogo } loading="lazy" alt="logo" className="w-full h-full object-cover" />
+              <img
+                src={futureForgeLogo}
+                loading="lazy"
+                alt="logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="h-12 flex items-center">
+              <h4 className="text-heading text-xl md:text-2xl leading-none">FutureForge</h4>
             </div>
           </div>
+
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">

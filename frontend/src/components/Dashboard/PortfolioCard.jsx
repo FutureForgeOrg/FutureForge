@@ -109,9 +109,8 @@ const PortfolioCard = () => {
                         <img
                             src="/src/assets/themes/neobrutal.webp"
                             alt="Decorative Background"
-                            className="absolute right-[-40px] top-[-120px] w-[600px] h-[600px] rotate-12 opacity-40 pointer-events-none transition-transform duration-500 group-hover:-translate-y-2"
+                            className="absolute right-[-40px] top-[-100px] w-[500px] h-[500px] rotate-12 opacity-40 transition-transform duration-500 hover:scale-105"
                         />
-
                     </div>
                 </div>
 
