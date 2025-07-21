@@ -1,0 +1,93 @@
+import React from 'react'
+
+function AboutUs() {
+  return (
+    <>
+    <section id='About Us' className="px-6 py-16 bg-gradient-to-br from-white via-gray-50 to-blue-50 text-gray-800 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-100/20 to-blue-100/20"></div>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          {/* Heading */}
+          <h2 className="text-3xl mt-6 md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+            About Us
+          </h2>
+          <p className="text-gray-600 text-xl  mb-8 font-medium">
+            Bridging the gap between education and career success
+          </p>
+
+          {/* Description */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-gray-200/50 mb-12">
+            <p className="text-gray-700 text-lg md:text-xl mb-6 leading-relaxed font-style: italic">
+              <strong className="text-purple-600 ">FutureForge</strong> is a comprehensive career platform
+              designed to empower students and professionals in their journey toward
+              career success. We understand the challenges of navigating today's
+              competitive job market and provide the tools, resources, and guidance
+              needed to excel.
+            </p>
+            <p className="text-gray-700 text-lg md:text-xl leading-relaxed font-style: italic">
+              Our platform combines cutting-edge technology with personalized career
+              development strategies to help you discover opportunities, build
+              essential skills, and connect with industry leaders. Whether you're a
+              student preparing for your first job or a professional looking to
+              advance your career, FutureForge is your trusted partner.
+            </p>
+          </div>
+
+          {/* Enhanced Developers Section */}
+          <div className="bg-gradient-to-br from-white to-blue-50 border-2 border-purple-200/50 rounded-3xl shadow-2xl p-8 max-w-3xl mx-auto">
+            <h3 className="text-2xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">Meet Our Team</h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+              <div className="flex items-center bg-white/80 border-2 border-purple-100 p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold flex items-center justify-center mr-4 shadow-lg">
+                  PP
+                </div>
+                <div>
+                  <div className="font-semibold text-lg text-gray-800">Purv Patel</div>
+                  <div className="text-sm text-purple-600 font-medium">Software Developer</div>
+                </div>
+              </div>
+
+              <div className="flex items-center bg-white/80 border-2 border-blue-100 p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold flex items-center justify-center mr-4 shadow-lg">
+                  PB
+                </div>
+                <div>
+                  <div className="font-semibold text-lg text-gray-800">Param Bhavsar</div>
+                  <div className="text-sm text-blue-600 font-medium">Software Developer</div>
+                </div>
+              </div>
+
+              <div className="flex items-center bg-white/80 border-2 border-indigo-100 p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-bold flex items-center justify-center mr-4 shadow-lg">
+                  PP
+                </div>
+                <div>
+                  <div className="font-semibold text-lg text-gray-800">Prince Patel</div>
+                  <div className="text-sm text-indigo-600 font-medium">Ai developer</div>
+                </div>
+              </div>
+
+              <div className="flex items-center bg-white/80 border-2 border-pink-100 p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-r from-pink-500 to-pink-600 text-white font-bold flex items-center justify-center mr-4 shadow-lg">
+                  PP
+                </div>
+                <div>
+                  <div className="font-semibold text-lg text-gray-800">Prit Patel</div>
+                  <div className="text-sm text-pink-600 font-medium">Software Developer</div>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-gray-600 text-center mt-8 italic">
+              Built with passion by a dedicated team of developers committed to
+              transforming career development.
+            </p>
+          </div>
+        </div>
+      </section>
+    
+    </>
+  )
+}
+
+export default AboutUs
