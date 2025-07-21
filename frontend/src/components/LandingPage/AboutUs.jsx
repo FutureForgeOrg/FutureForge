@@ -1,5 +1,12 @@
 import React from 'react'
 
+/**
+ * Renders the "About Us" section for the FutureForge platform, including a mission statement, platform description, and a showcase of the development team with styled visuals.
+ * 
+ * The section features gradient backgrounds, responsive layouts, and interactive team member cards, providing visitors with an overview of FutureForge's purpose and the people behind it.
+ * 
+ * @returns {JSX.Element} The rendered About Us section.
+ */
 function AboutUs() {
   return (
     <>

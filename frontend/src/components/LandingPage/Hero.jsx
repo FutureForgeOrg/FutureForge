@@ -5,6 +5,12 @@ import {
     ArrowRight,
 } from 'lucide-react'
 import { Link } from 'react-router-dom';
+/**
+ * Renders the landing page hero section with animated backgrounds, a headline, descriptive text, a call-to-action button, and platform statistics.
+ * 
+ * The hero section highlights the platform's AI-powered career features and provides a visually engaging introduction for users.
+ * @returns {JSX.Element} The hero section component.
+ */
 function Hero() {
     return (
         <>

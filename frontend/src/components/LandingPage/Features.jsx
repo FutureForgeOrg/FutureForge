@@ -1,5 +1,12 @@
 import React from 'react'
 import { Brain, Search, Mail } from 'lucide-react'
+/**
+ * Renders a visually styled section highlighting three key features of the career platform.
+ *
+ * Displays a heading, subtitle, and a responsive grid of feature cards, each with an icon, title, and description. Features include resume creation, smart job matching, and event notifications. The section uses gradient backgrounds, hover effects, and responsive design for enhanced user experience.
+ * 
+ * @returns {JSX.Element} The rendered features section component.
+ */
 function Features() {
     const features = [
     {

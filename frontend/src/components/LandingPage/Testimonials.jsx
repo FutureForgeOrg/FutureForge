@@ -1,5 +1,12 @@
 import React from 'react'
 import {Star} from 'lucide-react';
+/**
+ * Renders a testimonials section with styled user feedback cards.
+ *
+ * Displays a visually engaging section featuring multiple testimonials, each with a five-star rating, user feedback, avatar initials, name, and role. The layout is responsive and includes gradient backgrounds and interactive card effects.
+ * 
+ * @returns {JSX.Element} The testimonials section component.
+ */
 function Testimonials() {
 
 
