@@ -119,9 +119,11 @@ function JobSearch() {
 
   const [localLocation, setLocalLocation] = useState(location);
   const [localKeyword, setLocalKeyword] = useState(keyword);
+  const [localRole, setLocalRole] = useState(job_title)
 
   const debouncedLocation = useDebounce(localLocation, 600);
   const debouncedKeyword = useDebounce(localKeyword, 600);
+  const debouncedRole = useDebounce(localRole, 600)
 
   useEffect(() => {
     setFilter('location', debouncedLocation);
@@ -132,6 +134,11 @@ function JobSearch() {
     setFilter('keyword', debouncedKeyword);
     setPage(1);
   }, [debouncedKeyword]);
+
+  useEffect(() => {
+    setFilter('job_title', debouncedRole)
+    setPage(1);
+  }, [debouncedRole])
 
   const jobs = data?.jobs || [];
   const total = data?.total || 0;
@@ -155,10 +162,9 @@ function JobSearch() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4">
             <div className="w-full">
               <RoleSelector
-                selectedRole={job_title}
+                selectedRole={localRole}
                 onChange={(val) => {
-                  setFilter('job_title', val);
-                  setPage(1);
+                  setLocalRole(val);
                 }}
               />
             </div>
