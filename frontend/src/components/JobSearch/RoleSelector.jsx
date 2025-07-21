@@ -43,7 +43,7 @@ const RoleSelector = ({ selectedRole, onChange }) => {
             {showDropdown && (
                 <ul className="absolute z-10 w-full border rounded bg-black text-white mt-1 max-h-48 overflow-y-auto shadow">
                     {filteredRoles.length === 0 ? (
-                        <li className="p-2 text-black">No roles found</li>
+                        <li className="p-2 text-white">No roles found</li>
                     ) : (
                         filteredRoles.map((role, index) => (
                             <li
