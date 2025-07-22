@@ -35,6 +35,7 @@ import { useState, lazy, Suspense } from 'react';
 import Navbar from '../components/Navbar';
 import BackgroundWrapper from '../components/ui/BackgroundWrapper';
 import {Loader} from '../components/ui/Loader'; 
+import SkelatonModel from '../components/ui/SkelatonModel';
 
 // Lazy load components
 const WelcomeCard = lazy(() => import('../components/Dashboard/WelcomeCard'));
@@ -52,7 +53,7 @@ export default function Dashboard() {
         <div className='pt-16 p-6'>
           <div className='mt-6'>
             <div className="max-w-6xl mx-auto">
-              <Suspense fallback={<Loader />}> 
+              <Suspense fallback={<SkelatonModel/>}> 
                 <WelcomeCard userName="Prince Patel" />
                 <Cards profileCompletion={profileCompletion} />
                 <PortfolioCard />
