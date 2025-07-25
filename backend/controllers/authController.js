@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import crypto, { verify } from "crypto";
+import crypto from "crypto";
 import BaseUser from "../models/BaseUser.js";
 import EmailVerificationToken from "../models/EmailVerificationToken.js";
 import { generateToken } from "../utils/jwtToken.js";
