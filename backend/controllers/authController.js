@@ -61,9 +61,11 @@ export const handleSignup = async (req, res) => {
             userAgent: req.headers["user-agent"] || "Unknown",
         });
 
+        if (!process.env.FRONTEND_URL) {
+            throw new Error('FRONTEND_URL environment variable is not set');
+        }
         const token = crypto.randomBytes(32).toString("hex");
         const link = `${process.env.FRONTEND_URL}/verify-email/${token}`;
-
         await EmailVerificationToken.create({
             userId: newUser._id,
             token,
