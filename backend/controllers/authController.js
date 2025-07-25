@@ -61,7 +61,6 @@ export const handleSignup = async (req, res) => {
             userAgent: req.headers["user-agent"] || "Unknown",
         });
 
-        const token = crypto.randomBytes(32).toString("hex");
         if (!process.env.FRONTEND_URL) {
             throw new Error('FRONTEND_URL environment variable is not set');
         }
