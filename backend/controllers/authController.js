@@ -99,7 +99,8 @@ export const handleSignup = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: "Signup successful, verification email sent"
+            message: "Signup successful, verification email sent",
+            email: newUser.email
         });
 
     }

@@ -14,6 +14,8 @@ import Reviews from './pages/tools/Reviews';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/useAuthStore';
 import { Loader } from './components/ui/Loader';
+import VerifyEmailPage from './pages/VerifyEmail';
+import EmailVerificationHandler from './components/EmailVerificationHandler';
 
 function App() {
 
@@ -24,7 +26,7 @@ function App() {
     console.log("Checking authentication status...");
   }, [checkAuth]);
 
-  if(isCheckingAuth && !authUser) {
+  if (isCheckingAuth && !authUser) {
     return (
       <div className='flex items-center justify-center min-h-screen'>
         <Loader />
@@ -52,7 +54,9 @@ function App() {
           <Route path='/tools/portfolio' element={<Portfolio />} />
           <Route path='/tools/resume' element={<Resume />} />
           <Route path='/tools/reviews' element={<Reviews />} />
-          {/* Add more routes as needed */}
+
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
+          <Route path="/verify-email/:token" element={<EmailVerificationHandler />} />
 
         </Routes>
       </BrowserRouter>

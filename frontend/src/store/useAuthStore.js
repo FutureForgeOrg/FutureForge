@@ -8,17 +8,18 @@ export const useAuthStore = create((set) => ({
     isSiginingUp: false,
     isLoggingIn: false,
     isCheckingAuth: true,
+    tempEmail: null,
 
     checkAuth: async () => {
         try {
             const res = await axiosInstance.get('/auth/check-auth');
             set({ authUser: res.data?.user })
-        } 
+        }
         catch (error) {
             console.error("Error checking authentication:", error);
             set({ authUser: null });
 
-        } 
+        }
         finally {
             set({ isCheckingAuth: false });
         }
@@ -28,40 +29,54 @@ export const useAuthStore = create((set) => ({
         set({ isSiginingUp: true });
 
         try {
-            const res = await axiosInstance.post('/auth/signup', data);
-            set({ authUser: res.data?.user });
+            await axiosInstance.post('/auth/signup', data);
+            // set({ authUser: res.data?.user }); // as user is not verified yet, we don't set authUser here
             toast.success("Signup successful");
-            navigate('/dashboard');
-        } 
+            set({ tempEmail: data.email }); // store email temporarily for verification
+            navigate('/verify-email');
+        }
         catch (error) {
             console.error("Signup error:", error);
             toast.error("Signup failed. Please try again.");
-        } 
+        }
         finally {
             set({ isSiginingUp: false });
         }
     },
 
-    login : async (data, navigate) => {
-        set({ isLoggingIn : true });
+    verifyEmailToken: async (token, navigate) => {
+        try {
+            const res = await axiosInstance.get(`/auth/verify-email/${token}`);
+            set({ authUser: res.data?.user });
+            toast.success(res.data?.message || "Email verified!");
+            navigate('/dashboard');         // navigate to dashboard as now user is verified
 
-        try{
+        } catch (error) {
+            toast.error(error?.response?.data?.message || "Invalid/expired token");
+            navigate('/login');
+        }
+    },
+
+    login: async (data, navigate) => {
+        set({ isLoggingIn: true });
+
+        try {
             const res = await axiosInstance.post('/auth/login', data);
             set({ authUser: res.data?.user });
             toast.success("Login successful");
             navigate('/dashboard');
-        } 
+        }
         catch (error) {
             console.error("Login error:", error);
             toast.error("Login failed. Please check your credentials.");
-        } 
+        }
         finally {
             set({ isLoggingIn: false });
         }
     },
 
-    logout : async () => {
-        try{
+    logout: async () => {
+        try {
             await axiosInstance.post('/auth/logout');
             set({ authUser: null });
             toast.success("Logout successful");
