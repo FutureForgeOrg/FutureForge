@@ -29,11 +29,19 @@ const baseUserSchema = new mongoose.Schema({
         default: "user",
     },
     gender: {
-        type : String,
-        enum : ["male","female","other"],
-        default : "male",
-        required : true
+        type: String,
+        enum: ["male", "female", "other"],
+        default: "male",
+        required: true
     },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    expiresAt: {            // used only if isVerified = false
+        type: Date,
+        default: null
+    },                  
     ipAddress: {
         type: String,
         required: true,
@@ -46,6 +54,9 @@ const baseUserSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+// TTL index: Automatically delete users at `expiresAt`
+baseUserSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 const BaseUser = mongoose.model("BaseUser", baseUserSchema);
 

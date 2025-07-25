@@ -13,6 +13,8 @@ export const createInitialAdmin = async () => {
       password: hashedPassword,
       gender: "other",
       role: "admin",
+      isVerified: true,
+      expiresAt: null, // No expiration for admin
       ipAddress: "127.0.0.1",
       userAgent: "Windows",
     });

@@ -19,6 +19,7 @@ import { createInitialAdmin } from "./utils/initialAdmin.js";
 import adminRoutes from "./routes/adminRoutes.js";
 
 // import redisClient from "./utils/redis.js"
+// import sendMail from "./utils/nodemailer.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -90,6 +91,8 @@ createInitialAdmin();
 // await redisClient.flushDb(); 
 // console.log("Redis cleared"); 
 
+// test mail
+// sendMail();
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
