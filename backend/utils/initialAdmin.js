@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import BaseUser from "../models/BaseUser.js";
+import { generateToken } from "./jwtToken.js";
 
-export const createInitialAdmin = async () => {
+export const createInitialAdmin = async (res) => {
   const existingAdmin = await BaseUser.findOne({ role: "admin" });
 
   if (!existingAdmin) {
@@ -18,8 +19,11 @@ export const createInitialAdmin = async () => {
       ipAddress: "127.0.0.1",
       userAgent: "Windows",
     });
-
+    
     await adminUser.save();
+
+    generateToken(adminUser._id, adminUser.email, res)
+    
     console.log("Initial admin created successfully.");
   } else {
     console.log("Initial admin already exists.");
