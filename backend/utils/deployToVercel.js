@@ -88,14 +88,14 @@ import fetch from "node-fetch";
 export async function deployToVercel(folderPath, username) {
   const token = process.env.VERCEL_TOKEN;
   const baseName = process.env.VERCEL_PROJECT_NAME || "portfolio";
-  const projectName = `${baseName}-${username}-${Date.now()}`; // unique
+  const projectName = `${baseName}-${username}`; // unique
 
   if (!token || !projectName) {
     throw new Error("Missing Vercel config");
   }
 
   const files = await collectFiles(folderPath);
-  const alias = `ff-${username}-${Date.now()}.vercel.app`;
+  const alias = `ff-${username}.vercel.app`;
 
   const payload = {
     name: projectName,
