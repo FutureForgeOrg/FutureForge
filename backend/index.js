@@ -32,7 +32,13 @@ const MONGO_URI = process.env.MONGO_URI;
 
 // middlewares
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: [
+    process.env.FRONTEND_URL,
+    process.env.ADMIN_CLIENT_URL,
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:3000",
+  ],
   credentials: true,
 }));
 

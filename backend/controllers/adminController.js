@@ -7,19 +7,19 @@ import DeployedPortfolio from "../models/DeployedPortfolio.js";
 import dayjs from "dayjs";
 
 export const createAdmin = async (req, res) => {
-    const { username, email, password, gender, role } = req.body;
+    const { username, email, password, gender } = req.body;
 
-    if (!username || !email || !password || gender === undefined || !role) {
+    if (!username || !email || !password || gender === undefined) {
         return res.status(400).json({
             message: "All fields are required"
         });
     }
 
-    if (role !== "admin" && role !== "user") {
-        return res.status(400).json({
-            message: "Invalid role"
-        });
-    }
+    // if (role !== "admin" && role !== "user") {
+    //     return res.status(400).json({
+    //         message: "Invalid role"
+    //     });
+    // }
 
     try {
         const existingUser = await BaseUser.findOne({ email });
@@ -36,7 +36,7 @@ export const createAdmin = async (req, res) => {
             email,
             password: hashedPassword,
             gender,
-            role,
+            role : "admin", // default role for admin creation
             isVerified: true,
             ipAddress: req.ip || req.headers["x-forwarded-for"] || "Unknown",
             userAgent: req.headers["user-agent"] || "Unknown",
@@ -60,6 +60,72 @@ export const createAdmin = async (req, res) => {
     }
 }
 
+export const adminLogin = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "All fields are required"
+            });
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.status(400).json({
+                message: "Invalid email address"
+            });
+        }
+
+        const user = await BaseUser.findOne({ email });
+
+        if (user.isVerified === false) {
+            return res.status(403).json({
+                message: "Email not verified. Please check your inbox for the verification email."
+            });
+        }
+
+        // validate for admin login
+        if (user.role !== "admin") {
+            return res.status(403).json({
+                message: "Access denied. Only admins can login."
+            });
+        }
+
+        if (!user) {
+            return res.status(401).json({
+                message: "Invalid credentials"
+            });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({
+                message: "Invalid credentials"
+            });
+        }
+
+        generateToken(user._id, user.email, res);
+
+        const userToSend = user.toObject();
+        delete userToSend.password;
+
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            user: userToSend
+        });
+
+    } catch (error) {
+        console.error("Login error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
 
 export const getDashboardData = async (req, res) => {
 
@@ -135,10 +201,34 @@ export const getDashboardData = async (req, res) => {
             }
         ]);
 
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        const formattedMonthlyUserStats = monthyUserStats.map((entry) => ({
+            name: `${monthNames[entry._id.month - 1]} ${entry._id.year}`,
+            Users: entry.count,
+        }));
+
+        const formattedMonthlyJobStats = monthlyJobStats.map((entry) => ({
+            name: `${monthNames[entry._id.month - 1]} ${entry._id.year}`,
+            Jobs: entry.count,
+        }));
+
+        const mockMonthlyUsersData = [
+            { "name": "May 2025", "Users": 1 },
+            { "name": "Jun 2025", "Users": 3 },
+            { "name": "Jul 2025", "Users": 2 }
+        ]
+
+        const mockMonthlyJobsData = [
+            { "name": "May 2025", "Jobs": 120 },
+            { "name": "Jun 2025", "Jobs": 234 },
+            { "name": "Jul 2025", "Jobs": 348 }
+        ];
+
         return res.status(200).json({
-            summary : {
+            summary: {
                 totalUsers,
-                totalAdmins,
+                // totalAdmins,
                 totalJobs,
                 totalPortfolios,
                 totalDeployedPortfolios: DeployedPortfolios,
@@ -148,8 +238,10 @@ export const getDashboardData = async (req, res) => {
                 newDeployedPortfolios
             },
             charts: {
-                monthlyUserStats: monthyUserStats,
-                monthlyJobStats: monthlyJobStats,
+                monthlyUserStats: formattedMonthlyUserStats,
+                monthlyJobStats: formattedMonthlyJobStats,
+                // monthlyUserStats: mockMonthlyUsersData,
+                // monthlyJobStats: mockMonthlyJobsData,
                 genderDistribution: genderDistribution,
                 roleDistribution: roleDistribution
             }
