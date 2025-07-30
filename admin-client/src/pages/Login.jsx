@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.jpeg';
+import logo from '../assets/bg-hd.png';
 import { useNavigate } from 'react-router-dom';
-import Dashboard from './Dashboard';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
 import { Loader } from '../components/ui/Loader';
@@ -87,8 +86,7 @@ export default function Login() {
             <div className="relative z-10 text-center">
               {/* Logo */}
               <div className="mb-6 p-16">
-                <div className="w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
+                <div className="w-24 h-24 mx-auto flex items-center justify-center mb-6">
                   <img src={logo} alt="logo" />
                 </div>
                 <h1 className="text-4xl font-bold mb-2">Welcome Back to</h1>
@@ -101,8 +99,8 @@ export default function Login() {
               {/* Description */}
               <div className='p-auto w-full flex justify-center items-center'>
                 <p className="text-center text-lg opacity-90 max-w-md leading-relaxed">
-                  Welcome back to FutureForge.
-                  Sign in to access your personalized gateway to innovation.
+                  Welcome back to FutureForge. <br/>
+                  Sign in for Admin access.
                 </p>
               </div>
 
@@ -118,7 +116,7 @@ export default function Login() {
           <div className="lg:w-1/2 md:p-12 p-8 bg-gray-50 flex items-center">
             <div className="max-w-md mx-auto w-full">
               <h3 className="text-3xl font-bold text-gray-800 mb-2 text-center">Sign In</h3>
-              <p className="text-gray-600 text-center mb-8">Access your account</p>
+              <p className="font-semibold text-green-600 text-center mb-8">Admin</p>
 
               <div className="space-y-6">
 

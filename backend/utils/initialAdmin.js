@@ -22,8 +22,8 @@ export const createInitialAdmin = async (res) => {
     
     await adminUser.save();
 
-    generateToken(adminUser._id, adminUser.email, res)
-    
+    // generateToken(adminUser._id, adminUser.email, res)
+
     console.log("Initial admin created successfully.");
   } else {
     console.log("Initial admin already exists.");

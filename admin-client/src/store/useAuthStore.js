@@ -8,7 +8,7 @@ export const useAuthStore = create((set) => ({
     isSiginingUp: false,
     isLoggingIn: false,
     isCheckingAuth: true,
-    tempEmail: null,
+    // tempEmail: null,
 
     checkAuth: async () => {
         try {
@@ -29,11 +29,13 @@ export const useAuthStore = create((set) => ({
         set({ isSiginingUp: true });
 
         try {
-            await axiosInstance.post('/auth/signup', data);
-            // set({ authUser: res.data?.user }); // as user is not verified yet, we don't set authUser here
-            toast.success("Signup successful");
-            set({ tempEmail: data.email }); // store email temporarily for verification
-            navigate('/verify-email');
+            await axiosInstance.post('/admin/create-admin', data);
+            // set({ authUser: res.data?.user });
+            toast.success("Signup successful : admin created successfully");
+            // set({ tempEmail: data.email }); // store email temporarily for verification
+            // navigate('/verify-email');
+            navigate('/login'); // redirect to dashboard after admin signup
+            // as no jwt is generated during admin signup (coz created via other admin), we don't set authUser here
         }
         catch (error) {
             console.error("Signup error:", error);
@@ -44,45 +46,22 @@ export const useAuthStore = create((set) => ({
         }
     },
 
-    verifyEmailToken: async (token, navigate) => {
-        try {
-            const res = await axiosInstance.get(`/auth/verify-email/${token}`);
-            set({ authUser: res.data?.user });
-            toast.success(res.data?.message || "Email verified!");
-
-            if (res.data?.user?.role === "admin") {
-                const adminRedirectUrl = import.meta.env.MODE === 'production'
-                    ? 'https://futureforge.vercel.app/dashboard'
-                    : 'http://localhost:5174/dashboard';
-                window.location.href = adminRedirectUrl; // redirect to admin dashboard
-            }
-
-            else {
-                navigate('/dashboard');         // navigate to dashboard as now user is verified
-            }
-
-        } catch (error) {
-            toast.error(error?.response?.data?.message || "Invalid/expired token");
-            navigate('/login');
-        }
-    },
-
     login: async (data, navigate) => {
         set({ isLoggingIn: true });
 
         try {
-            const res = await axiosInstance.post('/auth/login', data);
+            const res = await axiosInstance.post('/admin/login', data);
             set({ authUser: res.data?.user });
             toast.success("Login successful");
 
-            if (res.data?.user?.role === "admin") {
+            if (res.data?.user?.role === "user") {
                 const adminRedirectUrl = import.meta.env.MODE === 'production'
                     ? 'https://futureforge.vercel.app/dashboard'
-                    : 'http://localhost:5174/dashboard';
+                    : 'http://localhost:5173/dashboard';
                 window.location.href = adminRedirectUrl; // redirect to admin dashboard
             }
             else {
-                navigate('/dashboard'); // navigate to user dashboard
+                navigate('/dashboard'); 
             }
         }
         catch (error) {
