@@ -2,12 +2,23 @@ import express from "express";
 
 import { protectRoute, checkRole } from "../middleware/authmiddleware.js";
 
-import { createAdmin, getDashboardData, adminLogin } from "../controllers/adminController.js";
+import { createAdmin, getDashboardData, adminLogin, getAllUsers } from "../controllers/adminController.js";
 
 const router = express.Router();
 
 router.post("/create-admin", protectRoute, checkRole("admin"), createAdmin);
 router.post("/login", adminLogin)
 router.get("/stats", protectRoute, checkRole("admin"), getDashboardData);
+
+router.get("/all-users", protectRoute, checkRole("admin"), getAllUsers);
+// router.get("/all-jobs", protectRoute, checkRole("admin"), getAllJobs); this will be same as user jobs
+// router.get("/all-portfolios", protectRoute, checkRole("admin"), getAllPortfolios);
+// router.post("/logout", protectRoute, checkRole("admin"), logoutAdmin);
+
+// router.put("/delete-user/:id", protectRoute, checkRole("admin"), deleteUser);
+// router.put("/delete-job/:id", protectRoute, checkRole("admin"), deleteJob);
+// router.put("/delete-portfolio/:id", protectRoute, checkRole("admin"), deletePortfolio);
+// router.put("/update-user/:id", protectRoute, checkRole("admin"), updateUser);
+// router.put("/update-job/:id", protectRoute, checkRole("admin"), updateJob);
 
 export default router;

@@ -255,4 +255,39 @@ export const getDashboardData = async (req, res) => {
     }
 }
 
+export const getAllUsers = async (req, res) => {
+    try{
+        const { page = 1, limit = 10, email} = req.query;
+        const skip = (page - 1) * limit;
 
+        const query = { role: "user" };
+
+        // If email is provided, filter by email
+        if (email) {
+            query.email = { $regex: email, $options: 'i' }; // case-insensitive search
+        }
+
+        const users = await BaseUser.find(query)
+            .skip(skip)
+            .limit(parseInt(limit))
+            .select("-password -__v") // Exclude password and __v field
+            .sort({ createdAt: -1 }); // Sort by createdAt in descending order
+
+        const totalUsers = await BaseUser.countDocuments(query);
+        const totalPages = Math.ceil(totalUsers / limit);
+
+        return res.status(200).json({
+            users,
+            totalUsers,
+            totalPages,
+            currentPage: parseInt(page)
+        });
+        
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
