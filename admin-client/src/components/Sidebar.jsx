@@ -1,7 +1,9 @@
 import { useAuthStore } from "../store/useAuthStore";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
+  
   const { authUser, logout } = useAuthStore();
+
 
   return (
     <>
@@ -69,7 +71,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           </div>
         </div>
       </div>
-
     </>
   );
 };
