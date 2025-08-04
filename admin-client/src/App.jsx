@@ -14,6 +14,7 @@ import Dashboard from './pages/Dashboard';
 
 import { useAuthStore } from './store/useAuthStore';
 import { Loader } from './components/ui/Loader';
+import ManageUsers from './pages/ManageUsers';
 
 const App = () => {
 
@@ -46,7 +47,7 @@ const App = () => {
             path="/signup"
             // element={authUser ? <Navigate to="/dashboard" /> : <Signup />}
             element={<Signup />} // as admin who is already logged in can create new admin accounts 
-            // (note: jwt will only be sent after login)
+          // (note: jwt will only be sent after login)
           />
 
           {/* Protected Admin Dashboard Route */}
@@ -55,6 +56,17 @@ const App = () => {
             element={
               authUser?.role === 'admin' ? (
                 <Dashboard />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+
+          <Route
+            path="/users"
+            element={
+              authUser?.role === 'admin' ? (
+                <ManageUsers />
               ) : (
                 <Navigate to="/login" />
               )
