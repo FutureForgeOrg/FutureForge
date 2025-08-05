@@ -23,7 +23,7 @@ function Resume() {
   return (
     <>
       <div p-y space-y-8>
-        <h1 className="text-3xl font-bold text-center">Resume Builder</h1>
+        {/* <h1 className="text-3xl font-bold text-center">Resume Builder</h1> */}
         <ResumeForm formData={formData} setFormData={setFormData} />
         <TemplateSelector
           selected={selectedTemplate}
