@@ -99,6 +99,7 @@ export default function ResumeForm({ formData, setFormData }) {
                     rows={3}
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-300 resize-none"
                   />
+                  
                 </div>
 
                 <div className="relative">
