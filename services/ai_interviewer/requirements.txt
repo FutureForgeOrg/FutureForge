@@ -1,6 +1,25 @@
+# Core Flask Framework
 Flask
 Flask-CORS
+
+# Environment Management
 python-dotenv
-pymongo
-groq
+
+# HTTP Requests for Groq API
 requests
+
+# Optional: For better production deployment
+gunicorn
+
+# Optional: For request validation
+marshmallow
+
+# Optional: For better error handling
+Werkzeug
+
+# Security
+cryptography
+
+# LangChain Integration
+langchain
+langchain-groq

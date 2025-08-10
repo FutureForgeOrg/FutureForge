@@ -1,26 +1,37 @@
 import os
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
 class Config:
-    # flask Configuration
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
+    # Flask configuration
+    SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
+    DEBUG = os.getenv('FLASK_DEBUG', 'False').lower() in ['true', '1', 'yes']
     
-    # API Keys
-    GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
+    # Groq API configuration
+    GROQ_API_KEY = os.getenv('GROQ_API_KEY')
     
-    # MongoDB Configuration
-    MONGODB_URI = os.environ.get('MONGODB_URI')
+    # CORS configuration
+    CORS_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:3000').split(',')
     
-    # application Settings
-    DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+    # Logging configuration
+    LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
     
-    @staticmethod
-    def validate_config():
-        """Validate required configuration"""
+    # API configuration
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max request size
+    
+    @classmethod
+    def validate_config(cls):
+        """Validate that required configuration is present"""
         required_vars = ['GROQ_API_KEY']
+        missing_vars = []
         
         for var in required_vars:
-            if not getattr(Config, var):
-                raise ValueError(f"Missing required environment variable: {var}")
+            if not getattr(cls, var):
+                missing_vars.append(var)
+        
+        if missing_vars:
+            raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
+        
+        return True
