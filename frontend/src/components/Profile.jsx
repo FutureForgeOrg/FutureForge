@@ -6,8 +6,7 @@ import {
   Camera, Check, AlertCircle, Globe, Twitter, Instagram,
   Calendar, Award, Star, ExternalLink
 } from 'lucide-react';
-
-
+import Navbar from './Navbar';
 
 
 // Enhanced Input Field Component
@@ -303,7 +302,7 @@ const Profile = () => {
 
   return (
     <BackgroundWrapper>
-
+ <Navbar />
 
       {/* Toast Notification */}
       {showToast && (
@@ -314,7 +313,7 @@ const Profile = () => {
         />
       )}
 
-      <div className="p-6 max-w-6xl mx-auto py-8">
+      <div className="p-6 max-w-6xl mx-auto py-20">
         {/* Hero Section */}
         <div className="relative mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl shadow-2xl overflow-hidden">
           <div className="absolute inset-0 bg-black/20"></div>
