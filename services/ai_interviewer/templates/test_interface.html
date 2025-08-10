@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interviewer Test Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        select {
+            background: white;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .question-section, .answer-section, .evaluation-section {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .question-section {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        .answer-section {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+        }
+        .evaluation-section {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+        .hidden {
+            display: none;
+        }
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4caf50;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .feedback {
+            white-space: pre-line;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        }
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            color: #155724;
+            background: #d4edda;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+        .audio-controls {
+            margin: 10px 0;
+        }
+        .audio-btn {
+            width: auto;
+            padding: 8px 15px;
+            margin: 0 5px;
+            background: #17a2b8;
+        }
+        .audio-btn:hover {
+            background: #117a8b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Interviewer Test Interface</h1>
+        
+        <!-- Configuration Section -->
+        <div id="config-section">
+            <div class="form-group">
+                <label for="level">Select Level:</label>
+                <select id="level" required>
+                    <option value="">Choose level...</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="interview-type">Interview Type:</label>
+                <select id="interview-type" required>
+                    <option value="">Choose type...</option>
+                    <option value="role">By Role</option>
+                    <option value="topic">By Topic</option>
+                </select>
+            </div>
+
+            <div class="form-group hidden" id="role-group">
+                <label for="role">Select Role:</label>
+                <select id="role">
+                    <option value="">Choose role...</option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="Full Stack Developer">Full Stack Developer</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                    <option value="DevOps Engineer">DevOps Engineer</option>
+                    <option value="Mobile Developer">Mobile Developer</option>
+                    <option value="iOS Developer">iOS Developer</option>
+                    <option value="Android Developer">Android Developer</option>
+                    <option value="QA Engineer">QA Engineer</option>
+                    <option value="System Administrator">System Administrator</option>
+                    <option value="Cloud Engineer">Cloud Engineer</option>
+                    <option value="Security Engineer">Security Engineer</option>
+                    <option value="Database Administrator">Database Administrator</option>
+                    <option value="Product Manager">Product Manager</option>
+                </select>
+            </div>
+
+            <div class="form-group hidden" id="topic-group">
+                <label for="topic">Select Topic:</label>
+                <select id="topic">
+                    <option value="">Choose topic...</option>
+                    <option value="Data Structures">Data Structures</option>
+                    <option value="Algorithms">Algorithms</option>
+                    <option value="Object-Oriented Programming">Object-Oriented Programming</option>
+                    <option value="System Design">System Design</option>
+                    <option value="Database Design">Database Design</option>
+                    <option value="API Development">API Development</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="Python">Python</option>
+                    <option value="Java">Java</option>
+                    <option value="React">React</option>
+                    <option value="Node.js">Node.js</option>
+                    <option value="Machine Learning">Machine Learning</option>
+                    <option value="Data Analysis">Data Analysis</option>
+                    <option value="SQL">SQL</option>
+                    <option value="NoSQL">NoSQL</option>
+                    <option value="Cloud Computing">Cloud Computing</option>
+                    <option value="Docker">Docker</option>
+                    <option value="Kubernetes">Kubernetes</option>
+                    <option value="Security">Security</option>
+                    <option value="Testing">Testing</option>
+                    <option value="Performance Optimization">Performance Optimization</option>
+                    <option value="Operating Systems">Operating Systems</option>
+                    <option value="Computer Networks">Computer Networks</option>
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
+                </select>
+            </div>
+
+            <button id="generate-question-btn" onclick="generateQuestion()">Generate Question</button>
+        </div>
+
+        <!-- Question Section -->
+        <div id="question-section" class="question-section hidden">
+            <h3>Interview Question:</h3>
+            <p id="question-text"></p>
+            <button onclick="showAnswerSection()">Start Answering</button>
+        </div>
+
+        <!-- Answer Section -->
+        <div id="answer-section" class="answer-section hidden">
+            <h3>Your Answer:</h3>
+            
+            <div class="audio-controls">
+                <button id="start-recording" class="audio-btn" onclick="startRecording()">🎤 Start Recording</button>
+                <button id="stop-recording" class="audio-btn" onclick="stopRecording()" disabled>⏹️ Stop Recording</button>
+                <span id="recording-status" class="loading hidden">Recording...</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="answer-text">Type or speak your answer:</label>
+                <textarea id="answer-text" placeholder="Type your answer here or use voice recording above..."></textarea>
+            </div>
+            
+            <button id="submit-answer-btn" onclick="submitAnswer()">Submit Answer</button>
+        </div>
+
+        <!-- Evaluation Section -->
+        <div id="evaluation-section" class="evaluation-section hidden">
+            <h3>Evaluation Results:</h3>
+            <div class="score" id="score-display"></div>
+            <div class="feedback" id="feedback-display"></div>
+            
+            <div style="margin-top: 20px;">
+                <button onclick="generateNewQuestion()">Next Question (Same Settings)</button>
+                <button onclick="resetInterview()">Change Settings</button>
+            </div>
+        </div>
+
+        <!-- Loading and Error Messages -->
+        <div id="loading-message" class="loading hidden">Processing...</div>
+        <div id="error-message" class="error hidden"></div>
+        <div id="success-message" class="success hidden"></div>
+    </div>
+
+    <script>
+        let currentQuestionData = null;
+        let recognition = null;
+        let isRecording = false;
+
+        // Initialize speech recognition if available
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = function(event) {
+                let finalTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    }
+                }
+                if (finalTranscript) {
+                    const currentText = document.getElementById('answer-text').value;
+                    document.getElementById('answer-text').value = currentText + ' ' + finalTranscript;
+                }
+            };
+
+            recognition.onerror = function(event) {
+                showError('Speech recognition error: ' + event.error);
+                stopRecording();
+            };
+
+            recognition.onend = function() {
+                if (isRecording) {
+                    stopRecording();
+                }
+            };
+        }
+
+        // Handle interview type change
+        document.getElementById('interview-type').addEventListener('change', function() {
+            const type = this.value;
+            const roleGroup = document.getElementById('role-group');
+            const topicGroup = document.getElementById('topic-group');
+            
+            if (type === 'role') {
+                roleGroup.classList.remove('hidden');
+                topicGroup.classList.add('hidden');
+                document.getElementById('topic').value = '';
+            } else if (type === 'topic') {
+                topicGroup.classList.remove('hidden');
+                roleGroup.classList.add('hidden');
+                document.getElementById('role').value = '';
+            } else {
+                roleGroup.classList.add('hidden');
+                topicGroup.classList.add('hidden');
+            }
+        });
+
+        async function generateQuestion() {
+            const level = document.getElementById('level').value;
+            const interviewType = document.getElementById('interview-type').value;
+            const role = document.getElementById('role').value;
+            const topic = document.getElementById('topic').value;
+
+            if (!level || !interviewType) {
+                showError('Please select level and interview type');
+                return;
+            }
+
+            if (interviewType === 'role' && !role) {
+                showError('Please select a role');
+                return;
+            }
+
+            if (interviewType === 'topic' && !topic) {
+                showError('Please select a topic');
+                return;
+            }
+
+            const requestData = { level };
+            if (interviewType === 'role') {
+                requestData.role = role;
+            } else {
+                requestData.topic = topic;
+            }
+
+            try {
+                showLoading(true);
+                hideError();
+                
+                const response = await fetch('/api/generate-question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    currentQuestionData = data;
+                    document.getElementById('question-text').textContent = data.question;
+                    document.getElementById('question-section').classList.remove('hidden');
+                    document.getElementById('config-section').style.opacity = '0.6';
+                    showSuccess('Question generated successfully!');
+                } else {
+                    showError(data.error || 'Failed to generate question');
+                }
+            } catch (error) {
+                showError('Network error: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function showAnswerSection() {
+            document.getElementById('answer-section').classList.remove('hidden');
+            document.getElementById('answer-text').focus();
+        }
+
+        function startRecording() {
+            if (!recognition) {
+                showError('Speech recognition not supported in this browser');
+                return;
+            }
+
+            try {
+                isRecording = true;
+                recognition.start();
+                document.getElementById('start-recording').disabled = true;
+                document.getElementById('stop-recording').disabled = false;
+                document.getElementById('recording-status').classList.remove('hidden');
+            } catch (error) {
+                showError('Could not start recording: ' + error.message);
+                isRecording = false;
+            }
+        }
+
+        function stopRecording() {
+            if (recognition && isRecording) {
+                isRecording = false;
+                recognition.stop();
+                document.getElementById('start-recording').disabled = false;
+                document.getElementById('stop-recording').disabled = true;
+                document.getElementById('recording-status').classList.add('hidden');
+            }
+        }
+
+        async function submitAnswer() {
+            const answer = document.getElementById('answer-text').value.trim();
+            
+            if (!answer) {
+                showError('Please provide an answer');
+                return;
+            }
+
+            if (!currentQuestionData) {
+                showError('No question data available');
+                return;
+            }
+
+            const requestData = {
+                question: currentQuestionData.question,
+                answer: answer,
+                level: currentQuestionData.level
+            };
+
+            if (currentQuestionData.role) {
+                requestData.role = currentQuestionData.role;
+            } else if (currentQuestionData.topic) {
+                requestData.topic = currentQuestionData.topic;
+            }
+
+            try {
+                showLoading(true);
+                hideError();
+
+                const response = await fetch('/api/evaluate-answer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('score-display').textContent = `Score: ${data.score}/${data.max_score}`;
+                    document.getElementById('feedback-display').textContent = data.feedback;
+                    document.getElementById('evaluation-section').classList.remove('hidden');
+                    document.getElementById('answer-section').style.opacity = '0.6';
+                    showSuccess('Answer evaluated successfully!');
+                } else {
+                    showError(data.error || 'Failed to evaluate answer');
+                }
+            } catch (error) {
+                showError('Network error: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function generateNewQuestion() {
+            // Reset answer section
+            document.getElementById('answer-text').value = '';
+            document.getElementById('answer-section').classList.add('hidden');
+            document.getElementById('answer-section').style.opacity = '1';
+            document.getElementById('evaluation-section').classList.add('hidden');
+            
+            // Generate new question with same settings
+            generateQuestion();
+        }
+
+        function resetInterview() {
+            // Reset all sections
+            document.getElementById('config-section').style.opacity = '1';
+            document.getElementById('question-section').classList.add('hidden');
+            document.getElementById('answer-section').classList.add('hidden');
+            document.getElementById('evaluation-section').classList.add('hidden');
+            
+            // Clear form data
+            document.getElementById('level').value = '';
+            document.getElementById('interview-type').value = '';
+            document.getElementById('role').value = '';
+            document.getElementById('topic').value = '';
+            document.getElementById('answer-text').value = '';
+            
+            // Hide role/topic groups
+            document.getElementById('role-group').classList.add('hidden');
+            document.getElementById('topic-group').classList.add('hidden');
+            
+            currentQuestionData = null;
+            hideError();
+            hideSuccess();
+        }
+
+        function showLoading(show) {
+            const loadingEl = document.getElementById('loading-message');
+            if (show) {
+                loadingEl.classList.remove('hidden');
+            } else {
+                loadingEl.classList.add('hidden');
+            }
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('error-message');
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+            setTimeout(() => errorEl.classList.add('hidden'), 5000);
+        }
+
+        function hideError() {
+            document.getElementById('error-message').classList.add('hidden');
+        }
+
+        function showSuccess(message) {
+            const successEl = document.getElementById('success-message');
+            successEl.textContent = message;
+            successEl.classList.remove('hidden');
+            setTimeout(() => successEl.classList.add('hidden'), 3000);
+        }
+
+        function hideSuccess() {
+            document.getElementById('success-message').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
