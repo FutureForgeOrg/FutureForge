@@ -112,6 +112,7 @@ import Pagination from '../components/JobSearch/Pagination';
 import useDebounce from '../hooks/useDebounce.js';
 import { useState, useEffect } from 'react';
 import BackgroundWrapper from '../components/ui/BackgroundWrapper.jsx';
+import KeyWordSelector from '../components/JobSearch/KeyWordSelctor.jsx';
 
 function JobSearch() {
   const { job_title, location, keyword, page, setFilter, setPage } = useJobFilters();
@@ -177,13 +178,14 @@ function JobSearch() {
               className="p-2 rounded w-full text-white border bg-black"
             />
 
-            <input
-              type="text"
-              placeholder="Keyword (e.g. remote, React)"
-              value={localKeyword}
-              onChange={(e) => setLocalKeyword(e.target.value)}
-              className="p-2 rounded w-full text-white border bg-black"
-            />
+            <div className="w-full">
+              <KeyWordSelector
+                selectedRole={localKeyword}
+                onChange={(val) => {
+                  setLocalKeyword(val);
+                }}
+              />
+            </div>
           </div>
 
           {/* Jobs */}
