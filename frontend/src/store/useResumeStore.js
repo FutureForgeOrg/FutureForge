@@ -8,14 +8,24 @@ const useResumeStore = create((set) => ({
     phone: "",
     address: "",
     skills: "",
-    education: [""],
+    education: [
+      { degree: "", institution: "", year: "", percentage: "" },
+    ],
     experience: "",
-    projects: [""],
-    certificates: [""],
-    links: "",
+    projects: [
+      { name: "", description: "", link: "" }
+    ],
+    certificates: [
+      { name: "", issuer: "" }
+    ],
+   links: [
+  { label: "", url: "" },
+ 
+]
+
   },
   selectedTemplate: 1,
-  
+
   // Actions
   setFormData: (data) => set({ formData: data }),
   updateFormField: (field, value) =>
@@ -23,7 +33,7 @@ const useResumeStore = create((set) => ({
       formData: { ...state.formData, [field]: value }
     })),
   setSelectedTemplate: (template) => set({ selectedTemplate: template }),
-  
+
   resetForm: () =>
     set({
       formData: {
@@ -32,11 +42,20 @@ const useResumeStore = create((set) => ({
         phone: "",
         address: "",
         skills: "",
-        education: [""],
+        education: [
+      { degree: "", institution: "", year: "", percentage: "" },
+    ],
         experience: "",
-        projects: [""],
-        certificates: [""],
-        links: "",
+        projects: [
+          { name: "", description: "", link: "" }
+        ],
+        certificates: [
+      { name: "", issuer: "" }
+    ],
+        links: [
+  { label: "", url: "" },
+ ]
+
       },
       selectedTemplate: 1
     }),

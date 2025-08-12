@@ -1,7 +1,7 @@
 export default function TemplateSelector({ selected, setSelected }) {
   return (
     <div className="flex justify-center gap-4">
-      {[1, 2 ,3 ,4].map((template) => (
+      {[1, 2 ,3 ,4 ,5].map((template) => (
         <button
           key={template}
           onClick={() => setSelected(template)}
