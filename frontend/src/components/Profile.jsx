@@ -4,7 +4,7 @@ import {
   Mail, MapPin, Phone, Edit2, Github, Linkedin, Upload,
   Save, X, User, Briefcase, FileText, Link, Eye, EyeOff,
   Camera, Check, AlertCircle, Globe, Twitter, Instagram,
-  Calendar, Award, Star, ExternalLink
+  Calendar, Award, Star, ExternalLink, Trash2, FolderOpen, Plus
 } from 'lucide-react';
 import Navbar from './Navbar';
 
@@ -136,12 +136,11 @@ const Profile = () => {
     bio: "Passionate developer with 5+ years of experience building scalable web applications. I specialize in React, Node.js, and cloud technologies, with a keen interest in creating user-centric solutions that solve real-world problems.",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     company: "",
-    website: "https://purvpatel.dev",
-    joinDate: "2020-03-15",
+
     skills: ["React", "Node.js", "Python", "TypeScript", "AWS", "MongoDB", "Docker", "GraphQL"],
     experience: "5+ years",
     projects: 47,
-    certifications: ["AWS Certified", "React Developer", "Scrum Master"],
+
     links: {
       github: "https://github.com/purvpatel",
       linkedin: "https://linkedin.com/in/purvpatel",
@@ -157,9 +156,7 @@ const Profile = () => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
   const [skillsInput, setSkillsInput] = useState(profileData.skills.join(', '));
-  const [certificationsInput, setCertificationsInput] = useState(
-    profileData.certifications.join(', ')
-  );
+
   // Validation functions
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePhone = (phone) => /^\+?[\d\s\-\(\)]{10,}$/.test(phone);
@@ -263,16 +260,6 @@ const Profile = () => {
     const skillsArray = value.split(',').map(skill => skill.trim()).filter(skill => skill);
     setEditData(prev => ({ ...prev, skills: skillsArray }));
   };
-  const handleCertificationsChange = (value) => {
-    setCertificationsInput(value);
-
-    const certsArray = value
-      .split(',')
-      .map(cert => cert.trim())
-      .filter(cert => cert);
-
-    setEditData(prev => ({ ...prev, certifications: certsArray }));
-  };
 
   const clearError = (field) => {
     if (errors[field]) {
@@ -300,9 +287,10 @@ const Profile = () => {
     return colors[platform] || 'hover:bg-gray-200 text-gray-700';
   };
 
+
   return (
     <BackgroundWrapper>
- <Navbar />
+      <Navbar />
 
       {/* Toast Notification */}
       {showToast && (
@@ -499,7 +487,7 @@ const Profile = () => {
                   placeholder="Your current company"
                 />
 
-                <InputField
+                {/* <InputField
                   label="Website"
                   icon={Globe}
                   type="url"
@@ -511,16 +499,16 @@ const Profile = () => {
                   disabled={!isEditing}
                   error={errors.website}
                   placeholder="https://yourwebsite.com"
-                />
+                /> */}
 
-                <InputField
+                {/* <InputField
                   label="Join Date"
                   icon={Calendar}
                   type="date"
                   value={isEditing ? editData.joinDate : profileData.joinDate}
                   onChange={(value) => setEditData(prev => ({ ...prev, joinDate: value }))}
                   disabled={!isEditing}
-                />
+                /> */}
               </div>
             </div>
 
@@ -586,40 +574,189 @@ const Profile = () => {
             </div>
 
 
-            {/* Certifications */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Award className="w-5 h-5 text-blue-600" />
-                Certifications
-              </h3>
+            {/* Projects */}
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              {/* Header */}
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
+                  <FolderOpen className="w-5 h-5 text-blue-600" />
+                  Projects
+                </h3>
+                {isEditing && (
+                  <button
+                    onClick={() =>
+                      setEditData(prev => ({
+                        ...prev,
+                        projectList: [
+                          ...(prev.projectList || []),
+                          { id: Date.now(), name: "", description: "", link: "" }
+                        ]
+                      }))
+                    }
+                    className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all text-sm"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add Project
+                  </button>
+                )}
+              </div>
 
+              {/* Edit Mode */}
               {isEditing ? (
-                <div>
-                  <textarea
-                    value={certificationsInput}
-                    onChange={(e) => handleCertificationsChange(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                    rows={3}
-                    placeholder="AWS Certified, React Developer..."
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    Separate certifications with commas
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {profileData.certifications.map((cert, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 p-2 bg-green-50 rounded-lg"
-                    >
-                      <Award className="w-4 h-4 text-green-600" />
-                      <span className="text-green-800 text-sm font-medium">{cert}</span>
+                <div className="space-y-6">
+                  {(editData.projectList || []).map((project, index) => (
+                    <div key={project.id} className="border border-gray-200 rounded-lg p-6 relative">
+                      {/* Remove Button */}
+                      <button
+                        onClick={() =>
+                          setEditData(prev => ({
+                            ...prev,
+                            projectList: prev.projectList.filter((_, i) => i !== index)
+                          }))
+                        }
+                        className="absolute top-4 right-4 text-red-500 hover:text-red-700 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+
+                      <div className="pr-8 space-y-4">
+                        {/* Project Name */}
+                        <div>
+                          <label className="block text-sm font-medium mb-2">
+                            Project Name <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={project.name}
+                            onChange={(e) =>
+                              setEditData(prev => ({
+                                ...prev,
+                                projectList: prev.projectList.map((p, i) =>
+                                  i === index ? { ...p, name: e.target.value } : p
+                                )
+                              }))
+                            }
+                            className={`w-full border rounded-lg p-3 transition-all ${errors[`project_${index}_name`]
+                              ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                              : "border-gray-300 focus:border-blue-500 focus:ring-blue-500/20"
+                              } focus:outline-none focus:ring-2`}
+                            placeholder="Enter project name"
+                          />
+                          {errors[`project_${index}_name`] && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors[`project_${index}_name`]}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Description */}
+                        <div>
+                          <label className="block text-sm font-medium mb-2">
+                            Description <span className="text-red-500">*</span>
+                          </label>
+                          <textarea
+                            value={project.description}
+                            onChange={(e) =>
+                              setEditData(prev => ({
+                                ...prev,
+                                projectList: prev.projectList.map((p, i) =>
+                                  i === index ? { ...p, description: e.target.value } : p
+                                )
+                              }))
+                            }
+                            className={`w-full border rounded-lg p-3 transition-all resize-none ${errors[`project_${index}_description`]
+                              ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                              : "border-gray-300 focus:border-blue-500 focus:ring-blue-500/20"
+                              } focus:outline-none focus:ring-2`}
+                            rows={3}
+                            placeholder="Describe your project..."
+                          />
+                          {errors[`project_${index}_description`] && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors[`project_${index}_description`]}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Project Link */}
+                        <div>
+                          <label className="block text-sm font-medium mb-2">
+                            Project Link
+                          </label>
+                          <input
+                            type="url"
+                            value={project.link}
+                            onChange={(e) =>
+                              setEditData(prev => ({
+                                ...prev,
+                                projectList: prev.projectList.map((p, i) =>
+                                  i === index ? { ...p, link: e.target.value } : p
+                                )
+                              }))
+                            }
+                            className={`w-full border rounded-lg p-3 transition-all ${errors[`project_${index}_link`]
+                              ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                              : "border-gray-300 focus:border-blue-500 focus:ring-blue-500/20"
+                              } focus:outline-none focus:ring-2`}
+                            placeholder="Enter deployed link or repository URL"
+                          />
+                          {errors[`project_${index}_link`] && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors[`project_${index}_link`]}
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   ))}
+
+                  {(!editData.projectList || editData.projectList.length === 0) && (
+                    <div className="text-center py-8 text-gray-500">
+                      <FolderOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p>No projects added yet. Click "Add Project" to get started.</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* View Mode */
+                <div className="space-y-6">
+                  {(profileData.projectList || []).map((project) => (
+                    <div key={project.id} className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                      <div className="flex justify-between items-start mb-3">
+                        <h4 className="text-lg font-semibold text-gray-900">{project.name}</h4>
+                        {project.link && (
+                          <a
+                            href={
+                              project.link.startsWith("http")
+                                ? project.link
+                                : `https://${project.link}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </a>
+                        )}
+
+                      </div>
+                      {/* FIX: Preserve line breaks */}
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line break-words">
+                        {project.description}
+                      </p>
+                    </div>
+                  ))}
+
+                  {(!profileData.projectList || profileData.projectList.length === 0) && (
+                    <div className="text-center py-8 text-gray-500">
+                      <FolderOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p>No projects to display.</p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
+
 
 
             {/* Social Links */}
