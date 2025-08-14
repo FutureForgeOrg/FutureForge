@@ -7,10 +7,10 @@ import Terms from './components/Terms';
 import Dashboard from './pages/Dashboard';
 import JobSearch from './pages/JobSearch';
 import Bookmark from './pages/Bookmark';
-import Profile from './components/Profile';
+import Profile from './pages/Profile';
 import Portfolio from './pages/tools/Portfolio';
 import Resume from './pages/tools/Resume';
-import Reviews from './pages/tools/Reviews';
+import Interview from './pages/tools/Interview';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/useAuthStore';
 import { Loader } from './components/ui/Loader';
@@ -53,7 +53,7 @@ function App() {
           {/* Define routes for tools */}
           <Route path='/tools/portfolio' element={<Portfolio />} />
           <Route path='/tools/resume' element={<Resume />} />
-          <Route path='/tools/reviews' element={<Reviews />} />
+          <Route path='/tools/Interview' element={<Interview />} />
           <Route path='/PreviewPage' element={<PreviewPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/verify-email/:token" element={<EmailVerificationHandler />} />

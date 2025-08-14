@@ -1,12 +1,12 @@
 import React, { useState, useRef, useCallback } from 'react';
-import BackgroundWrapper from './ui/BackgroundWrapper';
+import BackgroundWrapper from '../components/ui/BackgroundWrapper';
 import {
   Mail, MapPin, Phone, Edit2, Github, Linkedin, Upload,
   Save, X, User, Briefcase, FileText, Link, Eye, EyeOff,
   Camera, Check, AlertCircle, Globe, Twitter, Instagram,
   Calendar, Award, Star, ExternalLink, Trash2, FolderOpen, Plus
 } from 'lucide-react';
-import Navbar from './Navbar';
+import Navbar from '../components/Navbar';
 
 
 // Enhanced Input Field Component

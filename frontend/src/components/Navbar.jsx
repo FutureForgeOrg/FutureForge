@@ -98,7 +98,7 @@ const Navbar = () => {
                 transition-all duration-300 origin-top
                 ${showToolsDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}
               `}>
-                {['Resume', 'Portfolio', 'Reviews'].map(tool => (
+                {['Resume', 'Portfolio', 'Interview'].map(tool => (
                   <button
                     key={tool}
                     onClick={() => handleToolsClick(tool)}
@@ -175,7 +175,7 @@ const Navbar = () => {
 
             {showToolsDropdown && (
               <div className="pl-4 pt-1 space-y-1">
-                {['Resume', 'Portfolio', 'Reviews'].map(tool => (
+                {['Resume', 'Portfolio', 'Interview'].map(tool => (
                   <button
                     key={tool}
                     onClick={() => { handleLinkClick(); navigate(`/tools/${tool}`); }}

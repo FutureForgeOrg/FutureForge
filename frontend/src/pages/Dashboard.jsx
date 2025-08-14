@@ -36,7 +36,7 @@ import Navbar from '../components/Navbar';
 import BackgroundWrapper from '../components/ui/BackgroundWrapper';
 import {Loader} from '../components/ui/Loader'; 
 import SkelatonModel from '../components/ui/SkelatonModel';
-
+import AiInterviewCard from '../components/Dashboard/AiInterviewCard.jsx';
 // Lazy load components
 const WelcomeCard = lazy(() => import('../components/Dashboard/WelcomeCard'));
 const Cards = lazy(() => import('../components/Dashboard/Cards'));
@@ -58,6 +58,7 @@ export default function Dashboard() {
                 <Cards profileCompletion={profileCompletion} />
                 <PortfolioCard />
                 <ResumeCard />
+                <AiInterviewCard />
               </Suspense>
             </div>
           </div>
