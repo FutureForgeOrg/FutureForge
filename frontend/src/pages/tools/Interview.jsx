@@ -1,9 +1,14 @@
-import React from 'react'
+import { Routes, Route } from "react-router-dom";
+import InterviewPanel from "../../components/Interview/InterviewPanel";
+import InterviewSetupPanel from "../../components/Interview/InterviewSetupPanel";
 
-function Interview() {
+const Interview = () => {
   return (
-    <div>Interview</div>
-  )
-}
+    <Routes>
+      <Route path="/" element={<InterviewSetupPanel />} />
+      <Route path="InterviewPanel" element={<InterviewPanel />} />
+    </Routes>
+  );
+};
 
-export default Interview
+export default Interview;

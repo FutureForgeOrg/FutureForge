@@ -53,7 +53,7 @@ function App() {
           {/* Define routes for tools */}
           <Route path='/tools/portfolio' element={<Portfolio />} />
           <Route path='/tools/resume' element={<Resume />} />
-          <Route path='/tools/Interview' element={<Interview />} />
+          <Route path='/tools/Interview/*' element={<Interview />} />
           <Route path='/PreviewPage' element={<PreviewPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/verify-email/:token" element={<EmailVerificationHandler />} />
