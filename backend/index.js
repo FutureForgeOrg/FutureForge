@@ -11,6 +11,7 @@ import portfolioRoutes from "./routes/portfolioRoutes.js";
 import cleanupRoutes from "./routes/cleanupRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js"
 import bookmarkRoutes from  "./routes/bookmarkRoutes.js"
+import profileRoutes from "./routes/profileRoutes.js"
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -73,6 +74,7 @@ app.use("/api/cleanup", cleanupRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/jobs",jobRoutes)
 app.use('/api/bookmarks', bookmarkRoutes);
+app.use('/api/profile',profileRoutes);
 
 
 // to serve previews :-
