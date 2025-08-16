@@ -1,842 +1,425 @@
-import React, { useState, useRef, useCallback } from 'react';
-import BackgroundWrapper from '../components/ui/BackgroundWrapper';
-import {
-  Mail, MapPin, Phone, Edit2, Github, Linkedin, Upload,
-  Save, X, User, Briefcase, FileText, Link, Eye, EyeOff,
-  Camera, Check, AlertCircle, Globe, Twitter, Instagram,
-  Calendar, Award, Star, ExternalLink, Trash2, FolderOpen, Plus
-} from 'lucide-react';
-import Navbar from '../components/Navbar';
+import React, { useState } from "react";
+import { useProfileQuery } from "../hooks/useProfile";
+import { useSaveProfileMutation } from "../hooks/useProfile";
+import BackgroundWrapper from "../components/ui/BackgroundWrapper"
+import Navbar from "../components/Navbar"
+import { useAuthStore } from "../store/useAuthStore";
+
+const calculateCompletion = (profile) => {
+  let total = 0;
+
+  if (profile.name && profile.title && profile.about) total += 30;
+  if (profile.skills?.length >= 1) total += 15;
+  if (profile.experience?.length > 0) total += 20;
+  if (profile.projects?.length > 0) total += 15;
+  if (profile.education?.length > 0) total += 10;
+  if (profile.social?.length > 0) total += 10;
+
+  return total;
+};
 
 
-// Enhanced Input Field Component
-
-const InputField = ({
-  label,
-  icon: Icon,
-  type = "text",
-  value,
-  onChange,
-  disabled,
-  error,
-  placeholder,
-  required = false,
-  description
-}) => (
-  <div className="mb-6">
-    <label className="font-medium flex items-center gap-2 mb-2 text-gray-700">
-      {Icon && <Icon className="w-4 h-4 text-gray-500" />}
-      {label}
-      {required && <span className="text-red-500">*</span>}
-    </label>
-    {description && (
-      <p className="text-sm text-gray-500 mb-2">{description}</p>
-    )}
-    {disabled ? (
-      <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-        <p className="text-gray-700">{value || 'Not specified'}</p>
-      </div>
-    ) : (
-      <>
-        <input
-          type={type}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={`w-full border rounded-lg p-3 transition-all duration-200 ${error
-            ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
-            : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500/20'
-            } focus:outline-none focus:ring-2`}
-          placeholder={placeholder}
-          required={required}
-        />
-        {error && (
-          <div className="flex items-center gap-1 mt-2 text-red-600 text-sm">
-            <AlertCircle className="w-4 h-4" />
-            {error}
-          </div>
-        )}
-      </>
-    )}
-  </div>
-);
-
-// Enhanced TextArea Component
-const TextAreaField = ({
-  label,
-  value,
-  onChange,
-  disabled,
-  error,
-  placeholder,
-  rows = 4,
-  maxLength,
-  required = false
-}) => (
-  <div className="mb-6">
-    <label className="font-medium flex items-center justify-between mb-2 text-gray-700">
-      <span className="flex items-center gap-2">
-        <FileText className="w-4 h-4 text-gray-500" />
-        {label}
-        {required && <span className="text-red-500">*</span>}
-      </span>
-      {maxLength && (
-        <span className="text-sm text-gray-500">
-          {value?.length || 0}/{maxLength}
-        </span>
-      )}
-    </label>
-    {disabled ? (
-      <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-        <p className="text-gray-700 whitespace-pre-wrap">{value || 'No bio provided'}</p>
-      </div>
-    ) : (
-      <>
-        <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={`w-full border rounded-lg p-3 transition-all duration-200 resize-none ${error
-            ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
-            : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500/20'
-            } focus:outline-none focus:ring-2`}
-          rows={rows}
-          placeholder={placeholder}
-          maxLength={maxLength}
-          required={required}
-        />
-        {error && (
-          <div className="flex items-center gap-1 mt-2 text-red-600 text-sm">
-            <AlertCircle className="w-4 h-4" />
-            {error}
-          </div>
-        )}
-      </>
-    )}
-  </div>
-);
-
-// Success Toast Component
-const Toast = ({ message, type = 'success', onClose }) => (
-  <div className={`fixed top-20 right-4 z-50 flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-    }`}>
-    {type === 'success' ? <Check className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
-    <span>{message}</span>
-    <button onClick={onClose} className="ml-2">
-      <X className="w-4 h-4" />
-    </button>
-  </div>
-);
-
-const Profile = () => {
-  const [profileData, setProfileData] = useState({
-    name: "Purv Patel",
-    email: "purv.patel@example.com",
-    phone: "+91 9876543210",
-    location: "Ahmedabad, Gujarat, India",
-    title: "Full Stack Developer",
-    bio: "Passionate developer with 5+ years of experience building scalable web applications. I specialize in React, Node.js, and cloud technologies, with a keen interest in creating user-centric solutions that solve real-world problems.",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    company: "",
-
-    skills: ["React", "Node.js", "Python", "TypeScript", "AWS", "MongoDB", "Docker", "GraphQL"],
-    experience: "5+ years",
-    projects: 47,
-
-    links: {
-      github: "https://github.com/purvpatel",
-      linkedin: "https://linkedin.com/in/purvpatel",
-      twitter: "https://twitter.com/purvpatel",
-      instagram: "https://instagram.com/purvpatel"
-    }
-  });
-
+export default function Profile() {
+  const { data: profile, isLoading } = useProfileQuery();
+  const updateProfile = useSaveProfileMutation();
   const [isEditing, setIsEditing] = useState(false);
-  const [editData, setEditData] = useState(profileData);
-  const [errors, setErrors] = useState({});
-  const [showToast, setShowToast] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef(null);
-  const [skillsInput, setSkillsInput] = useState(profileData.skills.join(', '));
+  const [formData, setFormData] = useState(null);
+  const { authUser } = useAuthStore();
+  if (isLoading) return <p>Loading...</p>;
+  if (!profile) return <p>No profile found.</p>;
 
-  // Validation functions
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePhone = (phone) => /^\+?[\d\s\-\(\)]{10,}$/.test(phone);
-  const validateURL = (url) => {
-    if (!url) return true; // Optional field
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const validateForm = useCallback(() => {
-    const newErrors = {};
-
-    if (!editData.name?.trim()) newErrors.name = "Name is required";
-    if (!editData.email?.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!validateEmail(editData.email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
-    if (!editData.phone?.trim()) {
-      newErrors.phone = "Phone number is required";
-    } else if (!validatePhone(editData.phone)) {
-      newErrors.phone = "Please enter a valid phone number";
-    }
-    if (!editData.location?.trim()) newErrors.location = "Location is required";
-    if (!editData.title?.trim()) newErrors.title = "Job title is required";
-    if (!editData.bio?.trim()) newErrors.bio = "Bio is required";
-
-    // Validate URLs
-    Object.entries(editData.links).forEach(([platform, url]) => {
-      if (url && !validateURL(url)) {
-        newErrors[platform] = `Please enter a valid ${platform} URL`;
-      }
-    });
-
-    if (editData.website && !validateURL(editData.website)) {
-      newErrors.website = "Please enter a valid website URL";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  }, [editData]);
+  const completion = calculateCompletion(profile);
 
   const handleEdit = () => {
-    setEditData({ ...profileData });
     setIsEditing(true);
-    setErrors({});
-  };
-
-  const handleSave = () => {
-    if (validateForm()) {
-      setProfileData(editData);
-      setIsEditing(false);
-      setErrors({});
-      setShowToast({ type: 'success', message: 'Profile updated successfully!' });
-      setTimeout(() => setShowToast(null), 3000);
-    } else {
-      setShowToast({ type: 'error', message: 'Please fix the errors before saving' });
-      setTimeout(() => setShowToast(null), 3000);
-    }
+    setFormData(profile); // clone existing profile
   };
 
   const handleCancel = () => {
-    setEditData(profileData);
     setIsEditing(false);
-    setErrors({});
+    setFormData(null);
   };
 
-  const handleAvatarChange = (file) => {
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setEditData(prev => ({ ...prev, avatar: e.target.result }));
-      };
-      reader.readAsDataURL(file);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleArrayChange = (field, index, key, value) => {
+    const updatedArray = [...formData[field]];
+
+    if (key === null) {
+      // skills = array of strings
+      updatedArray[index] = value;
+    } else {
+      // experience, projects, etc. = array of objects
+      updatedArray[index][key] = value;
     }
+
+    setFormData({ ...formData, [field]: updatedArray });
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
+  const handleAddField = (field, template) => {
+    setFormData({
+      ...formData,
+      [field]: [...formData[field], template],
+    });
   };
 
-  const handleDragLeave = () => {
-    setIsDragging(false);
+  const handleRemoveField = (field, index) => {
+    const updated = formData[field].filter((_, i) => i !== index);
+    setFormData({ ...formData, [field]: updated });
   };
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file) handleAvatarChange(file);
+  const handleSave = () => {
+    updateProfile.mutate(formData, {
+      onSuccess: () => {
+        setIsEditing(false);
+        setFormData(null);
+      },
+    });
   };
-
-
-  const handleSkillsChange = (value) => {
-    setSkillsInput(value);
-    const skillsArray = value.split(',').map(skill => skill.trim()).filter(skill => skill);
-    setEditData(prev => ({ ...prev, skills: skillsArray }));
-  };
-
-  const clearError = (field) => {
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
-    }
-  };
-
-  const getSocialIcon = (platform) => {
-    const icons = {
-      github: Github,
-      linkedin: Linkedin,
-      twitter: Twitter,
-      instagram: Instagram
-    };
-    return icons[platform] || Link;
-  };
-
-  const getSocialColor = (platform) => {
-    const colors = {
-      github: 'hover:bg-gray-200 text-gray-700',
-      linkedin: 'hover:bg-blue-200 text-blue-700',
-      twitter: 'hover:bg-sky-200 text-sky-700',
-      instagram: 'hover:bg-pink-200 text-pink-700'
-    };
-    return colors[platform] || 'hover:bg-gray-200 text-gray-700';
-  };
-
 
   return (
-    <BackgroundWrapper>
-      <Navbar />
 
-      {/* Toast Notification */}
-      {showToast && (
-        <Toast
-          message={showToast.message}
-          type={showToast.type}
-          onClose={() => setShowToast(null)}
-        />
-      )}
+    <div className="text-white">
+      <BackgroundWrapper>
+        <Navbar />
 
-      <div className="p-6 max-w-6xl mx-auto py-20">
-        {/* Hero Section */}
-        <div className="relative mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl shadow-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-black/20"></div>
-          <div className="relative z-10 p-8 text-white">
-            <div className="flex justify-between items-start mb-6">
-              <h1 className="text-3xl font-bold">Profile Management</h1>
-              <div className="flex gap-2">
-
-                {isEditing ? (
-                  <>
-                    <button
-                      onClick={handleCancel}
-                      className="flex items-center gap-2 px-4 py-2 bg-red-500/80 backdrop-blur-sm rounded-xl hover:bg-red-600 transition-all"
-                    >
-                      <X className="w-4 h-4" />
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleSave}
-                      className="flex items-center gap-2 px-4 py-2 bg-green-500/80 backdrop-blur-sm rounded-xl hover:bg-green-600 transition-all"
-                    >
-                      <Save className="w-4 h-4" />
-                      Save Changes
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    onClick={handleEdit}
-                    className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-xl hover:bg-white/30 transition-all"
-                  >
-                    <Edit2 className="w-4 h-4" />
-                    Edit Profile
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Profile Header */}
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="relative">
+        {completion < 100 && (
+          <div className="pt-20 max-w-3xl text-center mx-auto">
+            <div className="bg-yellow-100 p-4 rounded-md mb-4">
+              <h3 className="font-semibold text-yellow-700">Complete your profile</h3>
+              <p className="text-yellow-600">
+                Your profile is {completion}% complete. Add missing details to get to 100%,
+                so that you can easily auto fill details in resume and portfolio maker.
+              </p>
+              <div className="w-full bg-gray-200 rounded-full h-3 mt-2">
                 <div
-                  className={`relative ${isEditing ? 'cursor-pointer' : ''} ${isDragging ? 'scale-105' : ''} transition-transform`}
-                  onDragOver={isEditing ? handleDragOver : undefined}
-                  onDragLeave={isEditing ? handleDragLeave : undefined}
-                  onDrop={isEditing ? handleDrop : undefined}
-                  onClick={isEditing ? () => fileInputRef.current?.click() : undefined}
-                >
-                  <img
-                    src={isEditing ? editData.avatar : profileData.avatar}
-                    alt={profileData.name}
-                    className="w-32 h-32 rounded-full border-4 border-white shadow-2xl object-cover"
-                  />
-                  {isEditing && (
-                    <div className={`absolute inset-0 rounded-full bg-black/50 flex items-center justify-center transition-opacity ${isDragging ? 'opacity-100' : 'opacity-0 hover:opacity-100'}`}>
-                      <Camera className="w-8 h-8 text-white" />
+                  className="bg-yellow-500 h-3 rounded-full"
+                  style={{ width: `${completion}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className={`max-w-3xl mx-auto p-8 ${completion < 100 ? "pt-6" : "pt-20"} bg-white/10`}>
+          {!isEditing ? (
+            <>
+              <h1 className="text-3xl font-bold">{profile?.name}</h1>
+              <h2 className="text-xl text-gray-400">{profile.title}</h2>
+              <p className="mt-4">{profile.about}</p>
+
+              <div className="mt-6">
+                <h3 className="font-semibold">Skills</h3>
+                <ul className="list-disc ml-6">
+                  {profile.skills.map((skill, i) => (
+                    <li key={i}>{skill}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-6 max-w-3xl">
+                <h3 className="font-semibold mb-2">Experience</h3>
+                <div className="flex flex-wrap gap-4">
+                  {profile.experience.map((exp, i) => (
+                    <div key={i} className="w-full md:w-[88%] lg:w-[82%] border p-3 rounded-lg">
+                      <p className="font-semibold">{exp.role} @{exp.company}</p>
+                      <p className="text-md text-gray-300 font-elegant mb-1">{exp.duration}</p>
+                      <p className="break-words">{exp.description}</p>
                     </div>
-                  )}
-                </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => handleAvatarChange(e.target.files[0])}
-                />
-              </div>
-
-              <div className="text-center md:text-left">
-                <h2 className="text-4xl font-bold mb-2">{profileData.name}</h2>
-                <p className="text-xl text-white/90 mb-3">{profileData.title}</p>
-                <p className="text-white/80 mb-4">{profileData.company}</p>
-
-                {/* Stats */}
-                <div className="flex justify-center md:justify-start gap-6 text-sm">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">{profileData.projects}</div>
-                    <div className="text-white/80">Projects</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">{profileData.experience}</div>
-                    <div className="text-white/80">Experience</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">{profileData.skills.length}</div>
-                    <div className="text-white/80">Skills</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Basic Information */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                <User className="w-5 h-5 text-blue-600" />
-                Basic Information
-              </h3>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <InputField
-                  label="Full Name"
-                  icon={User}
-                  value={isEditing ? editData.name : profileData.name}
-                  onChange={(value) => {
-                    setEditData(prev => ({ ...prev, name: value }));
-                    clearError('name');
-                  }}
-                  disabled={!isEditing}
-                  error={errors.name}
-                  placeholder="Enter your full name"
-                  required
-                />
-
-                <InputField
-                  label="Job Title"
-                  icon={Briefcase}
-                  value={isEditing ? editData.title : profileData.title}
-                  onChange={(value) => {
-                    setEditData(prev => ({ ...prev, title: value }));
-                    clearError('title');
-                  }}
-                  disabled={!isEditing}
-                  error={errors.title}
-                  placeholder="e.g. Full Stack Developer"
-                  required
-                />
-
-                <InputField
-                  label="Email Address"
-                  icon={Mail}
-                  type="email"
-                  value={isEditing ? editData.email : profileData.email}
-                  onChange={(value) => {
-                    setEditData(prev => ({ ...prev, email: value }));
-                    clearError('email');
-                  }}
-                  disabled={!isEditing}
-                  error={errors.email}
-                  placeholder="your.email@example.com"
-                  required
-                />
-
-                <InputField
-                  label="Phone Number"
-                  icon={Phone}
-                  type="tel"
-                  value={isEditing ? editData.phone : profileData.phone}
-                  onChange={(value) => {
-                    setEditData(prev => ({ ...prev, phone: value }));
-                    clearError('phone');
-                  }}
-                  disabled={!isEditing}
-                  error={errors.phone}
-                  placeholder="+91 9876543210"
-                  required
-                />
-
-                <InputField
-                  label="Location"
-                  icon={MapPin}
-                  value={isEditing ? editData.location : profileData.location}
-                  onChange={(value) => {
-                    setEditData(prev => ({ ...prev, location: value }));
-                    clearError('location');
-                  }}
-                  disabled={!isEditing}
-                  error={errors.location}
-                  placeholder="City, State, Country"
-                  required
-                />
-
-                <InputField
-                  label="Company"
-                  icon={Briefcase}
-                  value={isEditing ? editData.company : profileData.company}
-                  onChange={(value) => setEditData(prev => ({ ...prev, company: value }))}
-                  disabled={!isEditing}
-                  placeholder="Your current company"
-                />
-
-                {/* <InputField
-                  label="Website"
-                  icon={Globe}
-                  type="url"
-                  value={isEditing ? editData.website : profileData.website}
-                  onChange={(value) => {
-                    setEditData(prev => ({ ...prev, website: value }));
-                    clearError('website');
-                  }}
-                  disabled={!isEditing}
-                  error={errors.website}
-                  placeholder="https://yourwebsite.com"
-                /> */}
-
-                {/* <InputField
-                  label="Join Date"
-                  icon={Calendar}
-                  type="date"
-                  value={isEditing ? editData.joinDate : profileData.joinDate}
-                  onChange={(value) => setEditData(prev => ({ ...prev, joinDate: value }))}
-                  disabled={!isEditing}
-                /> */}
-              </div>
-            </div>
-
-            {/* About Me */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-blue-600" />
-                About Me
-              </h3>
-
-              <TextAreaField
-                label="Professional Bio"
-                value={isEditing ? editData.bio : profileData.bio}
-                onChange={(value) => {
-                  setEditData(prev => ({ ...prev, bio: value }));
-                  clearError('bio');
-                }}
-                disabled={!isEditing}
-                error={errors.bio}
-                placeholder="Tell us about your professional background, experience, and what drives you..."
-                maxLength={500}
-                rows={6}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Right Column */}
-          <div className="space-y-8">
-            {/* Skills */}
-
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Star className="w-5 h-5 text-blue-600" />
-                Skills
-              </h3>
-
-              {isEditing ? (
-                <div>
-                  <textarea
-                    value={skillsInput}
-                    onChange={(e) => handleSkillsChange(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                    rows={4}
-                    placeholder="React, Node.js, Python, TypeScript..."
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    Separate skills with commas
-                  </p>
-                </div>
-              ) : (
-                <div className="flex flex-wrap gap-2">
-                  {profileData.skills.map((skill, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium border border-blue-200"
-                    >
-                      {skill}
-                    </span>
                   ))}
                 </div>
-              )}
-            </div>
+              </div>
 
+              <div className="mt-6 max-w-3xl">
+                <h3 className="font-semibold mb-2">Projects</h3>
+                <div className="flex flex-wrap gap-4">
+                  {profile.projects.map((proj, i) => (
+                    <div key={i} className="mb-2 w-full md:w-[88%] lg:w-[82%] border p-3 rounded-lg">
+                      <p className="font-medium">{proj.title}</p>
+                      <p className="break-words">{proj.description}</p>
+                      <a href={proj.link} className="text-blue-500 underline" target="_blank" rel="noreferrer">
+                        {proj.link}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-            {/* Projects */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              {/* Header */}
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold flex items-center gap-2">
-                  <FolderOpen className="w-5 h-5 text-blue-600" />
-                  Projects
-                </h3>
-                {isEditing && (
+              <div className="mt-6">
+                <h3 className="font-semibold">Education</h3>
+                {profile.education.map((edu, i) => (
+                  <p key={i}>{edu.degree}, {edu.institution} ({edu.year})</p>
+                ))}
+              </div>
+
+              <div className="mt-6">
+                <h3 className="font-semibold">Social</h3>
+                {profile.social.map((s, i) => (
+                  <a key={i} href={s.link} className="block text-blue-500 underline" target="_blank" rel="noreferrer">
+                    {s.platform}
+                  </a>
+                ))}
+              </div>
+
+              <button
+                className="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                onClick={handleEdit}
+              >
+                Edit Profile
+              </button>
+            </>
+          ) : (
+            <>
+              {/* --- Edit Form --- */}
+              <div className="space-y-4 text-black">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name || ""}
+                  onChange={handleChange}
+                  placeholder="Name"
+                  className="w-full border p-2 rounded"
+                />
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title || ""}
+                  onChange={handleChange}
+                  placeholder="Title"
+                  className="w-full border p-2 rounded"
+                />
+                <textarea
+                  name="about"
+                  value={formData.about || ""}
+                  onChange={handleChange}
+                  placeholder="About"
+                  className="w-full border p-2 rounded h-24"
+                />
+
+                {/* Skills */}
+                <div>
+                  <h3 className="font-semibold mb-2">Skills</h3>
+                  {formData.skills.map((skill, i) => (
+                    <div key={i} className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={skill}
+                        onChange={(e) =>
+                          handleArrayChange("skills", i, null, e.target.value)
+                        }
+                        className="flex-1 border p-2 rounded"
+                        placeholder="Enter skill"
+                      />
+                      <button
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded"
+                        onClick={() => handleRemoveField("skills", i)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
                   <button
-                    onClick={() =>
-                      setEditData(prev => ({
-                        ...prev,
-                        projectList: [
-                          ...(prev.projectList || []),
-                          { id: Date.now(), name: "", description: "", link: "" }
-                        ]
-                      }))
-                    }
-                    className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all text-sm"
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded"
+                    onClick={() => handleAddField("skills", "")}
                   >
-                    <Plus className="w-4 h-4" />
+                    Add Skill
+                  </button>
+                </div>
+
+                {/* Experience */}
+                <div>
+                  <h3 className="font-semibold mb-2">Experience</h3>
+                  {formData.experience.map((exp, i) => (
+                    <div key={i} className="border p-4 rounded mb-4">
+                      <div className="grid grid-cols-2 gap-2 mb-2">
+                        <input
+                          type="text"
+                          value={exp.role || ""}
+                          onChange={(e) => handleArrayChange("experience", i, "role", e.target.value)}
+                          placeholder="Role"
+                          className="border p-2 rounded"
+                        />
+                        <input
+                          type="text"
+                          value={exp.company || ""}
+                          onChange={(e) => handleArrayChange("experience", i, "company", e.target.value)}
+                          placeholder="Company"
+                          className="border p-2 rounded"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        value={exp.duration || ""}
+                        onChange={(e) => handleArrayChange("experience", i, "duration", e.target.value)}
+                        placeholder="Duration (e.g., Jan 2020 - Dec 2022)"
+                        className="w-full border p-2 rounded mb-2"
+                      />
+                      <textarea
+                        value={exp.description || ""}
+                        onChange={(e) => handleArrayChange("experience", i, "description", e.target.value)}
+                        placeholder="Description"
+                        className="w-full border p-2 rounded h-20"
+                      />
+                      <button
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded mt-2"
+                        onClick={() => handleRemoveField("experience", i)}
+                      >
+                        Remove Experience
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded"
+                    onClick={() => handleAddField("experience", { role: "", company: "", duration: "", description: "" })}
+                  >
+                    Add Experience
+                  </button>
+                </div>
+
+                {/* Projects */}
+                <div>
+                  <h3 className="font-semibold mb-2">Projects</h3>
+                  {formData.projects.map((proj, i) => (
+                    <div key={i} className="border p-4 rounded mb-4">
+                      <input
+                        type="text"
+                        value={proj.title || ""}
+                        onChange={(e) => handleArrayChange("projects", i, "title", e.target.value)}
+                        placeholder="Project Title"
+                        className="w-full border p-2 rounded mb-2"
+                      />
+                      <textarea
+                        value={proj.description || ""}
+                        onChange={(e) => handleArrayChange("projects", i, "description", e.target.value)}
+                        placeholder="Project Description"
+                        className="w-full border p-2 rounded h-20 mb-2"
+                      />
+                      <input
+                        type="url"
+                        value={proj.link || ""}
+                        onChange={(e) => handleArrayChange("projects", i, "link", e.target.value)}
+                        placeholder="Project Link (URL)"
+                        className="w-full border p-2 rounded"
+                      />
+                      <button
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded mt-2"
+                        onClick={() => handleRemoveField("projects", i)}
+                      >
+                        Remove Project
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded"
+                    onClick={() => handleAddField("projects", { title: "", description: "", link: "" })}
+                  >
                     Add Project
                   </button>
-                )}
-              </div>
+                </div>
 
-              {/* Edit Mode */}
-              {isEditing ? (
-                <div className="space-y-6">
-                  {(editData.projectList || []).map((project, index) => (
-                    <div key={project.id} className="border border-gray-200 rounded-lg p-6 relative">
-                      {/* Remove Button */}
+                {/* Education */}
+                <div>
+                  <h3 className="font-semibold mb-2">Education</h3>
+                  {formData.education.map((edu, i) => (
+                    <div key={i} className="border p-4 rounded mb-4">
+                      <div className="grid grid-cols-2 gap-2 mb-2">
+                        <input
+                          type="text"
+                          value={edu.degree || ""}
+                          onChange={(e) => handleArrayChange("education", i, "degree", e.target.value)}
+                          placeholder="Degree"
+                          className="border p-2 rounded"
+                        />
+                        <input
+                          type="text"
+                          value={edu.institution || ""}
+                          onChange={(e) => handleArrayChange("education", i, "institution", e.target.value)}
+                          placeholder="Institution"
+                          className="border p-2 rounded"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        value={edu.year || ""}
+                        onChange={(e) => handleArrayChange("education", i, "year", e.target.value)}
+                        placeholder="Year (e.g., 2020)"
+                        className="w-full border p-2 rounded"
+                      />
                       <button
-                        onClick={() =>
-                          setEditData(prev => ({
-                            ...prev,
-                            projectList: prev.projectList.filter((_, i) => i !== index)
-                          }))
-                        }
-                        className="absolute top-4 right-4 text-red-500 hover:text-red-700 transition-colors"
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded mt-2"
+                        onClick={() => handleRemoveField("education", i)}
                       >
-                        <Trash2 className="w-4 h-4" />
+                        Remove Education
                       </button>
-
-                      <div className="pr-8 space-y-4">
-                        {/* Project Name */}
-                        <div>
-                          <label className="block text-sm font-medium mb-2">
-                            Project Name <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={project.name}
-                            onChange={(e) =>
-                              setEditData(prev => ({
-                                ...prev,
-                                projectList: prev.projectList.map((p, i) =>
-                                  i === index ? { ...p, name: e.target.value } : p
-                                )
-                              }))
-                            }
-                            className={`w-full border rounded-lg p-3 transition-all ${errors[`project_${index}_name`]
-                              ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                              : "border-gray-300 focus:border-blue-500 focus:ring-blue-500/20"
-                              } focus:outline-none focus:ring-2`}
-                            placeholder="Enter project name"
-                          />
-                          {errors[`project_${index}_name`] && (
-                            <p className="text-red-500 text-sm mt-1">
-                              {errors[`project_${index}_name`]}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Description */}
-                        <div>
-                          <label className="block text-sm font-medium mb-2">
-                            Description <span className="text-red-500">*</span>
-                          </label>
-                          <textarea
-                            value={project.description}
-                            onChange={(e) =>
-                              setEditData(prev => ({
-                                ...prev,
-                                projectList: prev.projectList.map((p, i) =>
-                                  i === index ? { ...p, description: e.target.value } : p
-                                )
-                              }))
-                            }
-                            className={`w-full border rounded-lg p-3 transition-all resize-none ${errors[`project_${index}_description`]
-                              ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                              : "border-gray-300 focus:border-blue-500 focus:ring-blue-500/20"
-                              } focus:outline-none focus:ring-2`}
-                            rows={3}
-                            placeholder="Describe your project..."
-                          />
-                          {errors[`project_${index}_description`] && (
-                            <p className="text-red-500 text-sm mt-1">
-                              {errors[`project_${index}_description`]}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Project Link */}
-                        <div>
-                          <label className="block text-sm font-medium mb-2">
-                            Project Link
-                          </label>
-                          <input
-                            type="url"
-                            value={project.link}
-                            onChange={(e) =>
-                              setEditData(prev => ({
-                                ...prev,
-                                projectList: prev.projectList.map((p, i) =>
-                                  i === index ? { ...p, link: e.target.value } : p
-                                )
-                              }))
-                            }
-                            className={`w-full border rounded-lg p-3 transition-all ${errors[`project_${index}_link`]
-                              ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                              : "border-gray-300 focus:border-blue-500 focus:ring-blue-500/20"
-                              } focus:outline-none focus:ring-2`}
-                            placeholder="Enter deployed link or repository URL"
-                          />
-                          {errors[`project_${index}_link`] && (
-                            <p className="text-red-500 text-sm mt-1">
-                              {errors[`project_${index}_link`]}
-                            </p>
-                          )}
-                        </div>
-                      </div>
                     </div>
                   ))}
-
-                  {(!editData.projectList || editData.projectList.length === 0) && (
-                    <div className="text-center py-8 text-gray-500">
-                      <FolderOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                      <p>No projects added yet. Click "Add Project" to get started.</p>
-                    </div>
-                  )}
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded"
+                    onClick={() => handleAddField("education", { degree: "", institution: "", year: "" })}
+                  >
+                    Add Education
+                  </button>
                 </div>
-              ) : (
-                /* View Mode */
-                <div className="space-y-6">
-                  {(profileData.projectList || []).map((project) => (
-                    <div key={project.id} className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                      <div className="flex justify-between items-start mb-3">
-                        <h4 className="text-lg font-semibold text-gray-900">{project.name}</h4>
-                        {project.link && (
-                          <a
-                            href={
-                              project.link.startsWith("http")
-                                ? project.link
-                                : `https://${project.link}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        )}
 
-                      </div>
-                      {/* FIX: Preserve line breaks */}
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-line break-words">
-                        {project.description}
-                      </p>
-                    </div>
-                  ))}
-
-                  {(!profileData.projectList || profileData.projectList.length === 0) && (
-                    <div className="text-center py-8 text-gray-500">
-                      <FolderOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                      <p>No projects to display.</p>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-
-
-            {/* Social Links */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Link className="w-5 h-5 text-blue-600" />
-                Social Links
-              </h3>
-
-              {isEditing ? (
-                <div className="space-y-4">
-                  {Object.entries(editData.links).map(([platform, url]) => {
-                    const Icon = getSocialIcon(platform);
-                    return (
-                      <div key={platform}>
-                        <label className="block text-sm font-medium mb-1 capitalize flex items-center gap-2">
-                          <Icon className="w-4 h-4" />
-                          {platform}
-                        </label>
+                {/* Social */}
+                <div>
+                  <h3 className="font-semibold mb-2">Social Links</h3>
+                  {formData.social.map((s, i) => (
+                    <div key={i} className="border p-4 rounded mb-4">
+                      <div className="grid grid-cols-2 gap-2">
+                        <input
+                          type="text"
+                          value={s.platform || ""}
+                          onChange={(e) => handleArrayChange("social", i, "platform", e.target.value)}
+                          placeholder="Platform (e.g., LinkedIn, GitHub)"
+                          className="border p-2 rounded"
+                        />
                         <input
                           type="url"
-                          value={url}
-                          onChange={(e) => {
-                            setEditData(prev => ({
-                              ...prev,
-                              links: { ...prev.links, [platform]: e.target.value }
-                            }));
-                            clearError(platform);
-                          }}
-                          className={`w-full border rounded-lg p-2 text-sm transition-all ${errors[platform] ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
-                            } focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
-                          placeholder={`https://${platform}.com/username`}
+                          value={s.link || ""}
+                          onChange={(e) => handleArrayChange("social", i, "link", e.target.value)}
+                          placeholder="Profile URL"
+                          className="border p-2 rounded"
                         />
-                        {errors[platform] && (
-                          <p className="text-red-500 text-xs mt-1">{errors[platform]}</p>
-                        )}
                       </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {Object.entries(profileData.links).map(([platform, url]) => {
-                    if (!url) return null;
-                    const Icon = getSocialIcon(platform);
-                    return (
-                      <a
-                        key={platform}
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`flex items-center gap-3 p-3 rounded-lg transition-all bg-gray-50 ${getSocialColor(platform)}`}
+                      <button
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded mt-2"
+                        onClick={() => handleRemoveField("social", i)}
                       >
-                        <Icon className="w-4 h-4" />
-                        <span className="font-medium capitalize">{platform}</span>
-                        <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
-                      </a>
-                    );
-                  })}
-
-                  {profileData.website && (
-                    <a
-                      href={profileData.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 rounded-lg transition-all bg-gray-50 hover:bg-purple-200 text-purple-700"
-                    >
-                      <Globe className="w-4 h-4" />
-                      <span className="font-medium">Website</span>
-                      <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
-                    </a>
-                  )}
+                        Remove Social Link
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded"
+                    onClick={() => handleAddField("social", { platform: "", link: "" })}
+                  >
+                    Add Social Link
+                  </button>
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </BackgroundWrapper>
-  );
-};
 
-export default Profile;
+                <div className="flex gap-4 mt-6">
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+                    onClick={handleSave}
+                    disabled={updateProfile.isLoading}
+                  >
+                    {updateProfile.isLoading ? "Saving..." : "Save"}
+                  </button>
+                  <button
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </BackgroundWrapper>
+    </div>
+  );
+}
