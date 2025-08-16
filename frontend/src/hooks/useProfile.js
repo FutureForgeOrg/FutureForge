@@ -12,6 +12,11 @@ const saveProfile = async (profileData) => {
     return data;
 }
 
+const fetchProfileCompletion = async () =>{
+    const { data } = await axiosInstance.get("/profile/completion-status");
+    return data;
+}
+
 export const useProfileQuery = () => {
     const setProfile = useProfileStore((state) => state.setProfile);
 
@@ -40,3 +45,16 @@ export const useSaveProfileMutation = () => {
         }
     });
 };
+
+export function useProfileCompletion() {
+  const setProfileCompletion = useProfileStore((state) => state.setProfileCompletion);
+
+  return useQuery({
+    queryKey: ["profileCompletion"],
+    queryFn: fetchProfileCompletion,
+    onSuccess: (data) => {
+      setProfileCompletion(data.completion);
+      return data;
+    },
+  });
+}
