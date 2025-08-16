@@ -31,7 +31,7 @@ export const useAuthStore = create((set) => ({
         try {
             await axiosInstance.post('/auth/signup', data);
             // set({ authUser: res.data?.user }); // as user is not verified yet, we don't set authUser here
-            toast.success("Signup successful");
+            toast.success("verification mail sent");
             set({ tempEmail: data.email }); // store email temporarily for verification
             navigate('/verify-email');
         }
