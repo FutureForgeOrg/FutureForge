@@ -14,6 +14,8 @@ import logging
 import argparse
 from flask import Flask, jsonify, render_template
 from common.config import Config
+from flask_cors import CORS
+from flask import request, make_response
 
 def setup_logging():
     """Configure logging for the application"""
@@ -151,12 +153,38 @@ def create_app_with_mode(test_mode=False):
     
     app.config.from_object(Config)
     
-    # Enable CORS for frontend communication
-    CORS(app, origins=['http://localhost:3000', 'http://localhost:5000', 'https://*.vercel.app'])
+    # FIXED: Enable CORS for frontend communication - Added your Vite server
+    CORS(app, origins=[
+        'http://localhost:5173',  # Vite dev server (YOUR FRONTEND)
+        'http://localhost:3000',  # React dev server
+        'http://127.0.0.1:5173',  # Alternative localhost
+        'http://127.0.0.1:3000',  # Alternative localhost
+        'http://localhost:5000',  # Self reference
+        'https://*.vercel.app'    # Deployment
+    ], supports_credentials=True, 
+       methods=['GET', 'POST', 'OPTIONS'],
+       allow_headers=['Content-Type', 'Authorization'])
+    
+    # Add explicit preflight handling
+    @app.before_request
+    def handle_preflight():
+        if request.method == "OPTIONS":
+            response = make_response()
+            response.headers.add("Access-Control-Allow-Origin", "*")
+            response.headers.add('Access-Control-Allow-Headers', "Content-Type,Authorization")
+            response.headers.add('Access-Control-Allow-Methods', "GET,PUT,POST,DELETE,OPTIONS")
+            return response
     
     # Register API blueprint (always needed)
     from app.routes import api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
+
+    # Print debug info
+    print(f"CORS enabled for origins: http://localhost:5173, http://localhost:3000")
+    print(f"Registered routes:")
+    for rule in app.url_map.iter_rules():
+        if rule.endpoint.startswith('api'):
+            print(f"  {rule.endpoint}: {rule.rule} [{', '.join(rule.methods)}]")
     
     # Register main blueprint conditionally or override routes
     if test_mode:

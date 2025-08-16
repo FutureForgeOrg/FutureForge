@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import axios from "axios";
 
 const useInterviewStore = create((set, get) => ({
   // Shared state
@@ -8,35 +9,7 @@ const useInterviewStore = create((set, get) => ({
   currentQuestion: "",
   showInterview: false,
   isProcessing: false,
-
-  // Mock questions database
-  questionDatabase: {
-    "python-beginner": [
-      "What is Python and why is it popular?",
-      "Explain the difference between a list and a tuple in Python.",
-      "What is the purpose of indentation in Python?"
-    ],
-    "javascript-intermediate": [
-      "Explain closures in JavaScript with an example.",
-      "What is the difference between synchronous and asynchronous JavaScript?",
-      "How do you handle errors in JavaScript?"
-    ],
-    "system design-advanced": [
-      "How would you design a URL shortening service like bit.ly?",
-      "Explain how you would design a chat application for millions of users.",
-      "How would you design a distributed cache system?"
-    ],
-    "backend developer-intermediate": [
-      "How do you ensure data consistency in a distributed system?",
-      "Explain the difference between REST and GraphQL APIs.",
-      "How would you handle authentication and authorization in a microservices architecture?"
-    ],
-    "data scientist-advanced": [
-      "Explain the bias-variance tradeoff in machine learning.",
-      "How would you handle missing data in a large dataset?",
-      "What is the difference between supervised and unsupervised learning?"
-    ]
-  },
+  evaluationResult: null,
 
   // Actions
   setLevel: (level) => set({ level }),
@@ -45,29 +18,92 @@ const useInterviewStore = create((set, get) => ({
   setCurrentQuestion: (question) => set({ currentQuestion: question }),
   setShowInterview: (show) => set({ showInterview: show }),
 
-  generateQuestion: () => {
-    const { selectedValue, level, questionDatabase } = get();
+  // Generate Question from API
+  generateQuestion: async () => {
+    const { selectedValue, level, mode } = get();
     set({ isProcessing: true });
 
-    setTimeout(() => {
-      const key = `${selectedValue}-${level}`.toLowerCase();
-      const questions = questionDatabase[key] || [
-        "Tell me about your experience with this technology.",
-        "How would you approach solving a complex problem in this domain?",
-        "What are some best practices you follow in this area?",
-        "Describe a challenging project you've worked on recently.",
-        "How do you stay updated with the latest trends in your field?"
-      ];
+    try {
+      const requestData = {
+        level: level,
+      };
 
-      const question = questions[Math.floor(Math.random() * questions.length)];
+      // Send based on mode
+      if (mode === "role") {
+        requestData.role = selectedValue;
+      } else if (mode === "topic") {
+        requestData.topic = selectedValue;
+      }
+
+      const res = await axios.post(
+        "http://localhost:5000/api/generate-question",
+        requestData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
       set({
-        currentQuestion: question,
+        currentQuestion: res.data.question || "No question received",
         showInterview: true,
-        isProcessing: false
+        isProcessing: false,
       });
-    }, 1500);
+    } catch (err) {
+      console.error("Error generating question:", err);
+      set({ 
+        isProcessing: false,
+        currentQuestion: "Error generating question. Please try again."
+      });
+    }
   },
 
+  // Evaluate Answer from API
+  evaluateAnswer: async (answer) => {
+    const { currentQuestion, selectedValue, level, mode } = get();
+    set({ isProcessing: true });
+
+    try {
+      const requestData = {
+        question: currentQuestion,
+        answer: answer,
+        level: level,
+      };
+
+      if (mode === "role") {
+        requestData.role = selectedValue;
+      } else if (mode === "topic") {
+        requestData.topic = selectedValue;
+      }
+
+      const res = await axios.post(
+        "http://localhost:5000/api/evaluate-answer",
+        requestData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      set({
+        evaluationResult: res.data,
+        isProcessing: false,
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error("Error evaluating answer:", err);
+      set({ 
+        isProcessing: false,
+        evaluationResult: { feedback: "Error evaluating answer. Please try again." }
+      });
+      throw err;
+    }
+  },
+
+  // Reset store
   resetStore: () =>
     set({
       level: "",
@@ -75,8 +111,9 @@ const useInterviewStore = create((set, get) => ({
       selectedValue: "",
       currentQuestion: "",
       showInterview: false,
-      isProcessing: false
-    })
+      isProcessing: false,
+      evaluationResult: null,
+    }),
 }));
 
 export default useInterviewStore;

@@ -104,3 +104,11 @@ def api_not_found(error):
 @api_bp.errorhandler(500)
 def api_internal_error(error):
     return jsonify({'error': 'Internal server error'}), 500
+
+@api_bp.route('/test', methods=['GET', 'POST', 'OPTIONS'])
+def test():
+    return jsonify({
+        'message': 'Flask server is running!', 
+        'method': request.method,
+        'cors': 'enabled'
+    })

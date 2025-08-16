@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Mic, MicOff, RotateCcw, Volume2 } from 'lucide-react';
 import useInterviewStore from '../../store/useInterviewStore';
 import { useNavigate } from 'react-router-dom';
@@ -8,134 +8,118 @@ function InterviewPanel() {
   const {
     currentQuestion,
     showInterview,
-    setCurrentQuestion,
-    setShowInterview,
     generateQuestion,
-    resetStore
+    resetStore,
+    evaluationResult,
+    evaluateAnswer,
+    isProcessing
   } = useInterviewStore();
 
   const [userResponse, setUserResponse] = useState('');
   const [feedback, setFeedback] = useState('');
   const [isRecording, setIsRecording] = useState(false);
-  const [autoStopTimer, setAutoStopTimer] = useState(null);
-
+  const [timeLeft, setTimeLeft] = useState(0);
+  const timerRef = useRef(null);
   const textareaRef = useRef(null);
   const navigate = useNavigate();
   const recognitionRef = useRef(null);
-  // const handleVoiceRecording = () => {
-  //   if (!isRecording) {
-  //     setIsRecording(true);
-  //     const timer = setTimeout(() => {
-  //       setIsRecording(false);
-  //       setAutoStopTimer(null);
-  //     }, 120000);
-  //     setAutoStopTimer(timer);
-  //   } else {
-  //     setIsRecording(false);
-  //     if (autoStopTimer) {
-  //       clearTimeout(autoStopTimer);
-  //       setAutoStopTimer(null);
-  //     }
-  //   }
-  // };
+
+  // Update feedback when evaluationResult changes
+  useEffect(() => {
+    if (evaluationResult && evaluationResult.feedback) {
+      setFeedback(evaluationResult.feedback);
+    }
+  }, [evaluationResult]);
 
   const handleVoiceRecording = () => {
-  if (!isRecording) {
-    // Start recording
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = true;
-      recognitionRef.current.interimResults = true;
-      recognitionRef.current.lang = 'en-US';
+    if (!isRecording) {
+      // Start recording
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition =
+          window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognitionRef.current = new SpeechRecognition();
+        recognitionRef.current.continuous = true;
+        recognitionRef.current.interimResults = true;
+        recognitionRef.current.lang = 'en-US';
 
-      recognitionRef.current.onresult = function (event) {
-        let finalTranscript = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          if (event.results[i].isFinal) {
-            finalTranscript += event.results[i][0].transcript;
+        recognitionRef.current.onresult = function (event) {
+          let finalTranscript = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+              finalTranscript += event.results[i][0].transcript;
+            }
           }
-        }
-        if (finalTranscript) {
-          setUserResponse((prev) => prev + ' ' + finalTranscript);
-        }
-      };
+          if (finalTranscript) {
+            setUserResponse((prev) => prev + ' ' + finalTranscript);
+          }
+        };
 
-      recognitionRef.current.onerror = function (event) {
-        console.error('Speech recognition error:', event.error);
-        stopRecording();
-      };
-
-      recognitionRef.current.onend = function () {
-        if (isRecording) {
+        recognitionRef.current.onerror = function (event) {
+          console.error('Speech recognition error:', event.error);
           stopRecording();
-        }
-      };
+        };
 
-      recognitionRef.current.start();
-      setIsRecording(true);
+        recognitionRef.current.onend = function () {
+          if (isRecording) {
+            stopRecording();
+          }
+        };
 
-      // Auto stop after 2 minutes
-      const timer = setTimeout(() => {
-        stopRecording();
-      }, 120000);
-      setAutoStopTimer(timer);
+        recognitionRef.current.start();
+        setIsRecording(true);
+
+        setTimeLeft(120);
+        timerRef.current = setInterval(() => {
+          setTimeLeft((prev) => {
+            if (prev <= 1) {
+              clearInterval(timerRef.current);
+              stopRecording();
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      } else {
+        alert('Speech recognition not supported in this browser.');
+      }
     } else {
-      alert('Speech recognition not supported in this browser.');
+      stopRecording();
     }
-  } else {
-    // Stop recording manually
-    stopRecording();
-  }
-};
-
-const stopRecording = () => {
-  setIsRecording(false);
-  if (autoStopTimer) {
-    clearTimeout(autoStopTimer);
-    setAutoStopTimer(null);
-  }
-  if (recognitionRef.current) {
-    recognitionRef.current.stop();
-    recognitionRef.current = null;
-  }
-};
-  const handleSubmitAnswer = () => {
-    if (!userResponse.trim()) return;
-    const score = Math.min(
-      10,
-      Math.max(
-        1,
-        Math.floor(userResponse.trim().length / 50) +
-          Math.floor(Math.random() * 3) +
-          5
-      )
-    );
-
-    const feedbackMessages = [
-      `Score: ${score}/10. Good technical understanding demonstrated.`,
-      `Score: ${score}/10. Consider adding more specific examples in your response.`,
-      `Score: ${score}/10. Excellent explanation with clear structure.`,
-      `Score: ${score}/10. Try to elaborate more on practical applications.`,
-      `Score: ${score}/10. Strong answer showing depth of knowledge.`
-    ];
-
-    setFeedback(
-      feedbackMessages[Math.floor(Math.random() * feedbackMessages.length)]
-    );
   };
 
-  const handleNextQuestion = () => {
+  const stopRecording = () => {
+    setIsRecording(false);
+    setTimeLeft(0);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
+  };
+
+  const handleSubmitAnswer = async () => {
+    if (!userResponse.trim()) return;
+    try {
+      await evaluateAnswer(userResponse);
+    } catch (error) {
+      setFeedback("Error evaluating answer. Please try again.");
+    }
+  };
+
+  const handleNextQuestion = async () => {
     setUserResponse('');
     setFeedback('');
-    generateQuestion();
+    await generateQuestion();
   };
 
   const handleReset = () => {
     setUserResponse('');
     setFeedback('');
     setIsRecording(false);
+    stopRecording();
     resetStore();
     navigate('/tools/Interview');
   };
@@ -189,17 +173,26 @@ const stopRecording = () => {
             className="w-full min-h-32 resize-none border border-gray-300 rounded-lg p-3"
           />
           <div className="flex justify-between mt-2">
-            <button
-              onClick={handleVoiceRecording}
-              className={`px-3 py-2 rounded-lg ${
-                isRecording
+            <div className='flex items-center gap-2'>
+              <button
+                onClick={handleVoiceRecording}
+                className={`px-3 py-2 rounded-lg ${isRecording
                   ? 'bg-red-500 text-white'
                   : 'bg-gray-100 text-gray-700'
-              }`}
-            >
-              {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
-              {isRecording ? ' Stop' : ' Start'}
-            </button>
+                  }`}
+              >
+                {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
+                {isRecording ? ' Stop' : ' Start'}
+              </button>
+              {isRecording && (
+                <span className="ml-2 text-gray-700">
+                  {Math.floor(timeLeft / 60)
+                    .toString()
+                    .padStart(2, '0')}:
+                  {(timeLeft % 60).toString().padStart(2, '0')}
+                </span>
+              )}
+            </div>
             <div>
               <button
                 onClick={handleClearAll}
@@ -209,10 +202,10 @@ const stopRecording = () => {
               </button>
               <button
                 onClick={handleSubmitAnswer}
-                disabled={!userResponse.trim()}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg"
+                disabled={!userResponse.trim() || isProcessing}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg disabled:bg-gray-300"
               >
-                Submit
+                {isProcessing ? 'Evaluating...' : 'Submit'}
               </button>
             </div>
           </div>
@@ -221,7 +214,15 @@ const stopRecording = () => {
         <div className="mb-6">
           <div className="bg-gray-50 rounded-lg p-4 min-h-16 border-2 border-dashed border-gray-200">
             {feedback ? (
-              <p>{feedback}</p>
+              <div>
+                <span className="text-sm font-medium text-gray-600">Feedback:</span>
+                <p className="text-gray-800 mt-1">{feedback}</p>
+                {evaluationResult && evaluationResult.score && (
+                  <p className="text-sm text-blue-600 mt-2">
+                    Score: {evaluationResult.score}/{evaluationResult.max_score || 10}
+                  </p>
+                )}
+              </div>
             ) : (
               <span className="text-gray-400">Feedback area</span>
             )}
@@ -231,10 +232,10 @@ const stopRecording = () => {
         <div className="flex space-x-4">
           <button
             onClick={handleNextQuestion}
-            disabled={!showInterview}
-            className="flex-1 py-3 bg-blue-600 text-white rounded-lg"
+            disabled={!showInterview || isProcessing}
+            className="flex-1 py-3 bg-blue-600 text-white rounded-lg disabled:bg-gray-300"
           >
-            Next
+            {isProcessing ? 'Loading...' : 'Next Question'}
           </button>
           <button
             onClick={handleReset}

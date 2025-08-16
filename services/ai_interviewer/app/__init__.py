@@ -19,7 +19,13 @@ def create_app():
     app.config.from_object(Config)
     
     # Enable CORS for frontend communication
-    CORS(app, origins=['http://localhost:3000', 'http://localhost:5000', 'https://*.vercel.app'])
+    # Allow your actual frontend URL
+    CORS(app, origins=[
+        'http://localhost:5173',  # Vite dev server
+        'http://localhost:3000',  # React dev server
+        'http://localhost:5000',  # If needed
+        'https://*.vercel.app'    # Your deployed app
+    ], supports_credentials=True)
     
     # Register blueprints
     from app.routes import main_bp, api_bp
