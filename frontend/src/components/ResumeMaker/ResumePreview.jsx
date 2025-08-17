@@ -3,6 +3,8 @@ import Templates2 from './templates/Templates2'
 import Templates3 from './templates/Templates3'
 import Template4 from './templates/Template4'
 import Templates5 from './templates/Templates5'
+// import Navbar from '../Navbar'
+
 function ResumePreview({ selected, data }) {
   const templates = {
     1: <Templates1 data={data} />,
@@ -12,7 +14,13 @@ function ResumePreview({ selected, data }) {
     5: <Templates5 data={data} />,
   };
 
-  return <div>{templates[selected]}</div>;
+  return (<>
+  
+  {/* <Navbar/> */}
+  {/* <div className='mt-10 p-4'> */}
+  <div>{templates[selected]}</div>
+  {/* </div> */}
+</>);
 }
 
 export default ResumePreview;

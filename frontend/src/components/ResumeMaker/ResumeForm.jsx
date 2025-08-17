@@ -44,10 +44,7 @@ export default function ResumeForm({ formData, setFormData }) {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Resume Builder</h1>
-          <p className="text-gray-600">Create your professional resume with ease</p>
-        </div>
+        
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Column - Personal Info */}

@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import axios from "axios";
 
+// Get API URL from environment variable or default to local
+const API_BASE_URL = import.meta.env.VITE_AI_INTERVIEWER_BASE_URL || "http://localhost:5000";
+
 const useInterviewStore = create((set, get) => ({
   // Shared state
   level: "",
@@ -36,7 +39,7 @@ const useInterviewStore = create((set, get) => ({
       }
 
       const res = await axios.post(
-        "http://localhost:5000/api/generate-question",
+        `${API_BASE_URL}/api/generate-question`,
         requestData,
         {
           headers: {
@@ -78,7 +81,7 @@ const useInterviewStore = create((set, get) => ({
       }
 
       const res = await axios.post(
-        "http://localhost:5000/api/evaluate-answer",
+        `${API_BASE_URL}/api/evaluate-answer`,
         requestData,
         {
           headers: {
