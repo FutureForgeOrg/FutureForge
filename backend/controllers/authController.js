@@ -4,6 +4,7 @@ import BaseUser from "../models/BaseUser.js";
 import EmailVerificationToken from "../models/EmailVerificationToken.js";
 import { generateToken } from "../utils/jwtToken.js";
 import { sendMail } from "../utils/sendMail.js";
+import Profile from "../models/ProfileSchema.js";
 
 export const handleSignup = async (req, res) => {
     const { username, email, password, gender } = req.body;
@@ -242,6 +243,13 @@ export const handleEmailVerification = async (req, res) => {
         user.isVerified = true;
         user.expiresAt = undefined; // remove auto-delete expiration
         await user.save();
+
+        const profile = new Profile({
+            userId : user._id,
+            name : user.username
+        })
+
+        await profile.save();
 
         // cleanup: delete the verification token - after successful verification
         await EmailVerificationToken.deleteOne({ _id: verificationToken._id });
