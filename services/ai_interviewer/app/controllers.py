@@ -1,5 +1,5 @@
 from services.groq_service import GroqService
-from app.utils import format_question_prompt, format_evaluation_prompt, detect_dont_know_answer
+from app.utils import format_question_prompt, format_evaluation_prompt
 import logging
 import time
 import random
@@ -41,30 +41,14 @@ class InterviewController:
         return self._get_fallback_question(level, role, topic)
     
     def evaluate_answer(self, question, answer, level, role=None, topic=None):
-        """Evaluate user's answer with improved logic"""
+        """Evaluate user's answer using improved GroqService logic"""
         try:
-            # Handle empty or very short answers (score = 0)
-            if not answer or len(answer.strip()) < 2:
-                return {
-                    'score': 0,
-                    'feedback': 'No answer provided. Please try to answer the question, even if you are unsure.',
-                    'max_score': 10
-                }
-            
-            # Handle "don't know" responses (score = 1)
-            if detect_dont_know_answer(answer):
-                return {
-                    'score': 1,
-                    'feedback': 'Acknowledging uncertainty is honest, but try to provide any related knowledge or reasoning you might have, even if partial.',
-                    'max_score': 10
-                }
-            
-            # Use improved evaluation service
+            # Use the enhanced evaluation from GroqService
             evaluation = self.groq_service.evaluate_answer_improved(
                 question, answer, level, role, topic
             )
             
-            # Validate evaluation
+            # Validate evaluation response
             if self._is_valid_evaluation(evaluation):
                 return evaluation
             else:
@@ -137,13 +121,20 @@ class InterviewController:
             return False
         
         feedback = evaluation.get('feedback', '')
-        if not feedback or len(feedback.strip()) < 20:
+        if not feedback or len(feedback.strip()) < 15:
             return False
         
         return True
     
     def _fallback_evaluation(self, question, answer, level):
         """Fallback evaluation when AI fails"""
+        if not answer or len(answer.strip()) < 2:
+            return {
+                'score': 0,
+                'feedback': 'No answer provided. Please try to answer the question.',
+                'max_score': 10
+            }
+        
         answer_len = len(answer.strip())
         words = len(answer.split())
         
