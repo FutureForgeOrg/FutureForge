@@ -1,40 +1,34 @@
 import re
 
 def format_question_prompt(level, role=None, topic=None):
-    """Generate a unique, practical interview question prompt"""
+    """Generate a clean interview question prompt"""
     
     context = role if role else topic
     context_type = "role" if role else "topic"
     
-    base_prompt = f"""You are an expert technical interviewer. Generate ONE unique, practical interview question.
+    base_prompt = f"""Generate ONE direct interview question.
 
 Level: {level}
 {context_type.title()}: {context}
 
-STRICT REQUIREMENTS:
-- Generate a DIFFERENT question each time, even for same inputs
-- Focus on practical understanding and real-world scenarios
-- Ask about problem-solving, best practices, or concepts
-- NO code writing questions - focus on reasoning and knowledge
-- Keep it 1-3 lines maximum
-- Make it interview-realistic and engaging
+Requirements:
+- Direct question only
+- No introduction or explanation
+- 1-2 lines maximum
+- Real interview style
+- Focus on knowledge and understanding
 
-VARIETY TECHNIQUES:
-- Ask about different aspects: challenges, benefits, comparisons, experiences
-- Use different question starters: "How would you...", "What's your approach to...", "When would you..."
-- Focus on different scenarios: troubleshooting, optimization, decision-making
-
-Return ONLY the question, nothing else."""
+Return only the question text."""
 
     return base_prompt
 
 def format_evaluation_prompt(question, answer, level, role=None, topic=None):
-    """Format prompt for AI answer evaluation with quality-based scoring"""
+    """Format prompt for strict answer evaluation"""
     
     context = role if role else topic
     context_type = "role" if role else "topic"
     
-    prompt = f"""You are a fair technical interviewer evaluating this candidate's answer. Focus on QUALITY, not length.
+    prompt = f"""Evaluate this interview answer with strict scoring.
 
 QUESTION: {question}
 ANSWER: {answer}
@@ -45,56 +39,25 @@ LEVEL: {level}"""
     
     prompt += """
 
-SCORING CRITERIA (0-10):
-0: No answer provided
-1: "I don't know" or similar non-answers
-2-3: Shows little understanding, major errors
-4-5: Basic understanding, some correct points but gaps
-6-7: Good understanding, mostly correct with minor issues
-8-9: Strong understanding, well-explained, accurate
-10: Exceptional answer, comprehensive and insightful
+SCORING RULES (0-10):
+0: Empty, random text, special characters, bad words, or unrelated content
+1: "I don't know", "too complex", or similar non-answers
+2: Very little understanding, major errors
+3: Basic understanding with significant gaps
+4: Some correct points but incomplete
+5: Average answer with correct basics
+6: Good answer with proper understanding
+7: Strong answer with good detail
+8: Excellent comprehensive answer
+9: Outstanding with insights
+10: Perfect expert-level response
 
-IMPORTANT:
-- Short but accurate answers can score HIGH
-- Long but wrong answers should score LOW
-- Focus on accuracy, clarity, and practical understanding
-- Be encouraging but honest
-- Consider the difficulty level
+Provide 3-5 lines of specific feedback.
 
-Provide specific, actionable feedback in 3-5 sentences.
-
-FORMAT:
 Score: [0-10]
-Feedback: [Specific, constructive feedback about what was good, what was missing, and how to improve]"""
+Feedback: [your feedback]"""
 
     return prompt
-
-def detect_dont_know_answer(answer):
-    """Detect if answer is a variation of 'I don't know'"""
-    if not answer:
-        return False
-    
-    answer_lower = answer.lower().strip()
-    
-    # Common "don't know" phrases
-    dont_know_phrases = [
-        "i don't know", "i dont know", "dont know", "don't know",
-        "no idea", "not sure", "i'm not sure", "im not sure",
-        "no clue", "i have no idea", "i have no clue",
-        "not certain", "uncertain", "i don't have a clue",
-        "i dont have a clue", "i don't understand", "i dont understand"
-    ]
-    
-    # Check exact matches
-    if answer_lower in dont_know_phrases:
-        return True
-    
-    # Check if answer is mostly "don't know" with minimal additions
-    for phrase in dont_know_phrases:
-        if phrase in answer_lower and len(answer_lower) <= len(phrase) + 10:
-            return True
-    
-    return False
 
 def get_level_options():
     """Return available skill levels"""
@@ -123,13 +86,13 @@ def get_topic_options():
     ]
 
 def clean_response_text(text):
-    """Clean and format AI response text"""
+    """Clean AI response text"""
     if not text:
         return ""
     
     text = text.strip()
     
-    # Remove common AI response prefixes
+    # Remove common prefixes
     prefixes = [
         "Here's a question:", "Question:", "Here is a question:",
         "Interview question:", "Technical question:", "Here's your question:",
@@ -141,17 +104,17 @@ def clean_response_text(text):
             text = text[len(prefix):].strip()
             break
     
-    # Remove leading colons or dashes
+    # Remove leading symbols
     text = text.lstrip(':-').strip()
     
-    # Remove wrapping quotes if present
+    # Remove wrapping quotes
     if (text.startswith('"') and text.endswith('"')) or (text.startswith("'") and text.endswith("'")):
         text = text[1:-1].strip()
     
     return text
 
 def validate_request_data(data, required_fields):
-    """Validate request data contains required fields"""
+    """Validate request data"""
     if not data:
         return False, "No data provided"
     
@@ -159,7 +122,6 @@ def validate_request_data(data, required_fields):
     if missing_fields:
         return False, f"Missing required fields: {', '.join(missing_fields)}"
     
-    # Validate level field
     if 'level' in data:
         valid_levels = get_level_options()
         if data['level'] not in valid_levels:
@@ -168,7 +130,7 @@ def validate_request_data(data, required_fields):
     return True, "Valid"
 
 def sanitize_input(text, max_length=1000):
-    """Sanitize user input for safety and length"""
+    """Sanitize user input"""
     if not text:
         return ""
     
@@ -178,7 +140,7 @@ def sanitize_input(text, max_length=1000):
     if len(text) > max_length:
         text = text[:max_length]
     
-    # Remove potentially harmful HTML tags or scripts
+    # Remove dangerous HTML
     dangerous_substrings = ['<script', '</script>', '<iframe', '</iframe>']
     for substr in dangerous_substrings:
         text = text.replace(substr, '')
