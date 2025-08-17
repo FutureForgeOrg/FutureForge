@@ -234,3 +234,17 @@ if __name__ == '__main__':
     
     # Run the application
     main()
+
+# Create app instance for production servers like Gunicorn
+app = None
+
+def get_app():
+    """Factory function for production deployment"""
+    global app
+    if app is None:
+        from app import create_app
+        app = create_app(api_only=True)  # Use API-only mode for production
+    return app
+
+# Create app instance for Gunicorn
+app = get_app()
