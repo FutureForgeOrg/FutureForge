@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import ResumeForm from '../../components/ResumeMaker/ResumeForm';
 import { useNavigate } from 'react-router-dom';
 import useResumeStore from '../../store/useResumeStore';
+import Navbar from '../../components/Navbar';
 
 function Resume() {
   const { formData, setFormData, selectedTemplate } = useResumeStore();
@@ -51,7 +52,9 @@ function Resume() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <><Navbar />
+    <div className="min-h-screen bg-gray-50 mt-16">
+      
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-8">
@@ -119,7 +122,7 @@ function Resume() {
           </div>
         </div>
       </div>
-    </div>
+    </div></>
   );
 }
 

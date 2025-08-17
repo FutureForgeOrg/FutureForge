@@ -4,6 +4,8 @@ import ResumePreview from '../../components/ResumeMaker/ResumePreview';
 import { exportToPDF } from '../../components/ResumeMaker/pdfExporter';
 import useResumeStore from '../../store/useResumeStore';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../Navbar';
+
 function PreviewPage() {
   const previewRef = useRef();
    const navigate = useNavigate();
@@ -11,6 +13,9 @@ function PreviewPage() {
   const { formData, selectedTemplate, setSelectedTemplate } = useResumeStore();
 
   return (
+    <>
+    <Navbar />
+    <div className='mt-20'>
     <div className='mt-6'>
         <div className="mb-4">
       <TemplateSelector
@@ -36,6 +41,8 @@ function PreviewPage() {
         </button>
       </div>
     </div>
+    </div>
+    </>
   );
 }
 
