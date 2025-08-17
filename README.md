@@ -1,3 +1,5 @@
+# *under development*
+
 # FutureForge: Forge Ahead With Us
 
 FutureForge is a full-stack career improvement platform that simplifies job searching by integrating smart job matching, customizable portfolio creation, and professional resume building in one unified solution.
