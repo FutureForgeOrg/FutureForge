@@ -6,13 +6,18 @@ import growth from '../../assets/dashboard/growth.svg';
 import checklist from '../../assets/dashboard/checklist.svg';
 import creativity from '../../assets/dashboard/creativity.svg';
 import briefcase from '../../assets/dashboard/briefcase.svg';
+import { useAuthStore } from '../../store/useAuthStore';
+import useProfileStore from '../../store/useProfileStore';
 
-export default function WelcomeCard({ userName = "Prince Patel" }) {
+export default function WelcomeCard() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [currentIcon, setCurrentIcon] = useState(0);
     const [currentQuote, setCurrentQuote] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
-    const [streak, setStreak] = useState(7); // Example streak
+    // const [streak, setStreak] = useState(7); // Example streak
+
+    const {authUser} = useAuthStore();
+    const {profile} = useProfileStore();
 
     const icons = [
         { icon: briefcase, label: 'Career', color: '#7c3aed' },
@@ -106,7 +111,7 @@ export default function WelcomeCard({ userName = "Prince Patel" }) {
                     </div>
 
                     <p className="text-xl md:text-2xl font-semibold mb-6 md:mb-4 mx-0" style={{ color: greeting.color }}>
-                        {greeting.text}, {userName}!
+                        {greeting.text}, {authUser.username || profile.name}!
                     </p>
 
                     {/* Date and Time */}

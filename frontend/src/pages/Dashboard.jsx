@@ -44,8 +44,7 @@ const PortfolioCard = lazy(() => import('../components/Dashboard/PortfolioCard')
 const ResumeCard = lazy(() => import('../components/Dashboard/ResumeCard'));
 
 export default function Dashboard() {
-  const [profileCompletion, setProfileCompletion] = useState(30);
-
+  
   return (
     <>
       <Navbar />
@@ -54,8 +53,8 @@ export default function Dashboard() {
           <div className='mt-6'>
             <div className="max-w-6xl mx-auto">
               <Suspense fallback={<SkelatonModel/>}> 
-                <WelcomeCard userName="Prince Patel" />
-                <Cards profileCompletion={profileCompletion} />
+                <WelcomeCard />
+                <Cards />
                 <PortfolioCard />
                 <ResumeCard />
                 <AiInterviewCard />
