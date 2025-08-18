@@ -99,18 +99,11 @@ const AiInterviewCard = () => {
 
                     {/* Right Image */}
                     <div className="md:w-1/2 relative hidden md:block">
-                        <div className="absolute right-[-40px] top-[-100px] w-[500px] h-[500px] rotate-12 opacity-40 transition-transform duration-500 hover:scale-105">
-                            {/* AI Interview Visual */}
-                            <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-orange-500/20 rounded-3xl flex items-center justify-center border border-white/10">
-                                <div className="text-center">
-                                    <div className="relative">
-                                        <MessageCircle className="w-24 h-24 text-white/30 mx-auto mb-4 animate-pulse" />
-                                        <Brain className="w-16 h-16 text-white/20 mx-auto animate-bounce" style={{ animationDelay: '1s' }} />
-                                        <div className="absolute -top-2 -right-2 w-4 h-4 bg-green-400 rounded-full animate-ping"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <img
+                            src="/src/assets/robot.png.png"
+                            alt="Decorative Background"
+                            className="absolute right-[-40px] top-[-100px] w-[500px] h-[500px] rotate-12 opacity-40 transition-transform duration-500 hover:scale-105"
+                        />
                     </div>
                 </div>
             </div>
