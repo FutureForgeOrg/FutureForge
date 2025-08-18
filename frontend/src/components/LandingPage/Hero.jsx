@@ -27,8 +27,8 @@ function Hero() {
                     </h2>
 
                     <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-                        Discover your ideal job, track top hackathons, and unlock personalized career insights - powered by AI and smart career tools.
-                    </p>
+                       Land your dream job with AI-powered matching, ace interviews with real-time feedback, and stand out with professional resumes and stunning portfolios
+                       </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
                         <Link to="/Register">
@@ -42,19 +42,19 @@ function Hero() {
                     {/* Enhanced Stats */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 mb-2">50K+</div>
+                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 mb-2">5K+</div>
                             <div className="text-gray-300 font-medium">Jobs Matched</div>
                         </div>
                         <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 mb-2">95%</div>
-                            <div className="text-gray-300 font-medium">Success Rate</div>
+                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 mb-2">3+ </div>
+                            <div className="text-gray-300 font-medium">Professional Resume Formats</div>
                         </div>
                         <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600 mb-2">1000+</div>
-                            <div className="text-gray-300 font-medium">Hackathons</div>
+                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600 mb-2">10+</div>
+                            <div className="text-gray-300 font-medium">Portfolio Templates</div>
                         </div>
                         <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 mb-2">25K+</div>
+                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 mb-2">2K+</div>
                             <div className="text-gray-300 font-medium">Happy Users</div>
                         </div>
                     </div>

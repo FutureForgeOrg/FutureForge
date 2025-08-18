@@ -5,22 +5,22 @@ function Testimonials() {
 
     const testimonials = [
         {
-            name: "priya Sharma",
-            role: "Software Engineer at Google",
-            content: "FutureForge helped me land my dream job with 95% match accuracy!",
-            avatar: "PS"
+            name: "Ananya Verma",
+            role: "Data Analyst at Deloitte",
+            content: "FutureForge’s smart job search found me roles I never saw elsewhere — landed two interviews within the first week!",
+            avatar: "AV"
         },
         {
-            name: "Rahul Patel",
-            role: "Hackathon Winner",
-            content: "Won 3 hackathons in 6 months using their event tracker.",
-            avatar: "RP"
+            name: "Rohan Mehta",
+            role: "UI/UX Designer at Swiggy",
+            content: "Their resume and portfolio tools helped me stand out. Recruiters loved my professional design and personal portfolio link!",
+            avatar: "RM"
         },
         {
-            name: "kriti patel",
-            role: "Product Manager at Microsoft",
-            content: "The AI career advisor guided my successful career transition.",
-            avatar: "AS"
+            name: "Simran Kapoor",
+            role: "Software Engineer at Amazon",
+            content: "The AI interviewer prepared me so well that my real interview felt easy — the feedback was spot-on every time!",
+            avatar: "SK"
         }
     ];
     return (
