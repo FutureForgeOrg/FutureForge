@@ -59,6 +59,14 @@ const Terms = () => {
         >
           Back to Sign Up
         </button>
+       
+          <button
+            onClick={() => navigate("/")}
+            className="ml-4 px-6 py-3 bg-gray-200 text-gray-800 font-semibold rounded border-2 border-gray-300 hover:bg-gray-300 transition-colors duration-200"
+          >
+            Back to Home
+          </button>
+        
       </div>
     </div>
   );

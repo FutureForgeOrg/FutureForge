@@ -1,24 +1,29 @@
 import React from 'react'
 import { Brain, Search, Mail } from 'lucide-react'
 function Features() {
+
+
     const features = [
     {
       icon: Brain,
-      title: "Resume Maker",
-      description: "Generate your resume quickly with smart suggestionss and No design skills needed — just fill in your info."
+      title: "Smart Job Search",
+      description: "Find relevant jobs with real-time scraping, advanced filters, bookmarking, and automated email alerts directly to your inbox"
 
     },
     {
       icon: Search,
-      title: "Smart Job Matching",
-      description: "We scrape jobs from top platforms and use intelligent algorithms to find your ideal matches."
+      title: " Resume Builder",
+      description: "Create ATS-friendly resumes with professional templates, instant previews, and downloads — no design skills required, just fill in details."
     },
     {
       icon: Mail,
-      title: "Event Notifications",
-      description: "Don’t waste time searching—events come to you.Weekly or instant notifications based on your preference."
-
+      title: "Portfolio Builder",
+      description:"Design stunning portfolios with customizable themes, instant deployment, SEO-friendly previews, and shareable links to showcase your skills globally."
     },
+    {
+      title:"AI Interviewer",
+      description:"Practice interviews with AI, get instant scores, and receive feedback on answers through text or voice for skill improvement."
+    }
   ];
   return (
     <>
@@ -34,15 +39,15 @@ function Features() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             {features.map((feature, index) => (
               <div
                 key={index}
                 className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 hover:border-purple-400/50 transition-all duration-500 text-white transform hover:scale-105 hover:shadow-2xl"
               >
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:shadow-purple-500/25 transition-shadow duration-300">
+                {/* <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:shadow-purple-500/25 transition-shadow duration-300">
                   <feature.icon className="h-8 w-8 text-white" />
-                </div>
+                </div> */}
                 <h3 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200">{feature.title}</h3>
                 <p className="text-gray-300 text-lg leading-relaxed">{feature.description}</p>
               </div>
