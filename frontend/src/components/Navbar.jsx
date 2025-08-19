@@ -98,13 +98,13 @@ const Navbar = () => {
                 transition-all duration-300 origin-top
                 ${showToolsDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}
               `}>
-                {['Resume', 'Portfolio', 'Interview'].map(tool => (
+                {['Resume', 'Portfolio', 'Interview', 'Quiz'].map(tool => (
                   <button
                     key={tool}
                     onClick={() => handleToolsClick(tool)}
                     className="w-full text-left px-4 py-3 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-indigo-300 transition-all duration-200"
                   >
-                    {tool} Builder
+                    {tool} 
                   </button>
                 ))}
               </div>
@@ -175,7 +175,7 @@ const Navbar = () => {
 
             {showToolsDropdown && (
               <div className="pl-4 pt-1 space-y-1">
-                {['Resume', 'Portfolio', 'Interview'].map(tool => (
+                {['Resume', 'Portfolio', 'Interview', 'Quiz'].map(tool => (
                   <button
                     key={tool}
                     onClick={() => { handleLinkClick(); navigate(`/tools/${tool}`); }}
