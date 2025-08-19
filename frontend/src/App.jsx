@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 import Portfolio from './pages/tools/Portfolio';
 import Resume from './pages/tools/Resume';
 import Interview from './pages/tools/Interview';
+import Quiz from './pages/tools/Quiz'
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/useAuthStore';
 import { Loader } from './components/ui/Loader';
@@ -54,6 +55,7 @@ function App() {
           <Route path='/tools/portfolio' element={<Portfolio />} />
           <Route path='/tools/resume' element={<Resume />} />
           <Route path='/tools/Interview/*' element={<Interview />} />
+          <Route path='/tools/Quiz' element={<Quiz/>}/>
           <Route path='/PreviewPage' element={<PreviewPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/verify-email/:token" element={<EmailVerificationHandler />} />
