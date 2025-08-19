@@ -1,8 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
+import LandingPage from "../pages/LandingPage";
+import Register from "../pages/Register";
 const Terms = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from;
 
   const handleRedirect = () => {
     setTimeout(() => {
@@ -52,21 +56,22 @@ const Terms = () => {
             for any concerns.
           </p>
         </div>
-
-        <button
-          onClick={() => navigate("/register")}
-          className="mt-8 px-6 py-3 bg-purple-700 text-white font-semibold rounded border-2 border-purple-700 hover:bg-blue-200 hover:text-indigo-900 hover:border-blue-500 transition-colors duration-200"
-        >
-          Back to Sign Up
-        </button>
-       
+        {from === "Register" &&
+          <button
+            onClick={() => navigate("/register")}
+            className="mt-8 px-6 py-3 bg-purple-700 text-white font-semibold rounded border-2 border-purple-700 hover:bg-blue-200 hover:text-indigo-900 hover:border-blue-500 transition-colors duration-200"
+          >
+            Back to Sign Up
+          </button>
+        }
+        {from === "LandingPage" &&
           <button
             onClick={() => navigate("/")}
-            className="ml-4 px-6 py-3 bg-gray-200 text-gray-800 font-semibold rounded border-2 border-gray-300 hover:bg-gray-300 transition-colors duration-200"
+            className="mt-8 px-6 py-3 bg-purple-700 text-white font-semibold rounded border-2 border-purple-700 hover:bg-blue-200 hover:text-indigo-900 hover:border-blue-500 transition-colors duration-200"
           >
             Back to Home
           </button>
-        
+        }
       </div>
     </div>
   );

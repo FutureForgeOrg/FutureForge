@@ -291,7 +291,7 @@ export default function Register() {
                     className="w-5 h-5 text-blue-500 border-2 border-gray-300 rounded focus:ring-blue-500"
                   />
                   <p>By signing up, I agree with</p>
-                  <Link to="/terms">
+                  <Link to="/terms"  state={{ from: "Register" }}>
                     <span className="text-blue-500 hover:underline cursor-pointer">
                       Terms & Conditions
                     </span>
