@@ -5,6 +5,8 @@ import { Plus, SquareArrowUpRight, Monitor, Flame } from 'lucide-react';
 import GridBackground from '../../components/ui/GridBackground';
 import Navbar from '../../components/Navbar';
 import BackgroundWrapper from '../../components/ui/BackgroundWrapper';
+import useProfileStore from '../../store/useProfileStore';
+import { useProfileQuery } from '../../hooks/useProfile';
 
 const themeImages = import.meta.glob('/src/assets/themes/*.webp', {
   eager: true,
@@ -13,6 +15,8 @@ const themeImages = import.meta.glob('/src/assets/themes/*.webp', {
 
 
 const Portfolio = () => {
+  const { data: profile, isLoading } = useProfileQuery();
+
   const [previous, setPrevious] = useState([]);
   const [step, setStep] = useState('dashboard');
   const [loading, setLoading] = useState(false);
@@ -33,11 +37,43 @@ const Portfolio = () => {
     social: [{ platform: '', link: '' }]
   });
 
+  // const { profile } = useProfileStore();
+
   useEffect(() => {
     axiosInstance.get('/portfolio/all')
       .then(res => setPrevious(res.data.portfolios || []))
       .catch(() => toast.error("Failed to load previous portfolios"));
   }, []);
+
+  useEffect(() => {
+    if (step === "form") {
+      try {
+        if (profile) {
+          setForm(prev => ({
+            ...prev,
+            name: profile.name || "",
+            title: profile.title || "",
+            about: profile.about || "",
+            skills: profile.skills?.length ? profile.skills : [""],
+            experience: profile.experience?.length
+              ? profile.experience
+              : [{ role: "", company: "", duration: "", description: "" }],
+            projects: profile.projects?.length
+              ? profile.projects
+              : [{ title: "", description: "", link: "" }],
+            education: profile.education?.length
+              ? profile.education
+              : [{ degree: "", institution: "", year: "" }],
+            social: profile.social?.length
+              ? profile.social
+              : [{ platform: "", link: "" }]
+          }));
+        }
+      } catch (error) {
+          toast.error("Failed to load profile details : ",error.message());
+      }
+    }
+  },[step])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
