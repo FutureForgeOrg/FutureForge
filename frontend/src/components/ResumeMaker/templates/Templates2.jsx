@@ -194,7 +194,7 @@ export default function TemplatesCompact({ data }) {
                     rel="noopener noreferrer"
                     className="text-blue-500 hover:underline"
                   >
-                    {proj.link}
+                   🔗 View
                   </a>
                 )}
               </li>

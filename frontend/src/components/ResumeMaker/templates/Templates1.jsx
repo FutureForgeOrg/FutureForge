@@ -122,7 +122,7 @@ export default function Templates1({ data }) {
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:underline"
                     >
-                      {proj.link}
+                     🔗 View
                     </a>
                   )}
                 </li>
