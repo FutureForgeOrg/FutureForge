@@ -5,7 +5,7 @@ import useResumeStore from '../../store/useResumeStore';
 import Navbar from '../../components/Navbar';
 
 function Resume() {
-  const { formData, setFormData, selectedTemplate } = useResumeStore();
+  const { formData, setFormData, selectedTemplate ,resetForm} = useResumeStore();
   const [isFormValid, setIsFormValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -28,27 +28,28 @@ function Resume() {
     navigate('/PreviewPage'); // data will persist because of Zustand
   };
 
-  const handleSaveDraft = () => {
-    localStorage.setItem('resumeFormData', JSON.stringify(formData));
-    alert('Draft saved successfully!');
-  };
+  // const handleSaveDraft = () => {
+  //   localStorage.setItem('resumeFormData', JSON.stringify(formData));
+  //   alert('Draft saved successfully!');
+  // };
 
   const handleClearForm = () => {
-    if (window.confirm('Are you sure you want to clear all form data?')) {
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        address: "",
-        skills: "",
-        education: [""],
-        experience: "",
-        projects: [""],
-        certificates: [""],
-        links: "",
-      });
-      localStorage.removeItem('resumeFormData');
-    }
+    // if (window.confirm('Are you sure you want to clear all form data?')) {
+    //   setFormData({
+    //     name: "",
+    //     email: "",
+    //     phone: "",
+    //     address: "",
+    //     skills: "",
+    //     education: [""],
+    //     experience: "",
+    //     projects: [""],
+    //     certificates: [""],
+    //     links: "",
+    //   });
+    //   localStorage.removeItem('resumeFormData');
+    // }
+    resetForm();
   };
 
   return (
@@ -89,12 +90,12 @@ function Resume() {
                   {isLoading ? 'Processing...' : 'Preview Resume'}
                 </button>
 
-                <button 
+                {/* <button 
                   onClick={handleSaveDraft}
                   className="w-full py-2 px-4 rounded-lg font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-200"
                 >
                   Save Draft
-                </button>
+                </button> */}
 
                 <button 
                   onClick={handleClearForm}
