@@ -1,0 +1,110 @@
+name: Delete Old Jobs
+
+on:
+  # Schedule: 27th of every month at 2:00 AM UTC (7:30 AM IST)
+  schedule:
+    - cron: "0 2 27 * *" # 27th day of every month
+
+  # Allow manual trigger with options
+  workflow_dispatch:
+    inputs:
+      days_old:
+        description: "Delete jobs older than X days"
+        required: false
+        default: "60"
+        type: choice
+        options:
+          - "30"
+          - "45"
+          - "60"
+          - "90"
+          - "120"
+      dry_run:
+        description: "Dry run - don't actually delete, just show what would be deleted"
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  delete-old-jobs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r services/job_engine/requirements.txt
+
+      - name: Validate environment
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          JOBS_COLLECTION: ${{ secrets.JOBS_COLLECTION }}
+        run: |
+          echo "Validating database connection..."
+          python -c "
+          import sys
+          sys.path.append('services/job_engine')
+          from common.database import db
+          stats = db.get_database_stats()
+          print(f'Database: {stats.get(\"total_jobs\", 0)} total jobs')
+          print(f'Recent jobs (7d): {stats.get(\"recent_jobs_7d\", 0)}')
+          print('Database connection successful')
+          "
+
+      - name: Delete old jobs
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          JOBS_COLLECTION: ${{ secrets.JOBS_COLLECTION }}
+          DELETE_JOBS_OLDER_THAN_DAYS: ${{ github.event.inputs.days_old || '60' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          cd services/job_engine
+          python scripts/delete_old_jobs.py
+
+      - name: Clear Redis cache after deletion
+        if: github.event.inputs.dry_run != 'true'
+        env:
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+        run: |
+          pip install redis
+          python -c "
+          import redis
+          r = redis.Redis(
+              host='${{ secrets.REDIS_HOST }}',
+              port=int('${{ secrets.REDIS_PORT }}'),
+              username='default',
+              password='${{ secrets.REDIS_PASSWORD }}',
+              decode_responses=True
+          )
+          deleted = r.delete('latest_jobs_static')
+          print(f'Redis cache cleared after job deletion: {deleted}')
+          "
+
+      - name: Final database stats
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          JOBS_COLLECTION: ${{ secrets.JOBS_COLLECTION }}
+        run: |
+          python -c "
+          import sys
+          sys.path.append('services/job_engine')
+          from common.database import db
+          stats = db.get_database_stats()
+          print(f'::notice::Final database stats - Total jobs: {stats.get(\"total_jobs\", 0)}')
+          print(f'::notice::Recent jobs (7d): {stats.get(\"recent_jobs_7d\", 0)}')
+          "
