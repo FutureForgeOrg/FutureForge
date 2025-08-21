@@ -103,11 +103,12 @@ class JobDatabase:
                 
             # Check if job already exists
             if self.job_exists(job_data["job_id"]):
-                self.jobs_collection.update_one(
-                    {"job_id": job_data["job_id"]},
-                    {"$set": {"scraped_date": job_data["scraped_date"]}}
-                )
-                logger.info(f"Job already exists, updated scraped date: {job_data['job_id']}")
+                # self.jobs_collection.update_one(
+                #     {"job_id": job_data["job_id"]},
+                #     {"$set": {"scraped_date": job_data["scraped_date"]}}
+                # )
+                # Job exists - DO NOT update scraped_date, just log and return
+                logger.info(f"Job already exists, keeping original scraped_date: {job_data['job_id']}")                
                 return True
             
             # Insert new job
