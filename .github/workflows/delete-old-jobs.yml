@@ -47,9 +47,15 @@ jobs:
 
       - name: Validate environment
         env:
+          # Add SERPAPI_API_KEY to fix the validation error
+          SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
           JOBS_COLLECTION: ${{ secrets.JOBS_COLLECTION }}
+          # Set required environment variables for config validation
+          LOCATION_MODE: India
+          GITHUB_ACTIONS_MODE: true
+          SCRAPING_ENABLED: true
         run: |
           echo "Validating database connection..."
           python -c "
@@ -64,11 +70,17 @@ jobs:
 
       - name: Delete old jobs
         env:
+          # Add SERPAPI_API_KEY here too for consistency
+          SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
           JOBS_COLLECTION: ${{ secrets.JOBS_COLLECTION }}
           DELETE_JOBS_OLDER_THAN_DAYS: ${{ github.event.inputs.days_old || '60' }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          # Set environment variables to avoid config validation errors
+          LOCATION_MODE: India
+          GITHUB_ACTIONS_MODE: true
+          SCRAPING_ENABLED: false # Not needed for deletion
         run: |
           cd services/job_engine
           python scripts/delete_old_jobs.py
@@ -96,9 +108,14 @@ jobs:
 
       - name: Final database stats
         env:
+          # Add all required environment variables
+          SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
           JOBS_COLLECTION: ${{ secrets.JOBS_COLLECTION }}
+          LOCATION_MODE: India
+          GITHUB_ACTIONS_MODE: true
+          SCRAPING_ENABLED: false
         run: |
           python -c "
           import sys
