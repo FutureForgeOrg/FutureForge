@@ -47,7 +47,15 @@ const Quiz = () => {
       description: 'Solve numerical problems, percentages, ratios, and logical reasoning',
       color: 'from-purple-500 to-pink-600',
       bgColor: 'bg-purple-500/20'
-    }
+    },
+    {
+      id: 'OsAndCn',
+      name: 'Os & Computer Networks',
+      icon: Code,
+      description: 'Understand operating systems, networking protocols, and system architecture',
+      color: 'from-red-500 to-pink-600',
+      bgColor: 'bg-red-500/20'
+    },
   ];
 
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -282,10 +290,10 @@ const Quiz = () => {
                   <div className="font-semibold">Time Limit</div>
                   <div>15 minutes</div>
                 </div>
-                <div className="text-gray-300">
+                {/* <div className="text-gray-300">
                   <div className="font-semibold">Difficulty</div>
                   <div>Hardcore Level</div>
-                </div>
+                </div> */}
                 <div className="text-gray-300">
                   <div className="font-semibold">Scoring</div>
                   <div>1 point per correct answer</div>

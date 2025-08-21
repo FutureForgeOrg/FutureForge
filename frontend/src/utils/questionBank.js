@@ -702,6 +702,326 @@ export const questionBank = {
       { id: 28, question: "If a polynomial has roots 2 and 3, what could be the polynomial?", options: ["x² - 5x + 6", "x² + 5x + 6", "x² - 5x - 6", "x² + 5x - 6"], correct: 0, explanation: "If roots are 2 and 3, polynomial is (x-2)(x-3) = x² - 5x + 6" },
       { id: 29, question: "What is the limit of (x² - 4)/(x - 2) as x approaches 2?", options: ["0", "2", "4", "undefined"], correct: 2, explanation: "Factoring: (x-2)(x+2)/(x-2) = x+2. As x→2, limit = 2+2 = 4" },
       { id: 30, question: "If A = {1,2,3} and B = {2,3,4}, what is A ∩ B?", options: ["{1}", "{2,3}", "{4}", "{1,2,3,4}"], correct: 1, explanation: "A ∩ B represents elements common to both sets, which are {2,3}" }
-    ]
+    ],
+
+
+
+    OsAndCn:[
+  {
+    id: 1,
+    question: "What is the primary function of an operating system?",
+    options: ["Compile programs", "Manage hardware and software resources", "Design user interfaces", "Debug applications"],
+    correct: 1,
+    explanation: "The primary function of an OS is to manage hardware and software resources, acting as an intermediary between users and computer hardware."
+  },
+  {
+    id: 2,
+    question: "In the OSI model, which layer is responsible for routing?",
+    options: ["Physical Layer", "Data Link Layer", "Network Layer", "Transport Layer"],
+    correct: 2,
+    explanation: "The Network Layer (Layer 3) is responsible for routing packets between different networks using IP addresses."
+  },
+  {
+    id: 3,
+    question: "What is a deadlock in operating systems?",
+    options: ["A process that runs indefinitely", "A situation where processes wait for each other indefinitely", "A memory leak", "A scheduling algorithm"],
+    correct: 1,
+    explanation: "A deadlock occurs when two or more processes are blocked forever, waiting for each other to release resources."
+  },
+  {
+    id: 4,
+    question: "Which protocol operates at the Transport Layer?",
+    options: ["HTTP", "IP", "TCP", "Ethernet"],
+    correct: 2,
+    explanation: "TCP (Transmission Control Protocol) operates at the Transport Layer, providing reliable data transmission."
+  },
+  {
+    id: 5,
+    question: "What is the purpose of virtual memory?",
+    options: ["Increase CPU speed", "Allow programs larger than physical memory to run", "Improve disk performance", "Enhance network speed"],
+    correct: 1,
+    explanation: "Virtual memory allows the system to run programs that require more memory than physically available by using disk space as extended memory."
+  },
+  {
+    id: 6,
+    question: "What is the default port number for HTTP?",
+    options: ["21", "23", "80", "443"],
+    correct: 2,
+    explanation: "HTTP uses port 80 as its default port number for web communication."
+  },
+  {
+    id: 7,
+    question: "Which scheduling algorithm can cause starvation?",
+    options: ["Round Robin", "First Come First Serve", "Shortest Job First", "Priority Scheduling"],
+    correct: 3,
+    explanation: "Priority Scheduling can cause starvation where low-priority processes may never get executed if high-priority processes keep arriving."
+  },
+  {
+    id: 8,
+    question: "What does DNS stand for?",
+    options: ["Domain Name System", "Data Network Service", "Digital Network Security", "Dynamic Name Server"],
+    correct: 0,
+    explanation: "DNS stands for Domain Name System, which translates domain names to IP addresses."
+  },
+  {
+    id: 9,
+    question: "What is thrashing in operating systems?",
+    options: ["High CPU utilization", "Excessive paging activity", "Memory corruption", "Process synchronization"],
+    correct: 1,
+    explanation: "Thrashing occurs when the system spends more time paging than executing processes due to insufficient physical memory."
+  },
+  {
+    id: 10,
+    question: "Which of the following is a connectionless protocol?",
+    options: ["TCP", "UDP", "HTTP", "FTP"],
+    correct: 1,
+    explanation: "UDP (User Datagram Protocol) is connectionless, meaning it doesn't establish a connection before sending data."
+  },
+  {
+    id: 11,
+    question: "What is a semaphore in operating systems?",
+    options: ["A type of memory", "A synchronization primitive", "A scheduling algorithm", "A file system"],
+    correct: 1,
+    explanation: "A semaphore is a synchronization primitive used to control access to shared resources by multiple processes."
+  },
+  {
+    id: 12,
+    question: "What is the maximum number of hosts in a Class C network?",
+    options: ["254", "256", "65534", "16777214"],
+    correct: 0,
+    explanation: "A Class C network has 8 host bits, allowing 2^8 - 2 = 254 hosts (excluding network and broadcast addresses)."
+  },
+  {
+    id: 13,
+    question: "Which memory allocation technique suffers from external fragmentation?",
+    options: ["Paging", "Segmentation", "Fixed partitioning", "All of the above"],
+    correct: 1,
+    explanation: "Segmentation suffers from external fragmentation as variable-sized segments create unusable gaps in memory."
+  },
+  {
+    id: 14,
+    question: "What is the purpose of ARP protocol?",
+    options: ["Route packets", "Resolve IP to MAC address", "Encrypt data", "Compress data"],
+    correct: 1,
+    explanation: "ARP (Address Resolution Protocol) resolves IP addresses to MAC addresses in local networks."
+  },
+  {
+    id: 15,
+    question: "What is a race condition?",
+    options: ["CPU scheduling conflict", "Memory access violation", "Outcome depends on timing of events", "Network congestion"],
+    correct: 2,
+    explanation: "A race condition occurs when the outcome of a program depends on the relative timing of events, such as thread execution order."
+  },
+  {
+    id: 16,
+    question: "Which layer of OSI model handles error detection and correction?",
+    options: ["Physical Layer", "Data Link Layer", "Network Layer", "Session Layer"],
+    correct: 1,
+    explanation: "The Data Link Layer is responsible for error detection and correction in transmitted frames."
+  },
+  {
+    id: 17,
+    question: "What is the Banker's algorithm used for?",
+    options: ["CPU scheduling", "Memory management", "Deadlock avoidance", "File allocation"],
+    correct: 2,
+    explanation: "The Banker's algorithm is used for deadlock avoidance by ensuring the system never enters an unsafe state."
+  },
+  {
+    id: 18,
+    question: "What is the default subnet mask for Class B network?",
+    options: ["255.0.0.0", "255.255.0.0", "255.255.255.0", "255.255.255.255"],
+    correct: 1,
+    explanation: "Class B networks use a default subnet mask of 255.255.0.0 (/16), providing 16 network bits and 16 host bits."
+  },
+  {
+    id: 19,
+    question: "What is the difference between preemptive and non-preemptive scheduling?",
+    options: ["Memory usage", "CPU can/cannot be taken away from running process", "Priority levels", "Queue implementation"],
+    correct: 1,
+    explanation: "In preemptive scheduling, the CPU can be taken away from a running process, while in non-preemptive scheduling, it cannot."
+  },
+  {
+    id: 20,
+    question: "Which protocol is used for secure web communication?",
+    options: ["HTTP", "HTTPS", "FTP", "SMTP"],
+    correct: 1,
+    explanation: "HTTPS (HTTP Secure) is used for secure web communication, encrypting data using SSL/TLS protocols."
+  },
+  {
+    id: 21,
+    question: "What is internal fragmentation?",
+    options: ["Unused space within allocated memory blocks", "Gaps between allocated blocks", "Memory corruption", "Stack overflow"],
+    correct: 0,
+    explanation: "Internal fragmentation refers to unused space within allocated memory blocks, common in fixed-size allocation schemes."
+  },
+  {
+    id: 22,
+    question: "What is the purpose of ICMP protocol?",
+    options: ["File transfer", "Error reporting and diagnostics", "Email transmission", "Web browsing"],
+    correct: 1,
+    explanation: "ICMP (Internet Control Message Protocol) is used for error reporting and network diagnostics, like ping and traceroute."
+  },
+  {
+    id: 23,
+    question: "What is a critical section in process synchronization?",
+    options: ["High priority code", "Code that accesses shared resources", "Error handling code", "Initialization code"],
+    correct: 1,
+    explanation: "A critical section is a code segment that accesses shared resources and must be executed by only one process at a time."
+  },
+  {
+    id: 24,
+    question: "What does TTL stand for in networking?",
+    options: ["Time To Live", "Total Transfer Length", "Transmission Time Limit", "Terminal Transfer Layer"],
+    correct: 0,
+    explanation: "TTL stands for Time To Live, indicating the maximum time a packet can exist in the network before being discarded."
+  },
+  {
+    id: 25,
+    question: "What is the main advantage of multithreading?",
+    options: ["Reduced memory usage", "Better resource utilization and responsiveness", "Simpler programming", "Faster disk access"],
+    correct: 1,
+    explanation: "Multithreading provides better resource utilization and application responsiveness by allowing concurrent execution of tasks."
+  },
+  {
+    id: 26,
+    question: "Which routing algorithm is used by RIP protocol?",
+    options: ["Link State", "Distance Vector", "Path Vector", "Hybrid"],
+    correct: 1,
+    explanation: "RIP (Routing Information Protocol) uses the Distance Vector routing algorithm with hop count as the metric."
+  },
+  {
+    id: 27,
+    question: "What is the purpose of system calls?",
+    options: ["Compile programs", "Interface between user programs and OS kernel", "Debug applications", "Manage memory"],
+    correct: 1,
+    explanation: "System calls provide an interface between user programs and the operating system kernel for accessing system resources."
+  },
+  {
+    id: 28,
+    question: "What is the default port for HTTPS?",
+    options: ["80", "443", "21", "25"],
+    correct: 1,
+    explanation: "HTTPS uses port 443 as its default port for secure web communication."
+  },
+  {
+    id: 29,
+    question: "What is page replacement algorithm?",
+    options: ["CPU scheduling method", "Memory management technique", "File organization method", "Network routing strategy"],
+    correct: 1,
+    explanation: "Page replacement algorithms are memory management techniques used to decide which pages to swap out when physical memory is full."
+  },
+  {
+    id: 30,
+    question: "What is the purpose of NAT (Network Address Translation)?",
+    options: ["Encrypt data", "Translate private IPs to public IPs", "Route packets", "Detect errors"],
+    correct: 1,
+    explanation: "NAT translates private IP addresses to public IP addresses, allowing multiple devices to share a single public IP."
+  },
+  {
+    id: 31,
+    question: "What is a zombie process?",
+    options: ["A malicious process", "A terminated process whose entry still exists", "A sleeping process", "A high priority process"],
+    correct: 1,
+    explanation: "A zombie process is a terminated process whose entry still exists in the process table until the parent process reads its exit status."
+  },
+  {
+    id: 32,
+    question: "Which protocol is used for email retrieval?",
+    options: ["SMTP", "POP3", "HTTP", "FTP"],
+    correct: 1,
+    explanation: "POP3 (Post Office Protocol version 3) is commonly used for retrieving emails from mail servers."
+  },
+  {
+    id: 33,
+    question: "What is the working set in memory management?",
+    options: ["Total memory size", "Set of pages currently in use by a process", "Available memory", "Swap space"],
+    correct: 1,
+    explanation: "The working set is the set of pages that a process is currently using and should be kept in memory for optimal performance."
+  },
+  {
+    id: 34,
+    question: "What is the purpose of DHCP?",
+    options: ["Domain name resolution", "Automatic IP address assignment", "File transfer", "Email routing"],
+    correct: 1,
+    explanation: "DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses and network configuration to devices."
+  },
+  {
+    id: 35,
+    question: "What is the difference between mutex and semaphore?",
+    options: ["No difference", "Mutex is binary, semaphore can count", "Mutex is faster", "Semaphore is more secure"],
+    correct: 1,
+    explanation: "A mutex is binary (locked/unlocked) while a semaphore can count multiple resources and allow multiple accesses up to its limit."
+  },
+  {
+    id: 36,
+    question: "Which layer is responsible for data encryption in OSI model?",
+    options: ["Physical Layer", "Session Layer", "Presentation Layer", "Application Layer"],
+    correct: 2,
+    explanation: "The Presentation Layer is responsible for data encryption, compression, and translation between different data formats."
+  },
+  {
+    id: 37,
+    question: "What is memory compaction?",
+    options: ["Reducing memory size", "Moving allocated blocks to eliminate fragmentation", "Compressing data", "Clearing cache"],
+    correct: 1,
+    explanation: "Memory compaction moves all allocated memory blocks together to eliminate external fragmentation and create larger free blocks."
+  },
+  {
+    id: 38,
+    question: "What is the maximum segment size in TCP?",
+    options: ["1024 bytes", "1500 bytes", "65535 bytes", "Variable based on network"],
+    correct: 3,
+    explanation: "TCP Maximum Segment Size (MSS) is variable and depends on the network's Maximum Transmission Unit (MTU), typically 1460 bytes for Ethernet."
+  },
+  {
+    id: 39,
+    question: "What is demand paging?",
+    options: ["Loading all pages at startup", "Loading pages only when needed", "Preloading frequently used pages", "Caching pages in memory"],
+    correct: 1,
+    explanation: "Demand paging loads pages into memory only when they are actually needed, reducing initial load time and memory usage."
+  },
+  {
+    id: 40,
+    question: "What is the purpose of sliding window protocol?",
+    options: ["Error detection", "Flow control", "Routing", "Addressing"],
+    correct: 1,
+    explanation: "Sliding window protocol provides flow control by allowing the sender to transmit multiple frames before receiving acknowledgments."
+  },
+  {
+    id: 41,
+    question: "What is process starvation?",
+    options: ["Process using too much memory", "Process never getting CPU time", "Process executing too slowly", "Process waiting for I/O"],
+    correct: 1,
+    explanation: "Process starvation occurs when a process never gets CPU time to execute, often due to unfair scheduling algorithms."
+  },
+  {
+    id: 42,
+    question: "What is CSMA/CD used for?",
+    options: ["Routing", "Medium access control in Ethernet", "Error correction", "Data encryption"],
+    correct: 1,
+    explanation: "CSMA/CD (Carrier Sense Multiple Access with Collision Detection) is used for medium access control in traditional Ethernet networks."
+  },
+  {
+    id: 43,
+    question: "What is the purpose of file allocation table (FAT)?",
+    options: ["Store file permissions", "Track file block locations", "Compress files", "Encrypt file data"],
+    correct: 1,
+    explanation: "The File Allocation Table (FAT) keeps track of which disk blocks are allocated to which files and which blocks are free."
+  },
+  {
+    id: 44,
+    question: "What is the difference between hub and switch?",
+    options: ["No difference", "Hub operates at physical layer, switch at data link layer", "Hub is faster", "Switch is cheaper"],
+    correct: 1,
+    explanation: "A hub operates at the physical layer and broadcasts to all ports, while a switch operates at the data link layer and sends frames only to the intended recipient."
+  },
+  {
+    id: 45,
+    question: "What is copy-on-write in operating systems?",
+    options: ["File backup mechanism", "Memory optimization technique", "Process scheduling method", "Disk allocation strategy"],
+    correct: 1,
+    explanation: "Copy-on-write is a memory optimization technique where pages are shared until one process modifies them, then a copy is created."
+  }
+]
 
   };
