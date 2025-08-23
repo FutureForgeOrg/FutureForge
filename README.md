@@ -25,8 +25,31 @@ FutureForge is a full-stack career improvement platform that simplifies job sear
 - Server-side rendered (SSR) previews for faster and SEO-friendly access
 - Instantly shareable portfolio links to showcase your skills
 
+### 🤖 AI Interviewer (Beta Version)
+
+- Choose your **level**: Beginner, Intermediate, or Advanced  
+- Select by **topic** (Python, SQL, MongoDB, DSA theory, etc.) or **role** (Frontend, Backend, Data Science)  
+- System generates interview-style questions using **Groq LLM**  
+- Users can **answer by typing or speaking** 
+- Answers are evaluated in real-time with:  
+  - **Score out of 10**  
+  - **Personalized feedback** on strengths and areas for improvement  
+- Option to move to the next question or reset role/level/topic  
+
+### 📝 Quiz & Aptitude Practice (Beta Version)
+
+- Practice quizzes across multiple domains:  
+  - **DSA (Data Structures & Algorithms)**
+  - **SQL**
+  - **Mathematics**  
+  - **JavaScript & React.js**  
+  - **Operating Systems & Computer Networks**  
+- Supports **mixed quizzes** combining multiple fields  
+- Provides instant evaluation with correct answers and explanations  
+- Currently available in **hardcore mode** (direct practice without hints)  
+
+
 ### 🤖 Future Features
-- **AI Interviewer**: Mock interviews with real-time feedback
 - **Smart Notifications**: Email alerts for relevant jobs every 5 days
 - **Company Reviews**: anonymous verified company reviews to help you choose the right fit with confidence
 
@@ -44,7 +67,13 @@ FutureForge is a full-stack career improvement platform that simplifies job sear
 4. **Build & Deploy Portfolios**  
    Choose from stunning themes and deploy your personalized portfolio with one click via the Vercel API.
 
-5. **Track Applications**  
+5. **AI Interviewer (Beta)**  
+   Practice interview questions with typing/speaking, instant feedback, and scoring.
+
+6. **Quiz & Aptitude Practice (Beta)**  
+   Take topic-wise or mixed quizzes in DSA, Math, JS, React, OS, CN.  
+
+7. **Track Applications**  
    Bookmark jobs, track application statuses, and manage your job search in one centralized dashboard.
 
 
@@ -64,7 +93,7 @@ FutureForge is a full-stack career improvement platform that simplifies job sear
     </tr>
     <tr>
       <td><strong>Backend</strong></td>
-      <td>Node.js, Express.js, Python, Flask</td>
+      <td>Node.js, Express.js, Python, Flask, Langchain</td>
     </tr>
     <tr>
       <td><strong>Database</strong></td>
@@ -80,7 +109,7 @@ FutureForge is a full-stack career improvement platform that simplifies job sear
     </tr>
     <tr>
       <td><strong>APIs</strong></td>
-      <td>SerpAPI for job data, Vercel API for one-click deployment</td>
+      <td>SerpAPI for job data, Vercel API for one-click deployment, Groq LLM API for AI Interviewer</td>
     </tr>
   </tbody>
 </table>
