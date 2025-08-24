@@ -351,7 +351,7 @@ export const unBanUser = async (req, res) => {
             message: "User has been unbanned",
             user: { ...user.toObject(), password: undefined }
         });
-        
+
     } catch (error) {
         console.error("Error unbanning user:", error);
         return res.status(500).json({
@@ -360,3 +360,92 @@ export const unBanUser = async (req, res) => {
         });
     }
 }
+
+export const getJobById = async (req, res) => {
+    const jobId = req.params.jobId;
+
+    try {
+        const job = await Job.findById(jobId);
+
+        if (!job) {
+            return res.status(404).json({
+                message: "Job not found"
+            });
+        }
+
+        return res.status(200).json({
+            job
+        });
+
+    } catch (error) {
+        console.error("Error fetching job:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
+
+
+export const updateJobById = async (req, res) => {
+    const jobId = req.params.jobId;
+    const updateData = req.body;
+
+    try {
+        const job = await Job.findById(jobId);
+
+        if (!job) {
+            return res.status(404).json({
+                message: "Job not found"
+            });
+        }
+
+        // Update job fields
+        Object.keys(updateData).forEach((key) => {
+            job[key] = updateData[key];
+        });
+
+        await job.save();
+
+        return res.status(200).json({
+            message: "Job updated successfully",
+            job
+        });
+
+    } catch (error) {
+        console.error("Error updating job:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
+
+
+export const deleteJobById = async (req, res) => {
+    const jobId = req.params.jobId;
+
+    try {
+        const job = await Job.findById(jobId);
+
+        if (!job) {
+            return res.status(404).json({
+                message: "Job not found"
+            });
+        }
+
+        await job.remove();
+
+        return res.status(200).json({
+            message: "Job deleted successfully"
+        });
+
+    } catch (error) {
+        console.error("Error deleting job:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
+

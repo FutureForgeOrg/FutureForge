@@ -6,6 +6,7 @@ import useDebounce from '../../../frontend/src/hooks/useDebounce';
 import useUsersStore from '../store/useUsersStore';
 import Pagination from '../components/ui/Pagination';
 import toast from 'react-hot-toast';
+import { Lock, LockOpen } from 'lucide-react';
 
 
 const ManageUsers = () => {
@@ -119,14 +120,14 @@ const ManageUsers = () => {
                                                         className="text-green-500 hover:text-green-700"
                                                         onClick={() => onCLickUnBan(user._id)}
                                                     >
-                                                        Unban User
+                                                        <LockOpen />
                                                     </button>
                                                 ) : (
                                                     <button
                                                         className="text-red-500 hover:text-red-700"
                                                         onClick={() => onClickBan(user._id)}
                                                     >
-                                                        Ban User
+                                                        <Lock />
                                                     </button>
                                                 )}
                                             </td>
