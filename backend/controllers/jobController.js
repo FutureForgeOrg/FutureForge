@@ -95,6 +95,10 @@ export const getAllScrappedJobs = async (req, res) => {
             filter.description = { $regex: keyword, $options: "i" };
         }
 
+        if (company_name) {
+            filter.company_name = { $regex: company_name, $options: 'i' };
+        }
+
         // Only caches page=1 and no filters (the most accessed content)
 
         const shouldCache = page == 1 && !job_title && !location && !company_name && !keyword;

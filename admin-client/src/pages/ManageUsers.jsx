@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { useBanUser, useUnBanUser, useUsersQuery } from '../hooks/useUsersQuery';
 // import { Loader } from '../components/ui/Loader';
-import useDebounce from '../../../frontend/src/hooks/useDebounce';
+import useDebounce from '../hooks/useDebounce.js';
 import useUsersStore from '../store/useUsersStore';
 import Pagination from '../components/ui/Pagination';
 import toast from 'react-hot-toast';
@@ -120,14 +120,14 @@ const ManageUsers = () => {
                                                         className="text-green-500 hover:text-green-700"
                                                         onClick={() => onCLickUnBan(user._id)}
                                                     >
-                                                        <LockOpen />
+                                                        <LockOpen size={18} />
                                                     </button>
                                                 ) : (
                                                     <button
                                                         className="text-red-500 hover:text-red-700"
                                                         onClick={() => onClickBan(user._id)}
                                                     >
-                                                        <Lock />
+                                                        <Lock  size={18} />
                                                     </button>
                                                 )}
                                             </td>

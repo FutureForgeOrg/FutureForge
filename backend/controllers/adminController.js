@@ -36,7 +36,7 @@ export const createAdmin = async (req, res) => {
             email,
             password: hashedPassword,
             gender,
-            role : "admin", // default role for admin creation
+            role: "admin", // default role for admin creation
             isVerified: true,
             ipAddress: req.ip || req.headers["x-forwarded-for"] || "Unknown",
             userAgent: req.headers["user-agent"] || "Unknown",
@@ -256,8 +256,8 @@ export const getDashboardData = async (req, res) => {
 }
 
 export const getAllUsers = async (req, res) => {
-    try{
-        const { page = 1, limit = 10, email} = req.query;
+    try {
+        const { page = 1, limit = 10, email } = req.query;
         const skip = (page - 1) * limit;
 
         const query = { role: "user" };
@@ -282,7 +282,7 @@ export const getAllUsers = async (req, res) => {
             totalPages,
             currentPage: parseInt(page)
         });
-        
+
     } catch (error) {
         console.error("Error fetching users:", error);
         return res.status(500).json({
@@ -388,22 +388,20 @@ export const getJobById = async (req, res) => {
 
 
 export const updateJobById = async (req, res) => {
-    const jobId = req.params.jobId;
-    const updateData = req.body;
+    const { jobId } = req.params;
 
     try {
         const job = await Job.findById(jobId);
-
         if (!job) {
-            return res.status(404).json({
-                message: "Job not found"
-            });
+            return res.status(404).json({ message: "Job not found" });
         }
 
-        // Update job fields
-        Object.keys(updateData).forEach((key) => {
-            job[key] = updateData[key];
-        });
+        // Map request body to actual schema fields
+        if (req.body.job_title !== undefined) job.job_title = req.body.job_title;
+        if (req.body.company !== undefined) job.company_name = req.body.company;  // mapping
+        if (req.body.location !== undefined) job.location = req.body.location;
+        if (req.body.description !== undefined) job.description = req.body.description;
+        if (req.body.apply_link !== undefined) job.job_link = req.body.apply_link; // mapping
 
         await job.save();
 
@@ -419,7 +417,8 @@ export const updateJobById = async (req, res) => {
             error: error.message
         });
     }
-}
+};
+
 
 
 export const deleteJobById = async (req, res) => {
@@ -434,7 +433,7 @@ export const deleteJobById = async (req, res) => {
             });
         }
 
-        await job.remove();
+        await Job.findByIdAndDelete(jobId);
 
         return res.status(200).json({
             message: "Job deleted successfully"
