@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { useUsersQuery } from '../hooks/useUsersQuery';
+import { useBanUser, useUnBanUser, useUsersQuery } from '../hooks/useUsersQuery';
 // import { Loader } from '../components/ui/Loader';
 import useDebounce from '../../../frontend/src/hooks/useDebounce';
 import useUsersStore from '../store/useUsersStore';
 import Pagination from '../components/ui/Pagination';
- 
+import toast from 'react-hot-toast';
+
+
 const ManageUsers = () => {
     const { isLoading, isError, data, error } = useUsersQuery();
     const { email, page, setEmail, setPage } = useUsersStore();
@@ -13,6 +15,9 @@ const ManageUsers = () => {
 
     const [localEmail, setLocalEmail] = useState(email);
     const debouncedEmail = useDebounce(localEmail, 600);
+
+    const banUser = useBanUser();
+    const unBanUser = useUnBanUser();
 
     useEffect(() => {
         setEmail('email', debouncedEmail);
@@ -25,9 +30,28 @@ const ManageUsers = () => {
 
     if (isError) return <div>Error: {error.message}</div>;
 
+    const onClickBan = async (userId) => {
+        try {
+            await banUser.mutateAsync(userId);
+            toast.success("User banned successfully");
+        } catch (error) {
+            toast.error("Failed to ban user", error);
+        }
+    }
+
+    const onCLickUnBan = async (userId) => {
+        try {
+            await unBanUser.mutateAsync(userId);
+            toast.success("User unbanned successfully");
+        }
+        catch (error) {
+            toast.error("Failed to unban user", error);
+        }
+    }
+
     return (
         <>
-            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
+            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
             {/* Mobile Header */}
             <div className="md:hidden flex justify-between items-center bg-purple-600 text-white p-4 sticky top-0 z-40">
@@ -69,7 +93,9 @@ const ManageUsers = () => {
 
                             <tbody>
                                 {isLoading ? (
-                                    <p className="text-center">Loading...</p>
+                                    <tr>
+                                        <td colSpan="5" className="text-center py-4">Loading...</td>
+                                    </tr>
                                 ) : isError ? (
                                     <tr>
                                         <td colSpan="5" className="text-center py-4 text-red-500">Error loading users</td>
@@ -79,19 +105,34 @@ const ManageUsers = () => {
                                         <td colSpan="5" className="text-center py-4">No users found</td>
                                     </tr>
                                 ) : (
-                                    data.users.map((user) => (
+                                    users.map((user) => (
                                         <tr key={user._id} className="border-b dark:border-gray-700">
                                             <td className="py-2 px-4 border-b">{user.username}</td>
                                             <td className="py-2 px-4 border-b">{user.email}</td>
                                             <td className="py-2 px-4 border-b capitalize">{user.role}</td>
-                                            <td className="py-2 px-4 border-b">{new Date(user.createdAt).toLocaleDateString()}</td>
                                             <td className="py-2 px-4 border-b">
-                                                <button className="text-red-500 hover:text-red-700">Ban User</button>
+                                                {new Date(user.createdAt).toLocaleDateString()}
+                                            </td>
+                                            <td className="py-2 px-4 border-b">
+                                                {user.isBanned ? (
+                                                    <button
+                                                        className="text-green-500 hover:text-green-700"
+                                                        onClick={() => onCLickUnBan(user._id)}
+                                                    >
+                                                        Unban User
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className="text-red-500 hover:text-red-700"
+                                                        onClick={() => onClickBan(user._id)}
+                                                    >
+                                                        Ban User
+                                                    </button>
+                                                )}
                                             </td>
                                         </tr>
                                     ))
-                                )
-                                }
+                                )}
                             </tbody>
                         </table>
                     </div>

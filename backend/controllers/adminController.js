@@ -291,3 +291,72 @@ export const getAllUsers = async (req, res) => {
         });
     }
 }
+
+
+export const banUser = async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const user = await BaseUser.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        // if (user.role !== "user") {
+        //     return res.status(400).json({
+        //         message: "Only users can be banned"
+        //     });
+        // }
+
+        user.isBanned = true;
+        await user.save();
+
+        return res.status(200).json({
+            message: "User has been banned",
+            user: { ...user.toObject(), password: undefined }
+        });
+    } catch (error) {
+        console.error("Error banning user:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
+
+
+export const unBanUser = async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const user = await BaseUser.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        // if (user.role !== "user") {
+        //     return res.status(400).json({
+        //         message: "Only users can be banned"
+        //     });
+        // }
+
+        user.isBanned = false;
+        await user.save();
+
+        return res.status(200).json({
+            message: "User has been unbanned",
+            user: { ...user.toObject(), password: undefined }
+        });
+        
+    } catch (error) {
+        console.error("Error unbanning user:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}

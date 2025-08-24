@@ -2,7 +2,7 @@ import express from "express";
 
 import { protectRoute, checkRole } from "../middleware/authmiddleware.js";
 
-import { createAdmin, getDashboardData, adminLogin, getAllUsers } from "../controllers/adminController.js";
+import { createAdmin, getDashboardData, adminLogin, getAllUsers, banUser, unBanUser } from "../controllers/adminController.js";
 
 const router = express.Router();
 
@@ -11,6 +11,9 @@ router.post("/login", adminLogin)
 router.get("/stats", protectRoute, checkRole("admin"), getDashboardData);
 
 router.get("/all-users", protectRoute, checkRole("admin"), getAllUsers);
+router.delete("/ban-user/:id", protectRoute, checkRole("admin"), banUser)
+router.put("/unban-user/:id", protectRoute, checkRole("admin"), unBanUser)
+
 // router.get("/all-jobs", protectRoute, checkRole("admin"), getAllJobs); this will be same as user jobs
 // router.get("/all-portfolios", protectRoute, checkRole("admin"), getAllPortfolios);
 // router.post("/logout", protectRoute, checkRole("admin"), logoutAdmin);
