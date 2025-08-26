@@ -39,6 +39,10 @@ const baseUserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isBanned: {
+        type: Boolean,
+        default: false
+    },
     expiresAt: {            // used only if isVerified = false
         type: Date,
         default: null

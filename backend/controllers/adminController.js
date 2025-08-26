@@ -36,7 +36,7 @@ export const createAdmin = async (req, res) => {
             email,
             password: hashedPassword,
             gender,
-            role : "admin", // default role for admin creation
+            role: "admin", // default role for admin creation
             isVerified: true,
             ipAddress: req.ip || req.headers["x-forwarded-for"] || "Unknown",
             userAgent: req.headers["user-agent"] || "Unknown",
@@ -256,8 +256,8 @@ export const getDashboardData = async (req, res) => {
 }
 
 export const getAllUsers = async (req, res) => {
-    try{
-        const { page = 1, limit = 10, email} = req.query;
+    try {
+        const { page = 1, limit = 10, email } = req.query;
         const skip = (page - 1) * limit;
 
         const query = { role: "user" };
@@ -282,7 +282,7 @@ export const getAllUsers = async (req, res) => {
             totalPages,
             currentPage: parseInt(page)
         });
-        
+
     } catch (error) {
         console.error("Error fetching users:", error);
         return res.status(500).json({
@@ -291,3 +291,160 @@ export const getAllUsers = async (req, res) => {
         });
     }
 }
+
+
+export const banUser = async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const user = await BaseUser.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        // if (user.role !== "user") {
+        //     return res.status(400).json({
+        //         message: "Only users can be banned"
+        //     });
+        // }
+
+        user.isBanned = true;
+        await user.save();
+
+        return res.status(200).json({
+            message: "User has been banned",
+            user: { ...user.toObject(), password: undefined }
+        });
+    } catch (error) {
+        console.error("Error banning user:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
+
+
+export const unBanUser = async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const user = await BaseUser.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        // if (user.role !== "user") {
+        //     return res.status(400).json({
+        //         message: "Only users can be banned"
+        //     });
+        // }
+
+        user.isBanned = false;
+        await user.save();
+
+        return res.status(200).json({
+            message: "User has been unbanned",
+            user: { ...user.toObject(), password: undefined }
+        });
+
+    } catch (error) {
+        console.error("Error unbanning user:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
+
+export const getJobById = async (req, res) => {
+    const jobId = req.params.jobId;
+
+    try {
+        const job = await Job.findById(jobId);
+
+        if (!job) {
+            return res.status(404).json({
+                message: "Job not found"
+            });
+        }
+
+        return res.status(200).json({
+            job
+        });
+
+    } catch (error) {
+        console.error("Error fetching job:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
+
+
+export const updateJobById = async (req, res) => {
+    const { jobId } = req.params;
+
+    try {
+        const job = await Job.findById(jobId);
+        if (!job) {
+            return res.status(404).json({ message: "Job not found" });
+        }
+
+        // Map request body to actual schema fields
+        if (req.body.job_title !== undefined) job.job_title = req.body.job_title;
+        if (req.body.company !== undefined) job.company_name = req.body.company;  // mapping
+        if (req.body.location !== undefined) job.location = req.body.location;
+        if (req.body.description !== undefined) job.description = req.body.description;
+        if (req.body.apply_link !== undefined) job.job_link = req.body.apply_link; // mapping
+
+        await job.save();
+
+        return res.status(200).json({
+            message: "Job updated successfully",
+            job
+        });
+
+    } catch (error) {
+        console.error("Error updating job:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+};
+
+
+
+export const deleteJobById = async (req, res) => {
+    const jobId = req.params.jobId;
+
+    try {
+        const job = await Job.findById(jobId);
+
+        if (!job) {
+            return res.status(404).json({
+                message: "Job not found"
+            });
+        }
+
+        await Job.findByIdAndDelete(jobId);
+
+        return res.status(200).json({
+            message: "Job deleted successfully"
+        });
+
+    } catch (error) {
+        console.error("Error deleting job:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
+
