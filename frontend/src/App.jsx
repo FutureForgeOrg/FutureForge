@@ -18,6 +18,7 @@ import { Loader } from './components/ui/Loader';
 import VerifyEmailPage from './pages/VerifyEmail';
 import EmailVerificationHandler from './components/EmailVerificationHandler';
 import PreviewPage from './components/ResumeMaker/PreviewPage';
+import NotFound404 from './components/NotFound404';
 function App() {
 
   const { checkAuth, authUser, isCheckingAuth } = useAuthStore();
@@ -59,7 +60,8 @@ function App() {
           <Route path='/PreviewPage' element={<PreviewPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/verify-email/:token" element={<EmailVerificationHandler />} />
-
+          {/* 404 Not Found Route */}
+          <Route path="*" element={<NotFound404/>} />
         </Routes>
       </BrowserRouter>
     </>
