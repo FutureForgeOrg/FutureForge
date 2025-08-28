@@ -3,7 +3,7 @@ import { Mic, MicOff, RotateCcw, Volume2 } from 'lucide-react';
 import useInterviewStore from '../../store/useInterviewStore';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar';
-
+import BackgroundWrapper from '../ui/BackgroundWrapper';
 function InterviewPanel() {
   const {
     currentQuestion,
@@ -138,54 +138,55 @@ function InterviewPanel() {
   return (
     <>
       <Navbar />
-      <div className="bg-white rounded-lg border-2 border-gray-200 p-8 mt-16">
-        <div className="mb-6">
-          <div className="bg-gray-50 rounded-lg p-4 min-h-24 border-2 border-dashed border-gray-200">
+      <BackgroundWrapper>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 shadow-xl p-8  mt-16 max-w-5xl mx-auto">
+        <div className="mb-8">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 min-h-32 border-2 border-dashed border-blue-200 shadow-sm">
             {showInterview && currentQuestion ? (
               <div>
-                <div className="flex items-start justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-600">
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-sm font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded-full">
                     Question:
                   </span>
                   <button
                     onClick={speakQuestion}
-                    className="text-blue-600 hover:text-blue-700 p-1"
+                    className="text-blue-600 hover:text-blue-700 p-2 hover:bg-blue-100 rounded-full transition-all duration-200"
                   >
-                    <Volume2 size={16} />
+                    <Volume2 size={18} />
                   </button>
                 </div>
-                <p className="text-gray-800">{currentQuestion}</p>
+                <p className="text-gray-800 text-lg leading-relaxed font-medium">{currentQuestion}</p>
               </div>
             ) : (
-              <div className="flex items-center justify-center h-full text-gray-400">
-                <span>Question will load here</span>
+              <div className="flex items-center justify-center h-full text-gray-500">
+                <span className="text-lg font-medium">Question will load here</span>
               </div>
             )}
           </div>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-6">
           <textarea
             ref={textareaRef}
             value={userResponse}
             onChange={(e) => setUserResponse(e.target.value)}
-            placeholder="Answer area here"
-            className="w-full min-h-32 resize-none border border-gray-300 rounded-lg p-3"
+            placeholder="Type your answer here..."
+            className="w-full min-h-40 resize-none border-2 border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm text-gray-700 text-lg leading-relaxed"
           />
-          <div className="flex justify-between mt-2">
-            <div className='flex items-center gap-2'>
+          <div className="flex justify-between items-center mt-4">
+            <div className='flex items-center gap-3'>
               <button
                 onClick={handleVoiceRecording}
-                className={`px-3 py-2 rounded-lg ${isRecording
-                  ? 'bg-red-500 text-white'
-                  : 'bg-gray-100 text-gray-700'
+                className={`px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-md flex items-center gap-2 ${isRecording
+                  ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-red-200'
+                  : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300'
                   }`}
               >
-                {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
-                {isRecording ? ' Stop' : ' Start'}
+                {isRecording ? <MicOff size={18} /> : <Mic size={18} />}
+                {isRecording ? 'Stop' : 'Start'}
               </button>
               {isRecording && (
-                <span className="ml-2 text-gray-700">
+                <span className="text-gray-700 font-mono text-lg bg-gray-100 px-3 py-1 rounded-full">
                   {Math.floor(timeLeft / 60)
                     .toString()
                     .padStart(2, '0')}:
@@ -193,17 +194,17 @@ function InterviewPanel() {
                 </span>
               )}
             </div>
-            <div>
+            <div className="flex gap-3">
               <button
                 onClick={handleClearAll}
-                className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg mr-2"
+                className="px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-xl hover:from-gray-200 hover:to-gray-300 font-semibold transition-all duration-300 transform hover:scale-105 shadow-md"
               >
                 Clear
               </button>
               <button
                 onClick={handleSubmitAnswer}
                 disabled={!userResponse.trim() || isProcessing}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg disabled:bg-gray-300"
+                className="px-6 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl disabled:from-gray-300 disabled:to-gray-400 font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md"
               >
                 {isProcessing ? 'Evaluating...' : 'Submit'}
               </button>
@@ -211,41 +212,46 @@ function InterviewPanel() {
           </div>
         </div>
 
-        <div className="mb-6">
-          <div className="bg-gray-50 rounded-lg p-4 min-h-16 border-2 border-dashed border-gray-200">
+        <div className="mb-8">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 min-h-20 border-2 border-dashed border-green-200 shadow-sm">
             {feedback ? (
               <div>
-                <span className="text-sm font-medium text-gray-600">Feedback:</span>
-                <p className="text-gray-800 mt-1">{feedback}</p>
+                <span className="text-sm font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">Feedback:</span>
+                <p className="text-gray-800 mt-3 text-lg leading-relaxed">{feedback}</p>
                 {evaluationResult && evaluationResult.score && (
-                  <p className="text-sm text-blue-600 mt-2">
-                    Score: {evaluationResult.score}/{evaluationResult.max_score || 10}
-                  </p>
+                  <div className="mt-4 bg-blue-100 rounded-lg p-3 inline-block">
+                    <p className="text-blue-700 font-bold text-lg">
+                      Score: <span className="text-blue-800">{evaluationResult.score}/{evaluationResult.max_score || 10}</span>
+                    </p>
+                  </div>
                 )}
               </div>
             ) : (
-              <span className="text-gray-400">Feedback area</span>
+              <div className="flex items-center justify-center h-full">
+                <span className="text-gray-500 text-lg font-medium">Feedback will appear here</span>
+              </div>
             )}
           </div>
         </div>
 
-        <div className="flex space-x-4">
+        <div className="flex space-x-6">
           <button
             onClick={handleNextQuestion}
             disabled={!showInterview || isProcessing}
-            className="flex-1 py-3 bg-blue-600 text-white rounded-lg disabled:bg-gray-300"
+            className="flex-1 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl disabled:from-gray-300 disabled:to-gray-400 font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md"
           >
             {isProcessing ? 'Loading...' : 'Next Question'}
           </button>
           <button
             onClick={handleReset}
-            className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg flex items-center space-x-2"
+            className="px-8 py-4 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-xl flex items-center space-x-2 font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md hover:from-gray-200 hover:to-gray-300"
           >
-            <RotateCcw size={16} />
+            <RotateCcw size={18} />
             <span>Reset</span>
           </button>
         </div>
       </div>
+      </BackgroundWrapper>
     </>
   );
 }

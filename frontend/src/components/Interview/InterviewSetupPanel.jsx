@@ -2,7 +2,7 @@ import React from 'react';
 import useInterviewStore from '../../store/useInterviewStore';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar';
-
+import BackgroundWrapper from '../ui/BackgroundWrapper';
 function InterviewSetupPanel() {
   const {
     level, mode, selectedValue, setLevel, setMode, setSelectedValue,
@@ -42,26 +42,27 @@ function InterviewSetupPanel() {
   const canSubmit = level && mode && selectedValue;
 
   return (
-    <>
+  <>
       <Navbar/>
-      <div className="bg-white rounded-lg border-2 border-gray-200 p-8 mt-16">
+      <BackgroundWrapper>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 shadow-xl p-8 mt-16 max-w-4xl mx-auto">
         
-        <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-8 text-center">
           Start your preparation with our AI interviewer
         </h2>
 
         {/* Level Selection */}
-        <div className="mb-6 border-blue-200 border-2 p-4 rounded-lg bg-slate-300">
-          <p className="text-gray-700 mb-3">In which level you like to do interview?</p>
+        <div className="mb-8 border border-blue-200 p-6 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 shadow-sm">
+          <p className="text-gray-800 mb-4 font-medium text-lg">In which level you like to do interview?</p>
           <div className="flex gap-4 sm:flex-row flex-col justify-center">
             {['beginner', 'intermediate', 'advanced'].map((levelOption) => (
               <button
                 key={levelOption}
                 onClick={() => setLevel(levelOption)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-md ${
                   level === levelOption
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200 shadow-lg'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 hover:shadow-lg border border-gray-200'
                 }`}
               >
                 {levelOption.charAt(0).toUpperCase() + levelOption.slice(1)}
@@ -71,14 +72,14 @@ function InterviewSetupPanel() {
         </div>
 
         {/* Mode Selection */}
-        <div className="mb-6 border-blue-200 border-2 p-4 rounded-lg bg-slate-300">
-          <p className="text-gray-700 mb-3">
+        <div className="mb-8 border border-blue-200 p-6 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 shadow-sm">
+          <p className="text-gray-800 mb-4 font-medium text-lg">
             We have two mode for interview by role or by topic, which one you like to use?
           </p>
 
           {/* Role Mode */}
-          <div className="mb-4">
-            <div className="flex items-center mb-2">
+          <div className="mb-6">
+            <div className="flex items-center mb-3">
               <input
                 type="radio"
                 id="role-mode"
@@ -89,15 +90,15 @@ function InterviewSetupPanel() {
                   setMode(e.target.value);
                   setSelectedValue('');
                 }}
-                className="mr-2"
+                className="mr-3 w-5 h-5 text-blue-600 focus:ring-blue-500"
               />
-              <label htmlFor="role-mode" className="text-gray-700 font-medium">Role Mode</label>
+              <label htmlFor="role-mode" className="text-gray-800 font-semibold text-lg cursor-pointer">Role Mode</label>
             </div>
             <select
               value={mode === 'role' ? selectedValue : ''}
               onChange={(e) => setSelectedValue(e.target.value)}
               disabled={mode !== 'role'}
-              className="w-full p-3 border border-gray-300 rounded-lg disabled:bg-gray-100"
+              className="w-full p-4 border border-gray-300 rounded-xl disabled:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-700 font-medium shadow-sm"
             >
               <option value="">Select a role (approximately 15 available)</option>
               {roles.map((role) => (
@@ -106,11 +107,16 @@ function InterviewSetupPanel() {
             </select>
           </div>
 
-          <div className="text-center text-gray-500 font-medium mb-4">OR</div>
+          <div className="text-center text-gray-600 font-bold text-lg mb-6 relative">
+            <span className="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-1 rounded-full">OR</span>
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+          </div>
 
           {/* Topic Mode */}
           <div>
-            <div className="flex items-center mb-2">
+            <div className="flex items-center mb-3">
               <input
                 type="radio"
                 id="topic-mode"
@@ -121,15 +127,15 @@ function InterviewSetupPanel() {
                   setMode(e.target.value);
                   setSelectedValue('');
                 }}
-                className="mr-2"
+                className="mr-3 w-5 h-5 text-blue-600 focus:ring-blue-500"
               />
-              <label htmlFor="topic-mode" className="text-gray-700 font-medium">Topic Mode</label>
+              <label htmlFor="topic-mode" className="text-gray-800 font-semibold text-lg cursor-pointer">Topic Mode</label>
             </div>
             <select
               value={mode === 'topic' ? selectedValue : ''}
               onChange={(e) => setSelectedValue(e.target.value)}
               disabled={mode !== 'topic'}
-              className="w-full p-3 border border-gray-300 rounded-lg disabled:bg-gray-100"
+              className="w-full p-4 border border-gray-300 rounded-xl disabled:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-700 font-medium shadow-sm"
             >
               <option value="">Select a topic (approximately 25 available)</option>
               {topics.map((topic) => (
@@ -144,12 +150,13 @@ function InterviewSetupPanel() {
           <button
             onClick={handleGenerate}
             disabled={!canSubmit || isProcessing}
-            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-semibold rounded-lg transition-colors duration-200"
+            className="px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-400 text-white font-bold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md text-lg"
           >
             {isProcessing ? 'Generating Question...' : 'Submit and Generate Question'}
           </button>
         </div>
       </div>
+      </BackgroundWrapper>
     </>
   );
 }
