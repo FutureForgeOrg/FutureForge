@@ -62,11 +62,16 @@ export const handleSignup = async (req, res) => {
             userAgent: req.headers["user-agent"] || "Unknown",
         });
 
-        if (!process.env.FRONTEND_URL) {
-            throw new Error('FRONTEND_URL environment variable is not set');
+        const FRONTEND_URL = process.env.NODE_ENV === 'production'
+            ? process.env.DEPLOYED_FRONTEND_URL
+            : process.env.FRONTEND_URL || 'http://localhost:5173';
+
+        if(!FRONTEND_URL){
+            throw new Error("FRONTEND_URL is not defined in environment variables");
         }
+
         const token = crypto.randomBytes(32).toString("hex");
-        const link = `${process.env.FRONTEND_URL}/verify-email/${token}`;
+        const link = `${FRONTEND_URL}/verify-email/${token}`;
         await EmailVerificationToken.create({
             userId: newUser._id,
             token,
