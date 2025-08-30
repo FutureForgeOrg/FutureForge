@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { axiosInstance } from '../../../frontend/src/lib/axios';
+import { axiosInstance } from '../lib/axios';
 
 const fetchDashboardData = async () => {
     try{
