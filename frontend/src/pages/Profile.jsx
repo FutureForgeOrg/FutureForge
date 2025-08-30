@@ -168,7 +168,8 @@ export default function Profile() {
                         <p className="font-medium">{proj.title}</p>
                         <p className="break-words">{proj.description}</p>
                         <a href={proj.link} className="text-blue-500 underline" target="_blank" rel="noreferrer">
-                          {proj.link}
+                          {/* {proj.link} */}
+                          View
                         </a>
                       </div>
                     ))}
