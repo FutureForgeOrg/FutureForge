@@ -28,6 +28,12 @@ export const protectRoute = async (req, res, next) => {
             });
         }
 
+        if(user.isBanned){
+            return res.status(403).json({
+                message: "Forbidden - user is banned"
+            });
+        }
+
         req.user = user;
         next();
 

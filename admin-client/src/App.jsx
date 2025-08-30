@@ -15,6 +15,8 @@ import Dashboard from './pages/Dashboard';
 import { useAuthStore } from './store/useAuthStore';
 import { Loader } from './components/ui/Loader';
 import ManageUsers from './pages/ManageUsers';
+import ManageJobs from './pages/ManageJobs';
+import EditJob from './pages/EditJob';
 
 const App = () => {
 
@@ -72,6 +74,30 @@ const App = () => {
               )
             }
           />
+
+
+          <Route
+            path="/jobs"
+            element={
+              authUser?.role === 'admin' ? (
+                <ManageJobs />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+
+          <Route
+            path="/jobs/:id/edit"
+            element={
+              authUser?.role === 'admin' ? (
+                <EditJob />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />  
+
 
           {/* Default Redirect */}
           <Route path="*" element={<Navigate to="/login" />} />
