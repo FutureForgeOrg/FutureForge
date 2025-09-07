@@ -18,18 +18,34 @@ def create_app(api_only=False):
     
     app.config.from_object(Config)
     
-    # Configure CORS once - supporting your frontend
-    CORS(app, origins=[
-        'http://localhost:5173',  # Vite dev server 
-        'http://localhost:3000',  # React dev server
-        'http://127.0.0.1:5173',  # Alternative localhost
-        'http://127.0.0.1:3000',  # Alternative localhost  
-        'http://localhost:5000',  # Backend self-reference
-        'https://*.vercel.app'    # Production deployments
-    ], 
-    supports_credentials=True,
-    methods=['GET', 'POST', 'OPTIONS'],
-    allow_headers=['Content-Type', 'Authorization', 'Accept'])
+    # Configure CORS dynamically from environment
+    cors_origins = [
+        'http://localhost:5173',      # Vite dev server
+        'http://localhost:5174',      # Vite dev server (alternative)  
+        # 'http://localhost:3000',      # React dev server
+        'http://127.0.0.1:5173',      # Alternative localhost
+        'http://127.0.0.1:5174',      # Alternative localhost
+        # 'http://127.0.0.1:3000',      # Alternative localhost  
+        # 'http://localhost:5000',      # Backend self-reference
+        'https://futureforge-frontend.onrender.com'  # Production frontend
+    ]
+
+    # Add any additional origins from environment
+    env_origins = Config.CORS_ORIGINS
+    if env_origins:
+        if isinstance(env_origins, str):
+            env_origins = env_origins.split(',')
+        cors_origins.extend([origin.strip() for origin in env_origins])
+
+    # Remove duplicates
+    cors_origins = list(set(cors_origins))
+
+    CORS(app, 
+        origins=cors_origins,
+        supports_credentials=True,
+        methods=['GET', 'POST', 'OPTIONS'],
+        allow_headers=['Content-Type', 'Authorization', 'Accept']
+    )
     
     # Register blueprints based on mode
     from app.routes import api_bp
@@ -54,10 +70,7 @@ def create_app(api_only=False):
                 },
                 'documentation': 'Use POST requests to /api endpoints with JSON data',
                 'cors_enabled': True,
-                'supported_origins': [
-                    'http://localhost:5173',
-                    'http://localhost:3000'
-                ]
+                'supported_origins': cors_origins
             })
     else:
         # Full mode: Register both API and UI routes

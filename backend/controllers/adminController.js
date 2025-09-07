@@ -5,6 +5,7 @@ import Job from "../models/JobSchema.js";
 import Portfolio from "../models/Portfolio.js";
 import DeployedPortfolio from "../models/DeployedPortfolio.js";
 import dayjs from "dayjs";
+import redisClient from "../utils/redis.js";
 
 export const createAdmin = async (req, res) => {
     const { username, email, password, gender } = req.body;
@@ -387,6 +388,9 @@ export const getJobById = async (req, res) => {
 }
 
 
+// Whenever any field of a job is updated, latest_jobs_static gets deleted.
+// Next time someone calls /jobs (page=1, no filters), your code will fetch fresh from MongoDB and re-cache it.
+
 export const updateJobById = async (req, res) => {
     const { jobId } = req.params;
 
@@ -396,14 +400,28 @@ export const updateJobById = async (req, res) => {
             return res.status(404).json({ message: "Job not found" });
         }
 
-        // Map request body to actual schema fields
+        // Map all editable fields
         if (req.body.job_title !== undefined) job.job_title = req.body.job_title;
-        if (req.body.company !== undefined) job.company_name = req.body.company;  // mapping
+        if (req.body.company_name !== undefined) job.company_name = req.body.company_name;
         if (req.body.location !== undefined) job.location = req.body.location;
         if (req.body.description !== undefined) job.description = req.body.description;
-        if (req.body.apply_link !== undefined) job.job_link = req.body.apply_link; // mapping
+
+        // Fix mapping mismatch
+        if (req.body.job_link !== undefined) job.job_link = req.body.job_link;
+        if (req.body.apply_link !== undefined) job.job_link = req.body.apply_link;
+
+        if (req.body.direct_link !== undefined) job.direct_link = req.body.direct_link;
+        if (req.body.google_link !== undefined) job.google_link = req.body.google_link;
+        if (req.body.link_type !== undefined) job.link_type = req.body.link_type;
+        if (req.body.scraped_date !== undefined) job.scraped_date = req.body.scraped_date;
+        if (req.body.job_id !== undefined) job.job_id = req.body.job_id;
 
         await job.save();
+
+        // Invalidate Redis cache for /jobs page=1 no filters
+        await redisClient.del("latest_jobs_static");
+        console.log("Cache invalidated: latest_jobs_static");
+
 
         return res.status(200).json({
             message: "Job updated successfully",
