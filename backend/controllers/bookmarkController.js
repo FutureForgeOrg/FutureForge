@@ -84,20 +84,28 @@ export const postBookmark = async (req, res) => {
             });
         }
 
-        // Check for duplicate
-        const existing = await Bookmark.findOne({ user: userId, jobId });
-        if (existing) {
-            return res.status(409).json({ message: 'Already bookmarked' });
-        }
+        // const existing2 = await Bookmark.findOne({ user: userId, jobId });
+        // console.log("DEBUG duplicate check:", { userId, jobId, existing2 });
+
+        // // Check for duplicate
+        // const existing = await Bookmark.findOne({ user: userId, jobId });
+        // if (existing) {
+        //     return res.status(409).json({ message: 'Already bookmarked' });
+        // }
 
         // Create bookmark
-        const bookmark = await Bookmark.create({ user: userId, jobId });
+        const bookmark = await Bookmark.findOneAndUpdate(
+            { user: userId, jobId },
+            { $setOnInsert: { user: userId, jobId } },
+            { new: true, upsert: true }
+        );
 
         res.status(201).json({
             success: true,
             message: 'Bookmark added successfully',
             bookmark,
         });
+
 
     } catch (error) {
         console.error('Error creating bookmark:', error);
