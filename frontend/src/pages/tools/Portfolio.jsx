@@ -5,13 +5,13 @@ import { Plus, SquareArrowUpRight, Monitor, Flame } from 'lucide-react';
 import GridBackground from '../../components/ui/GridBackground';
 import Navbar from '../../components/Navbar';
 import BackgroundWrapper from '../../components/ui/BackgroundWrapper';
-import useProfileStore from '../../store/useProfileStore';
+// import useProfileStore from '../../store/useProfileStore';
 import { useProfileQuery } from '../../hooks/useProfile';
 
-const themeImages = import.meta.glob('/src/assets/themes/*.webp', {
-  eager: true,
-  import: 'default',
-});
+// const themeImages = import.meta.glob('/src/assets/themes/*.webp', {
+//   eager: true,
+//   import: 'default',
+// });
 
 
 const Portfolio = () => {
@@ -264,7 +264,7 @@ const Portfolio = () => {
                       `}
                     >
                       <img
-                        src={`/src/assets/themes/${themeKey}.webp`}
+                        src={`/themes/${themeKey}.webp`}
                         alt={themeKey}
                         className="w-full h-24 object-cover rounded-md mb-2"
                       />

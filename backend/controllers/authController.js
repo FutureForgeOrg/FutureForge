@@ -64,7 +64,7 @@ export const handleSignup = async (req, res) => {
 
         const FRONTEND_URL = process.env.NODE_ENV === 'production'
             ? process.env.DEPLOYED_FRONTEND_URL
-            : process.env.FRONTEND_URL || 'http://localhost:5173';
+            : process.env.FRONTEND_URL;
 
         if(!FRONTEND_URL){
             throw new Error("FRONTEND_URL is not defined in environment variables");
