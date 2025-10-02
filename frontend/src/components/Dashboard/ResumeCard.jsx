@@ -96,7 +96,7 @@ const ResumeCard = () => {
                     {/* Right Image */}
                     <div className="md:w-1/2 relative hidden md:block">
                         <img
-                            src="/themes/resume_theme.webp"
+                            src="/themes/classic.webp"
                             alt="Decorative Background"
                             className="absolute right-[-40px] top-[-100px] w-[500px] h-[500px] rotate-12 opacity-40 transition-transform duration-500 hover:scale-105"
                         />

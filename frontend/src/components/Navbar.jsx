@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import futureForgeLogo from '/bg-hd.png';
+import { LogOut } from 'lucide-react';
+import { useAuthStore } from '../store/useAuthStore';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showToolsDropdown, setShowToolsDropdown] = useState(false);
+  const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,6 +23,11 @@ const Navbar = () => {
 
   const activeLink = getActiveLink();
 
+  const handleLogout = () => {
+    logout();              // clear auth state
+    navigate('/login');    // redirect to login page
+  };
+
   const handleLinkClick = () => setIsMenuOpen(false);
   const handleToolsClick = (tool) => {
     setShowToolsDropdown(false);
@@ -32,11 +40,10 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-18 py-2">
 
           {/* Logo */}
-          <div className="flex gap-2 items-center">
-            <div
-              onClick={() => navigate('/dashboard')}
-              className="w-12 h-12 p-1 md:p-0 rounded-full cursor-pointer"
-            >
+          <div className="flex gap-2 items-center cursor-pointer"
+            onClick={() => navigate('/dashboard')}
+          >
+            <div className="w-12 h-12 p-1 md:p-0 rounded-full cursor-pointer">
               <img
                 src={futureForgeLogo}
                 loading="lazy"
@@ -48,7 +55,6 @@ const Navbar = () => {
               <h4 className="text-heading text-xl md:text-2xl leading-none">FutureForge</h4>
             </div>
           </div>
-
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
@@ -104,11 +110,19 @@ const Navbar = () => {
                     onClick={() => handleToolsClick(tool)}
                     className="w-full text-left px-4 py-3 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-indigo-300 transition-all duration-200"
                   >
-                    {tool} 
+                    {tool}
                   </button>
                 ))}
               </div>
             </div>
+
+            {/* Logout Button (Desktop) */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-300"
+            >
+              <LogOut size={20} />
+            </button>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -187,6 +201,15 @@ const Navbar = () => {
               </div>
             )}
           </div>
+
+          {/* Logout Button (Mobile) */}
+          <button
+            onClick={() => { handleLinkClick(); handleLogout(); }}
+            className="flex items-center gap-2 w-full px-4 py-3 rounded-xl text-base font-semibold text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-300"
+          >
+            <LogOut className="w-5 h-5" />
+            Logout
+          </button>
         </div>
       </div>
     </nav>
