@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar.jsx';
 import { useState, useEffect } from 'react';
 import useDebounce from '../hooks/useDebounce.js';
 import BackgroundWrapper from '../components/ui/BackgroundWrapper.jsx';
+import { Search } from 'lucide-react';
 
 const Bookmark = () => {
   const { page, limit, setPage, keyword, setKeyword } = useBookmarkStore();
@@ -33,13 +34,16 @@ const Bookmark = () => {
                 Bookmarked Jobs
               </h1>
 
-              <div className='mb-6'>
+              <div className='mb-6 relative'>
+                <div className='absolute top-1/2 left-3 -translate-y-1/2 w-5 h-5 text-white/50'>
+                  <Search size={18} className='text-white' />
+                </div>
                 <input
                   type="text"
                   placeholder="Keyword (e.g. remote, React)"
                   value={localKeyword}
                   onChange={(e) => setLocalKeyword(e.target.value)}
-                  className="p-2 rounded w-full text-white border bg-black"
+                  className="p-2 pl-9 rounded w-full text-white border bg-black"
                 />
               </div>
 
