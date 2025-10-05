@@ -113,6 +113,7 @@ import useDebounce from '../hooks/useDebounce.js';
 import { useState, useEffect } from 'react';
 import BackgroundWrapper from '../components/ui/BackgroundWrapper.jsx';
 import KeyWordSelector from '../components/JobSearch/KeyWordSelctor.jsx';
+import { Search } from 'lucide-react';
 
 function JobSearch() {
   const { job_title, location, keyword, page, setFilter, setPage } = useJobFilters();
@@ -170,13 +171,18 @@ function JobSearch() {
               />
             </div>
 
-            <input
-              type="text"
-              placeholder="Location"
-              value={localLocation}
-              onChange={(e) => setLocalLocation(e.target.value)}
-              className="p-2 rounded w-full text-white border bg-black"
-            />
+            <div className='relative'>
+                <div className='absolute top-1/2 left-3 -translate-y-1/2 w-5 h-5 text-white/50'>
+                  <Search size={18} className='text-white'/>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Location"
+                  value={localLocation}
+                  onChange={(e) => setLocalLocation(e.target.value)}
+                  className="p-2 pl-9 rounded w-full text-white border bg-black"
+                />
+            </div>
 
             <div className="w-full">
               <KeyWordSelector
