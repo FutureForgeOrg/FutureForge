@@ -1,11 +1,21 @@
 import { User, Briefcase } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useProfileStore from '../../store/useProfileStore';
+import { useProfileCompletion } from '../../hooks/useProfile';
+import { useEffect } from 'react';
 
 export default function Cards() {
-  const { profileCompletion: completion } = useProfileStore();
+  const { profileCompletion: completion, setProfileCompletion } = useProfileStore();
   const profileCompletion = completion;
   const navigate = useNavigate();
+
+  const { data: completionData} = useProfileCompletion();
+  
+    useEffect(() => {
+      if (completionData?.completion !== undefined) {
+        setProfileCompletion(completionData.completion);
+      }
+    }, [completionData, setProfileCompletion]);
 
   const getProfileStatus = () => {
     if (profileCompletion >= 100) {
