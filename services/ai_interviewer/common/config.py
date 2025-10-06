@@ -11,15 +11,21 @@ class Config:
     
     # Groq API configuration
     GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+    GROQ_MODEL = os.getenv('GROQ_MODEL', 'llama-3.1-8b-instant') 
     
-    # CORS configuration
-    CORS_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:3000').split(',')
+    # CORS configuration - SECURITY FIX
+    CORS_ORIGINS = os.getenv('CORS_ORIGINS', '').split(',') if os.getenv('CORS_ORIGINS') else []
+    
+    # Rate limiting configuration - NEW SECURITY FIX
+    RATELIMIT_ENABLED = os.getenv('RATELIMIT_ENABLED', 'True').lower() in ['true', '1', 'yes']
+    RATELIMIT_STORAGE_URI = os.getenv('RATELIMIT_STORAGE_URI', 'memory://')
+    RATELIMIT_DEFAULT = os.getenv('MAX_REQUESTS_PER_MINUTE', '60') + ' per minute'
     
     # Logging configuration
     LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
     
-    # API configuration
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max request size
+    # API configuration - SECURITY FIX: Limit request size
+    MAX_CONTENT_LENGTH = 16 * 1024  # 16KB max request size
     
     @classmethod
     def validate_config(cls):
@@ -33,5 +39,9 @@ class Config:
         
         if missing_vars:
             raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
+        
+        # SECURITY FIX: Validate CORS origins
+        if not cls.CORS_ORIGINS:
+            raise ValueError("CORS_ORIGINS must be set in environment variables")
         
         return True
