@@ -19,7 +19,11 @@ Werkzeug
 
 # Security
 cryptography
+better_profanity
 
 # LangChain Integration
 langchain
 langchain-groq
+
+# Rate Limiting (NEW - SECURITY FIX)
+Flask-Limiter
