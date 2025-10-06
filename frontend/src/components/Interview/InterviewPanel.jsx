@@ -24,10 +24,55 @@ function InterviewPanel() {
   const navigate = useNavigate();
   const recognitionRef = useRef(null);
 
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Speak Feedback
+  const speakFeedback = (text) => {
+    if ('speechSynthesis' in window && text) {
+      // stop any previous speech
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        setIsPaused(false);
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  // Pause / Resume Feedback
+  const toggleSpeech = () => {
+    if (!isSpeaking) return; // nothing playing
+    if (isPaused) {
+      window.speechSynthesis.resume();
+      setIsPaused(false);
+    } else {
+      window.speechSynthesis.pause();
+      setIsPaused(true);
+    }
+  };
+
+  // Stop any ongoing speech when component unmounts
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel(); // cancel all queued/playing speech
+      setIsSpeaking(false);
+      setIsPaused(false);
+    };
+  }, []);
+
+
   // Update feedback when evaluationResult changes
   useEffect(() => {
     if (evaluationResult && evaluationResult.feedback) {
       setFeedback(evaluationResult.feedback);
+      speakFeedback(evaluationResult.feedback);
     }
   }, [evaluationResult]);
 
@@ -109,7 +154,13 @@ function InterviewPanel() {
     }
   };
 
+  // stopping all voices when going to next question
   const handleNextQuestion = async () => {
+    window.speechSynthesis.cancel(); // stop any ongoing speech
+
+    setIsSpeaking(false);
+    setIsPaused(false);
+
     setUserResponse('');
     setFeedback('');
     await generateQuestion();
@@ -139,118 +190,146 @@ function InterviewPanel() {
     <>
       <Navbar />
       <BackgroundWrapper>
-      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 shadow-xl p-8  mt-16 max-w-5xl mx-auto">
-        <div className="mb-8">
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 min-h-32 border-2 border-dashed border-blue-200 shadow-sm">
-            {showInterview && currentQuestion ? (
-              <div>
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-sm font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded-full">
-                    Question:
-                  </span>
-                  <button
-                    onClick={speakQuestion}
-                    className="text-blue-600 hover:text-blue-700 p-2 hover:bg-blue-100 rounded-full transition-all duration-200"
-                  >
-                    <Volume2 size={18} />
-                  </button>
-                </div>
-                <p className="text-gray-800 text-lg leading-relaxed font-medium">{currentQuestion}</p>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center h-full text-gray-500">
-                <span className="text-lg font-medium">Question will load here</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="mb-6">
-          <textarea
-            ref={textareaRef}
-            value={userResponse}
-            onChange={(e) => setUserResponse(e.target.value)}
-            placeholder="Type your answer here..."
-            className="w-full min-h-40 resize-none border-2 border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm text-gray-700 text-lg leading-relaxed"
-          />
-          <div className="flex justify-between items-center mt-4">
-            <div className='flex items-center gap-3'>
-              <button
-                onClick={handleVoiceRecording}
-                className={`px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-md flex items-center gap-2 ${isRecording
-                  ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-red-200'
-                  : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300'
-                  }`}
-              >
-                {isRecording ? <MicOff size={18} /> : <Mic size={18} />}
-                {isRecording ? 'Stop' : 'Start'}
-              </button>
-              {isRecording && (
-                <span className="text-gray-700 font-mono text-lg bg-gray-100 px-3 py-1 rounded-full">
-                  {Math.floor(timeLeft / 60)
-                    .toString()
-                    .padStart(2, '0')}:
-                  {(timeLeft % 60).toString().padStart(2, '0')}
-                </span>
-              )}
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={handleClearAll}
-                className="px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-xl hover:from-gray-200 hover:to-gray-300 font-semibold transition-all duration-300 transform hover:scale-105 shadow-md"
-              >
-                Clear
-              </button>
-              <button
-                onClick={handleSubmitAnswer}
-                disabled={!userResponse.trim() || isProcessing}
-                className="px-6 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl disabled:from-gray-300 disabled:to-gray-400 font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md"
-              >
-                {isProcessing ? 'Evaluating...' : 'Submit'}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="mb-8">
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 min-h-20 border-2 border-dashed border-green-200 shadow-sm">
-            {feedback ? (
-              <div>
-                <span className="text-sm font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">Feedback:</span>
-                <p className="text-gray-800 mt-3 text-lg leading-relaxed">{feedback}</p>
-                {evaluationResult && evaluationResult.score && (
-                  <div className="mt-4 bg-blue-100 rounded-lg p-3 inline-block">
-                    <p className="text-blue-700 font-bold text-lg">
-                      Score: <span className="text-blue-800">{evaluationResult.score}/{evaluationResult.max_score || 10}</span>
+        <div className='pt-12 sm:pt-20 sm:pb-8'>
+          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-5xl mx-auto shadow-xl border border-white/20">
+            {/* Question Box */}
+            <div className="mb-8">
+              <div className="bg-white/20 rounded-xl p-6 min-h-32 border border-white/30 shadow-md">
+                {showInterview && currentQuestion ? (
+                  <div>
+                    <div className="flex items-start justify-between mb-3">
+                      <span className="text-xs font-semibold text-white bg-blue-600 px-3 py-1 rounded-full tracking-wide">
+                        Question
+                      </span>
+                      <button
+                        onClick={speakQuestion}
+                        className="text-blue-200 hover:text-blue-100 p-2 hover:bg-white/10 rounded-full transition-all"
+                      >
+                        <Volume2 size={18} />
+                      </button>
+                    </div>
+                    <p className="text-white text-lg leading-relaxed font-medium">
+                      {currentQuestion}
                     </p>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-300">
+                    <span className="text-lg font-medium">Question will load here</span>
                   </div>
                 )}
               </div>
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <span className="text-gray-500 text-lg font-medium">Feedback will appear here</span>
-              </div>
-            )}
-          </div>
-        </div>
+            </div>
 
-        <div className="flex space-x-6">
-          <button
-            onClick={handleNextQuestion}
-            disabled={!showInterview || isProcessing}
-            className="flex-1 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl disabled:from-gray-300 disabled:to-gray-400 font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md"
-          >
-            {isProcessing ? 'Loading...' : 'Next Question'}
-          </button>
-          <button
-            onClick={handleReset}
-            className="px-8 py-4 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-xl flex items-center space-x-2 font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md hover:from-gray-200 hover:to-gray-300"
-          >
-            <RotateCcw size={18} />
-            <span>Reset</span>
-          </button>
-        </div>
-      </div>
+            {/* Answer Box */}
+            <div className="mb-6">
+              <textarea
+                ref={textareaRef}
+                value={userResponse}
+                onChange={(e) => setUserResponse(e.target.value)}
+                placeholder="Type your answer here..."
+                className="w-full min-h-40 resize-none bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-4 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
+              />
+              <div className="flex justify-between items-center mt-4">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleVoiceRecording}
+                    className={`px-4 py-2 rounded-xl font-semibold transition-all flex items-center gap-2 ${isRecording
+                      ? 'bg-red-500/80 text-white hover:bg-red-600/90 shadow-red-500/30'
+                      : 'bg-white/20 text-white hover:bg-white/30'
+                      }`}
+                  >
+                    {isRecording ? <MicOff size={18} /> : <Mic size={18} />}
+                    {isRecording ? 'Stop' : 'Start'}
+                  </button>
+                  {isRecording && (
+                    <span className="text-white font-mono text-lg bg-black/30 px-3 py-1 rounded-full">
+                      {Math.floor(timeLeft / 60).toString().padStart(2, '0')}:
+                      {(timeLeft % 60).toString().padStart(2, '0')}
+                    </span>
+                  )}
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleClearAll}
+                    className="px-4 py-2 bg-white/20 text-white rounded-xl hover:bg-white/30 font-semibold transition-all"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    onClick={handleSubmitAnswer}
+                    disabled={!userResponse.trim() || isProcessing}
+                    className="px-6 py-2 bg-green-500/80 hover:bg-green-600 text-white rounded-xl disabled:bg-gray-500/40 font-semibold transition-all"
+                  >
+                    {isProcessing ? 'Evaluating...' : 'Submit'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Feedback Box */}
+            <div className="mb-8">
+              <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 min-h-20 border border-white/30 shadow-md">
+                {feedback ? (
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-semibold text-white bg-green-600 px-3 py-1 rounded-full tracking-wide">
+                        Feedback
+                      </span>
+
+                      {isSpeaking && (
+                        <button
+                          onClick={toggleSpeech}
+                          className="text-blue-200 hover:text-blue-100 px-3 py-1 rounded-full bg-white/10 transition-all text-sm"
+                        >
+                          {isPaused ? "Resume 🔊" : "Pause 🔇"}
+                        </button>
+                      )}
+                    </div>
+
+                    <p className="text-white mt-3 text-lg leading-relaxed">{feedback}</p>
+
+                    {evaluationResult?.score && (
+                      <div className="mt-4 bg-blue-600 rounded-lg p-3 inline-block">
+                        <p className="text-white font-bold text-lg">
+                          Score:{" "}
+                          <span className="text-white">
+                            {evaluationResult.score}/{evaluationResult.max_score || 10}
+                          </span>
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <span className="text-gray-300 text-lg font-medium">
+                      Feedback will appear here
+                    </span>
+                  </div>
+                )}
+              </div>
+
+            </div>
+
+            {/* Bottom Buttons */}
+            <div className="flex space-x-6">
+              <button
+                onClick={handleNextQuestion}
+                disabled={!showInterview || isProcessing}
+                className="flex-1 py-4 bg-blue-600/80 hover:bg-blue-700 text-white rounded-xl disabled:bg-gray-500/40 font-bold text-lg transition-all"
+              >
+                {isProcessing ? 'Loading...' : 'Next Question'}
+              </button>
+              <button
+                onClick={handleReset}
+                className="px-8 py-4 bg-white/20 text-white rounded-xl flex items-center space-x-2 font-semibold hover:bg-white/30 transition-all"
+              >
+                <RotateCcw size={18} />
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+        </ div>
       </BackgroundWrapper>
     </>
   );

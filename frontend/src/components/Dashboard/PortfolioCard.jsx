@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, Briefcase, Trophy, Star, Zap, TrendingUp } from 'lucide-react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+
+
 const PortfolioCard = () => {
     // const [isHovered, setIsHovered] = useState(false);
     const [currentTip, setCurrentTip] = useState(0);
@@ -107,7 +109,7 @@ const PortfolioCard = () => {
                     {/* Right Side - Image */}
                     <div className="md:w-1/2 relative hidden md:block">
                         <img
-                            src="/src/assets/themes/neobrutal.webp"
+                            src="/themes/neobrutal.webp"
                             alt="Decorative Background"
                             className="absolute right-[-40px] top-[-100px] w-[500px] h-[500px] rotate-12 opacity-40 transition-transform duration-500 hover:scale-105"
                         />

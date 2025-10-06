@@ -57,57 +57,62 @@ export const handleSignup = async (req, res) => {
             password: hashedPassword,
             gender,
             isVerified: false,
-            expiresAt: new Date(Date.now() + 60 * 60 * 1000), // auto-delete after 1 hour if not verified
+            // expiresAt: new Date(Date.now() + 60 * 60 * 1000), // auto-delete after 1 hour if not verified
+            // no email verifn currently so no auto delete not verified users
+            expiresAt: undefined,
             ipAddress: req.ip || req.headers["x-forwarded-for"] || "Unknown",
             userAgent: req.headers["user-agent"] || "Unknown",
         });
 
-        const FRONTEND_URL = process.env.NODE_ENV === 'production'
-            ? process.env.DEPLOYED_FRONTEND_URL
-            : process.env.FRONTEND_URL || 'http://localhost:5173';
+        // const FRONTEND_URL = process.env.NODE_ENV === 'production'
+        //     ? process.env.DEPLOYED_FRONTEND_URL
+        //     : process.env.FRONTEND_URL;
 
-        if(!FRONTEND_URL){
-            throw new Error("FRONTEND_URL is not defined in environment variables");
-        }
+        // if(!FRONTEND_URL){
+        //     throw new Error("FRONTEND_URL is not defined in environment variables");
+        // }
 
-        const token = crypto.randomBytes(32).toString("hex");
-        const link = `${FRONTEND_URL}/verify-email/${token}`;
-        await EmailVerificationToken.create({
-            userId: newUser._id,
-            token,
-            resendCooldownUntil: new Date(Date.now() + 60 * 1000) // 60 seconds cooldown
-        });
+        // const token = crypto.randomBytes(32).toString("hex");
+        // const link = `${FRONTEND_URL}/verify-email/${token}`;
+        // await EmailVerificationToken.create({
+        //     userId: newUser._id,
+        //     token,
+        //     resendCooldownUntil: new Date(Date.now() + 60 * 1000) // 60 seconds cooldown
+        // });
 
-        await sendMail(email, "Verify your email", `Click the link to verify your email: ${link}`);
+        // await sendMail(email, "Verify your email", `Click the link to verify your email: ${link}`);
 
         // save user for email verification => if user leaves without verifying -> ttl index will delete user after 1 hour
-        await newUser.save();
+        // await newUser.save();
 
 
-        // if (newUser) {
-        //     generateToken(newUser._id, newUser.email, res);
-        //     await newUser.save();
+        // no email verfn currently so no email sending
+        if (newUser) {
+            generateToken(newUser._id, newUser.email, res);
+            await newUser.save();
 
-        //     const userToSend = newUser.toObject();
-        //     delete userToSend.password;
+            const userToSend = newUser.toObject();
+            delete userToSend.password;
 
-        //     res.status(201).json({
-        //         success: true,
-        //         message: "User created successfully",
-        //         user: userToSend,
-        //     });
-        // }
-        // else {
-        //     return res.status(400).json({
-        //         message: "Invalid user data"
-        //     });
-        // }
+            res.status(201).json({
+                success: true,
+                message: "User created successfully",
+                user: userToSend,
+            });
+        }
+        else {
+            return res.status(400).json({
+                message: "Invalid user data"
+            });
+        }
 
-        res.status(201).json({
-            success: true,
-            message: "Signup successful, verification email sent",
-            email: newUser.email
-        });
+        // create empty profile for the user after signup
+        const profile = new Profile({
+            userId : newUser._id,
+            name : newUser.username
+        })
+
+        await profile.save();
 
     }
     catch (error) {
@@ -138,11 +143,11 @@ export const handleLogin = async (req, res) => {
 
         const user = await BaseUser.findOne({ email });
 
-        if (user.isVerified === false) {
-            return res.status(403).json({
-                message: "Email not verified. Please check your inbox for the verification email."
-            });
-        }
+        // if (user.isVerified === false) {
+        //     return res.status(403).json({
+        //         message: "Email not verified. Please check your inbox for the verification email."
+        //     });
+        // }
 
         if (!user) {
             return res.status(401).json({

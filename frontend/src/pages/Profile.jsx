@@ -8,6 +8,7 @@ import BackgroundWrapper from "../components/ui/BackgroundWrapper"
 import Navbar from "../components/Navbar"
 import { useAuthStore } from "../store/useAuthStore";
 import useProfileStore from "../store/useProfileStore";
+import { Loader } from "../components/ui/Loader";
 
 // const calculateCompletion = (profile) => {
 //   let total = 0;
@@ -40,7 +41,7 @@ export default function Profile() {
     }
   }, [completionData, setProfileCompletion]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
   if (!profile) return <p>No profile found.</p>;
 
   // const completion = calculateCompletion(profile);
