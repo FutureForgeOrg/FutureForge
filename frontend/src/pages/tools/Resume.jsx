@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useResumeStore from '../../store/useResumeStore';
 import Navbar from '../../components/Navbar';
 import BackgroundWrapper from '../../components/ui/BackgroundWrapper';
+
 function Resume() {
   const { formData, setFormData, selectedTemplate, resetForm } = useResumeStore();
   const [isFormValid, setIsFormValid] = useState(false);
@@ -56,7 +57,7 @@ function Resume() {
     <>
       <Navbar />
       <BackgroundWrapper>
-        <div className=" mt-16">
+        <div className=" pt-10 sm:pt-14">
 
           <div className="container mx-auto px-4 py-8 max-w-6xl">
             {/* Header */}
@@ -84,8 +85,8 @@ function Resume() {
                       onClick={handlePreview}
                       disabled={!isFormValid || isLoading}
                       className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${isFormValid && !isLoading
-                          ? 'bg-green-500 hover:bg-green-600 text-white'
-                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        ? 'bg-green-500 hover:bg-green-600 text-white'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                         }`}
                     >
                       {isLoading ? 'Processing...' : 'Preview Resume'}
