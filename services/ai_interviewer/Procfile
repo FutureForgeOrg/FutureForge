@@ -1,0 +1,1 @@
+web: gunicorn run:get_app()
