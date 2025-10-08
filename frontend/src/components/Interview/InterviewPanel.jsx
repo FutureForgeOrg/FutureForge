@@ -233,7 +233,7 @@ function InterviewPanel() {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={handleVoiceRecording}
-                    className={`px-4 py-2 rounded-xl font-semibold transition-all flex items-center gap-2 ${isRecording
+                    className={`px-2 sm:px-4 py-2 rounded-xl font-semibold transition-all flex items-center gap-2 ${isRecording
                       ? 'bg-red-500/80 text-white hover:bg-red-600/90 shadow-red-500/30'
                       : 'bg-white/20 text-white hover:bg-white/30'
                       }`}
@@ -251,14 +251,14 @@ function InterviewPanel() {
                 <div className="flex gap-3">
                   <button
                     onClick={handleClearAll}
-                    className="px-4 py-2 bg-white/20 text-white rounded-xl hover:bg-white/30 font-semibold transition-all"
+                    className="px-2 sm:px-4 py-2 bg-white/20 text-white rounded-xl hover:bg-white/30 font-semibold transition-all"
                   >
                     Clear
                   </button>
                   <button
                     onClick={handleSubmitAnswer}
                     disabled={!userResponse.trim() || isProcessing}
-                    className="px-6 py-2 bg-green-500/80 hover:bg-green-600 text-white rounded-xl disabled:bg-gray-500/40 font-semibold transition-all"
+                    className="px-2 sm:px-16 py-2 bg-green-500/80 hover:bg-green-600 text-white rounded-xl disabled:bg-gray-500/40 font-semibold transition-all"
                   >
                     {isProcessing ? 'Evaluating...' : 'Submit'}
                   </button>
@@ -315,13 +315,13 @@ function InterviewPanel() {
               <button
                 onClick={handleNextQuestion}
                 disabled={!showInterview || isProcessing}
-                className="flex-1 py-4 bg-blue-600/80 hover:bg-blue-700 text-white rounded-xl disabled:bg-gray-500/40 font-bold text-lg transition-all"
+                className="flex-1 py-[10px] bg-blue-600/80 hover:bg-blue-700 text-white rounded-xl disabled:bg-gray-500/40 font-bold text-md transition-all"
               >
                 {isProcessing ? 'Loading...' : 'Next Question'}
               </button>
               <button
                 onClick={handleReset}
-                className="px-8 py-4 bg-white/20 text-white rounded-xl flex items-center space-x-2 font-semibold hover:bg-white/30 transition-all"
+                className="px-8 py-[10px] bg-white/20 text-white rounded-xl flex items-center space-x-2 font-semibold hover:bg-white/30 transition-all"
               >
                 <RotateCcw size={18} />
                 <span>Reset</span>

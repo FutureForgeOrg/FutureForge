@@ -26,7 +26,7 @@ const AiInterviewCard = () => {
     }, []);
 
     const handleStartPractice = () => {
-        navigate('/tools/Interview');
+        navigate('/tools/interview');
         console.log('Navigate to AI Interview Practice');
     };
 

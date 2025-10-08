@@ -59,10 +59,10 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
             {[
-              { to: '/Dashboard', label: 'Dashboard' },
-              { to: '/Bookmark', label: 'Bookmark' },
-              { to: '/JobSearch', label: 'Job Search' },
-              { to: '/Profile', label: 'Profile' }
+              { to: '/dashboard', label: 'Dashboard' },
+              { to: '/bookmark', label: 'Bookmark' },
+              { to: '/jobsearch', label: 'Job Search' },
+              { to: '/profile', label: 'Profile' }
             ].map(({ to, label }) => (
               <Link key={label} to={to}>
                 <button
@@ -107,7 +107,7 @@ const Navbar = () => {
                 {['Resume', 'Portfolio', 'Interview', 'Quiz'].map(tool => (
                   <button
                     key={tool}
-                    onClick={() => handleToolsClick(tool)}
+                    onClick={() => handleToolsClick(tool.toLowerCase())}
                     className="w-full text-left px-4 py-3 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-indigo-300 transition-all duration-200"
                   >
                     {tool}
@@ -151,10 +151,10 @@ const Navbar = () => {
       `}>
         <div className="px-4 py-4 space-y-2">
           {[
-            { to: '/Dashboard', label: 'Dashboard' },
-            { to: '/Bookmark', label: 'Bookmark' },
-            { to: '/JobSearch', label: 'Job Search' },
-            { to: '/Profile', label: 'Profile' }
+            { to: '/dashboard', label: 'Dashboard' },
+            { to: '/bookmark', label: 'Bookmark' },
+            { to: '/jobsearch', label: 'Job Search' },
+            { to: '/profile', label: 'Profile' }
           ].map(({ to, label }) => (
             <Link key={label} to={to}>
               <button
@@ -192,10 +192,10 @@ const Navbar = () => {
                 {['Resume', 'Portfolio', 'Interview', 'Quiz'].map(tool => (
                   <button
                     key={tool}
-                    onClick={() => { handleLinkClick(); navigate(`/tools/${tool}`); }}
+                    onClick={() => { handleLinkClick(); navigate(`/tools/${tool.toLowerCase()}`); }}
                     className="block w-full text-left px-4 py-2 rounded-lg text-sm text-white/80 hover:bg-white/10 hover:text-indigo-300 transition"
                   >
-                    {tool} Builder
+                    {tool}
                   </button>
                 ))}
               </div>
