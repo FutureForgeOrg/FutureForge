@@ -56,7 +56,7 @@ export const useAuthStore = create((set) => ({
 
             if (res.data?.user?.role === "user") {
                 const adminRedirectUrl = import.meta.env.MODE === 'production'
-                    ? 'https://futureforge.vercel.app/dashboard'
+                    ? 'https://future-forge-phi.vercel.app/dashboard'
                     : 'http://localhost:5173/dashboard';
                 window.location.href = adminRedirectUrl; // redirect to admin dashboard
             }
