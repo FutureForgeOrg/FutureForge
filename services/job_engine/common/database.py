@@ -74,7 +74,8 @@ class JobDatabase:
     def job_exists(self, job_id: str) -> bool:
         """Check if job already exists in database"""
         try:
-            return self.jobs_collection.find_one({"job_id": job_id}) is not None
+            # count_documents with limit=1 is much faster than find_one
+            return self.jobs_collection.count_documents({"job_id": job_id}, limit=1) > 0
         except Exception as e:
             logger.error(f"Error checking job existence: {e}")
             return False
@@ -121,7 +122,7 @@ class JobDatabase:
         
     def insert_jobs_batch(self, jobs: List[Dict[str, Any]]) -> Dict[str, int]:
         """Insert multiple jobs in batch"""
-        stats = {"inserted": 0, "updated": 0, "skipped": 0}
+        stats = {"inserted": 0, "skipped": 0, "failed": 0}  # Removed "updated", added "failed"
         
         for job in jobs:
             try:
@@ -134,22 +135,23 @@ class JobDatabase:
                     )
                     job['job_id'] = job_id
                 
+                # NEW: Check if exists FIRST, before calling insert_job
                 if self.job_exists(job_id):
-                    if self.insert_job(job):
-                        stats["updated"] += 1
-                    else:
-                        stats["skipped"] += 1
+                    stats["skipped"] += 1
+                    logger.debug(f"Job already exists, skipping: {job_id}")
                 else:
+                    # Job doesn't exist, try to insert
                     if self.insert_job(job):
                         stats["inserted"] += 1
                     else:
-                        stats["skipped"] += 1
+                        stats["failed"] += 1  # NEW: Track actual failures
+                        
             except Exception as e:
                 logger.error(f"Error processing job in batch: {e}")
-                stats["skipped"] += 1
+                stats["failed"] += 1  # CHANGED: failures are failures, not skips
         
-        return stats    
-
+        return stats
+    
     def get_jobs_by_location(self, location: str, limit: int = 100) -> List[Dict[str, Any]]:
         """Get jobs filtered by location"""
         try:
@@ -215,5 +217,14 @@ class JobDatabase:
             self.client.close()
             logger.info("Database connection closed")
 
-# Global database instance
-db = JobDatabase()
+_db_instance = None
+
+def get_db():
+    """Get or create single database instance (Singleton pattern)"""
+    global _db_instance
+    if _db_instance is None:
+        _db_instance = JobDatabase()
+    return _db_instance
+
+# For backward compatibility, keep this:
+db = get_db()

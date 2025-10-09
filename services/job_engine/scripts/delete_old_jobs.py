@@ -12,19 +12,7 @@ from datetime import datetime, timezone, timedelta
 # Add services directory to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-def setup_logging():
-    """Setup minimal logging for GitHub Actions"""
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(levelname)s - %(message)s',
-        handlers=[logging.StreamHandler(sys.stdout)]
-    )
-    # Suppress external library logs
-    logging.getLogger('urllib3').setLevel(logging.WARNING)
-    logging.getLogger('requests').setLevel(logging.WARNING)
-    logging.getLogger('pymongo').setLevel(logging.WARNING)
-    
-    return logging.getLogger(__name__)
+from common.logging_config import setup_logging
 
 def delete_old_jobs(days_old: int = 60, dry_run: bool = False):
     """Delete jobs older than specified days"""
@@ -97,7 +85,7 @@ def delete_old_jobs(days_old: int = 60, dry_run: bool = False):
 
 def main():
     """Main function for GitHub Actions execution"""
-    logger = setup_logging()
+    logger = setup_logging(github_mode=True)
     
     try:
         logger.info("Starting auto-deletion of old jobs")
@@ -130,8 +118,10 @@ def main():
         try:
             from common.database import db
             db.close_connection()
-        except:
-            pass
+            logger.info("Database connection closed")
+        except Exception as e:
+            logger.warning(f"Failed to close database: {e}")
+            # Continue - not critical for script exit
 
 if __name__ == "__main__":
     success = main()

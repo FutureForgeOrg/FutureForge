@@ -17,12 +17,10 @@ from job_scraper.utils import ScrapingUtils
 from common.config import config
 from common.database import db
 
-# Setup logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+from common.logging_config import setup_logging
+
+# Initialize logger
+logger = None  # Will be set in main()
 
 def parse_arguments():
     """Parse command line arguments"""
@@ -68,7 +66,7 @@ Examples:
     parser.add_argument(
         '--quiet',
         action='store_true',
-        help='Minimal output - only show final results'
+        help='Minimal output - only show warnings and errors'
     )
     
     parser.add_argument(
@@ -122,10 +120,10 @@ def select_roles(args):
 def main():
     """Main function for manual scraper execution"""
     args = parse_arguments()
-    
-    # Set logging level based on quiet flag
-    if args.quiet:
-        logging.getLogger().setLevel(logging.WARNING)
+
+    # Setup logging based on arguments
+    global logger
+    logger = setup_logging(quiet=args.quiet)
     
     try:
         # List roles and exit if requested
@@ -214,9 +212,12 @@ def main():
     finally:
         # Clean up database connection
         try:
+            from common.database import db
             db.close_connection()
-        except:
-            pass
+            logger.info("Database connection closed successfully")
+        except Exception as e:
+            logger.warning(f"Failed to close database connection: {e}")
+            # Continue anyway - not critical for script completion
 
 if __name__ == "__main__":
     main()

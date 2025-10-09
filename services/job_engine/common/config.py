@@ -109,15 +109,16 @@ class Config:
     def __str__(self):
         """String representation of config (safe, no sensitive data)"""
         return f"""
-Job Scraper Configuration:
-- Database: {self.DATABASE_NAME}/{self.JOBS_COLLECTION}
-- Location Mode: {self.LOCATION_MODE}
-- Search Locations: {self.get_search_locations()}
-- Scraping Enabled: {self.SCRAPING_ENABLED}
-- GitHub Actions Mode: {self.GITHUB_ACTIONS_MODE}
-- Max Results Per Query: {self.MAX_RESULTS_PER_QUERY}
-- Job Roles: {len(self.JOB_ROLES)} roles configured
-        """.strip()
+            Job Scraper Configuration:
+            - Database: {self.DATABASE_NAME}/{self.JOBS_COLLECTION}
+            - Location Mode: {self.LOCATION_MODE}
+            - Search Locations: {self.get_search_locations()}
+            - Scraping Enabled: {self.SCRAPING_ENABLED}
+            - GitHub Actions Mode: {self.GITHUB_ACTIONS_MODE}
+            - Max Results Per Query: {self.MAX_RESULTS_PER_QUERY}
+            - Job Roles: {len(self.JOB_ROLES)} roles configured
+            - API Key: {'Configured' if self.SERPAPI_API_KEY else 'Missing'}
+                """.strip()
 
 # Global config instance
 config = Config()
