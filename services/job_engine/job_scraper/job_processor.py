@@ -211,7 +211,7 @@ class JobProcessor:
         try:
             # Extract required fields
             company_name = job_data.get('company_name', '').strip()
-            job_title = job_data.get('title', '').strip()
+            job_title = (job_data.get('job_title') or job_data.get('title', '')).strip()
             location = job_data.get('location', '').strip()
             
             # Validate basic fields
