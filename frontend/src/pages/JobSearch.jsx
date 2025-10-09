@@ -172,16 +172,16 @@ function JobSearch() {
             </div>
 
             <div className='relative'>
-                <div className='absolute top-1/2 left-3 -translate-y-1/2 w-5 h-5 text-white/50'>
-                  <Search size={18} className='text-white'/>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Location"
-                  value={localLocation}
-                  onChange={(e) => setLocalLocation(e.target.value)}
-                  className="p-2 pl-9 rounded w-full text-white border bg-black"
-                />
+              <div className='absolute top-1/2 left-3 -translate-y-1/2 w-5 h-5 text-white/50'>
+                <Search size={18} className='text-white' />
+              </div>
+              <input
+                type="text"
+                placeholder="Location"
+                value={localLocation}
+                onChange={(e) => setLocalLocation(e.target.value)}
+                className="p-2 pl-9 rounded w-full text-white border bg-black"
+              />
             </div>
 
             <div className="w-full">
@@ -197,7 +197,15 @@ function JobSearch() {
           {/* Jobs */}
           <div className="mt-6 space-y-4">
             {isLoading ? (
-              <p className="text-center">Loading...</p>
+              // <p className="text-center">Loading...</p>
+              Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="animate-pulse space-y-2 p-4 border border-gray-200 rounded-lg">
+                  <div className="h-6 bg-gray-200 rounded w-1/4 mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-2/4 mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-full"></div>
+                </div>
+              ))
             ) : isError ? (
               <p className="text-center text-red-400">Error loading jobs.</p>
             ) : jobs.length === 0 ? (

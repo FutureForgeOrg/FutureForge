@@ -41,7 +41,11 @@ export default function Profile() {
     }
   }, [completionData, setProfileCompletion]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return (
+    <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
+      <Loader />
+    </div>
+  );
   if (!profile) return <p>No profile found.</p>;
 
   // const completion = calculateCompletion(profile);

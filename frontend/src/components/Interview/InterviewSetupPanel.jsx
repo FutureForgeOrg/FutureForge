@@ -56,7 +56,7 @@ function InterviewSetupPanel() {
             <div className="mb-8 p-6 bg-white/10 rounded-xl">
               <p className="text-white text-center mb-4 font-medium text-lg">In which level you like to do interview?</p>
               <div className="flex gap-4 sm:flex-row flex-col justify-center">
-                {['beginner', 'intermediate', 'advanced'].map((levelOption) => (
+                {['Beginner', 'Intermediate', 'Advanced'].map((levelOption) => (
                   <button
                     key={levelOption}
                     onClick={() => setLevel(levelOption)}
