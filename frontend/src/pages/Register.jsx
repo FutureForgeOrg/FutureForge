@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.jpeg';
+import futureForgeLogo from '/bg-hd.png';
 // import Terms from '../components/Terms';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
@@ -146,8 +146,8 @@ export default function Register() {
               {/* Logo */}
               <div className="mb-6 p-16">
                 <div className="w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
-                  <img src={logo} alt="logo" />
+                  >
+                  <img src={futureForgeLogo} alt="logo" />
                 </div>
                 <h1 className="text-4xl font-bold mb-2">Welcome to</h1>
                 <h2 className="text-5xl font-extrabold leading-tight bg-gradient-to-r from-yellow-400 to-pink-500 bg-clip-text text-transparent">
