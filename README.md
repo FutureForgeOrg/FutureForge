@@ -120,6 +120,6 @@ FutureForge is a full-stack career improvement platform that simplifies job sear
 
 Below are the initial hand-drawn UI concepts for FutureForge’s dashboard and tools.
 
-![FutureForge UI Dashboard](./assets/"FutureForge UI Dashboard.png")
+![FutureForge UI Dashboard](./assets/FutureForge%20UI%20Dashboard.png)
 
-![FutureForge UI Dashboard](./assets/"FutureForge UI Dashboard.png")
+![FutureForge UI Dashboard](./assets/FutureForge%20UI%20Tools.png)
