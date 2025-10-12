@@ -13,21 +13,7 @@ from datetime import datetime
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../services'))
 
-def setup_github_actions_logging():
-    """Setup logging optimized for GitHub Actions"""
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.StreamHandler(sys.stdout)
-        ]
-    )
-    
-    # Suppress verbose logs from external libraries
-    logging.getLogger('urllib3').setLevel(logging.WARNING)
-    logging.getLogger('requests').setLevel(logging.WARNING)
-    
-    return logging.getLogger(__name__)
+from common.logging_config import setup_logging
 
 def validate_github_environment():
     """Validate GitHub Actions environment"""
@@ -127,14 +113,17 @@ def run_scraping_session():
     finally:
         # Clean up
         try:
+            from common.database import db
             db.close_connection()
-        except:
-            pass
+            logger.info("Database connection closed")
+        except Exception as e:
+            logger.warning(f"Failed to close database: {e}")
+            # Not critical - GitHub Actions will terminate anyway
 
 def main():
     """Main function for GitHub Actions execution"""
-    logger = setup_github_actions_logging()
-    
+    logger = setup_logging(github_mode=True)
+
     try:
         logger.info("Starting GitHub Actions job scraping")
         

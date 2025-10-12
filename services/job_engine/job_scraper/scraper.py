@@ -21,11 +21,7 @@ class JobScraper:
         
         # Validate API key
         if not self.api_key:
-            raise ValueError(
-                "SERPAPI_API_KEY not found in configuration. "
-                "Please set SERPAPI_API_KEY in your .env file. "
-                "Get your API key from https://serpapi.com/dashboard"
-            )
+            raise ValueError("API key not configured. Check environment variables.")
         
         logger.info("Job scraper initialized with Google fallback enabled")
     
@@ -40,7 +36,8 @@ class JobScraper:
         logger.info(f"Built search query: {query[:50]}...")
         return query
     
-    def search_jobs(self, query: str, location: str) -> List[Dict]:
+    from typing import List, Dict, Optional
+    def search_jobs(self, query: str, location: str) -> Optional[List[Dict]]:
         """Search jobs using SerpAPI with retry logic"""
         max_retries = 3
         
@@ -72,13 +69,13 @@ class JobScraper:
                 return jobs
                 
             except requests.RequestException as e:
-                logger.error(f"API request attempt {attempt + 1} failed: {e}")
+                logger.error(f"API request attempt {attempt + 1} failed: {type(e).__name__}")
                 if attempt == max_retries - 1:
                     logger.error("All API request attempts failed")
-                    return []
+                    return None
                 time.sleep(2 ** attempt)
                 
-        return []
+        return None
     
     def scrape_role(self, role: str, max_jobs: int = 20) -> Dict:
         """Scrape jobs for a specific role"""
@@ -96,8 +93,21 @@ class JobScraper:
         # Search jobs
         raw_jobs = self.search_jobs(query, primary_location)
         
-        if not raw_jobs:
-            logger.warning(f"No jobs found for {role}")
+        if raw_jobs is None:
+            logger.error(f"API failed for {role} - skipping this role")
+            return {
+                'role': role,
+                'jobs_found': 0,
+                'jobs_processed': 0,
+                'jobs_saved': 0,
+                'direct_links': 0,
+                'google_links': 0,
+                'no_links': 0,
+                'error': 'API_FAILURE'  
+            }
+        
+        if len(raw_jobs) == 0:
+            logger.warning(f"No jobs found for {role} (API worked, just empty results)")
             return {
                 'role': role,
                 'jobs_found': 0,

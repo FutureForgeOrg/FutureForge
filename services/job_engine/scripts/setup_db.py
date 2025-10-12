@@ -6,11 +6,10 @@ from common.database import db
 from common.config import config
 import logging
 
+from common.logging_config import setup_logging
+
 # Setup logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+logger = setup_logging()
 
 def setup_database():
     """setup db with proper indexes and test connection"""
