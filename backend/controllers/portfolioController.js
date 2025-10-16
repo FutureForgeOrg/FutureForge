@@ -84,7 +84,7 @@ export const handleGeneratePortfolio = async (req, res) => {
 
     const BACKEND_URL = process.env.NODE_ENV === 'production'
         ? process.env.DEPLOYED_BACKEND_URL
-        : process.env.BACKEND_URL || 'http://localhost:8080';
+        : process.env.BACKEND_URL ?? 'http://localhost:8080';
 
     if (result.success) {
         res.json({
