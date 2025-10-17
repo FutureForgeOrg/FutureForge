@@ -123,7 +123,7 @@ export default function Register() {
 
       {/* Main Container */}
       <div className="w-full max-w-6xl rounded-3xl overflow-hidden shadow-2xl max-h-[700px]"
-        style={{ backgroundColor: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)' }}>
+        >
 
         <div className="flex flex-col lg:flex-row min-h-[600px]">
 
@@ -173,7 +173,7 @@ export default function Register() {
           </div>
 
           {/* Right Panel - Registration Form */}
-          <div className="lg:w-1/2 p-4 bg-gray-50">
+          <div className="pt-20 lg:w-1/2 p-4 xl:p-4  bg-gray-50">
             <div className="max-w-md mx-auto">
               <h3 className="text-3xl font-bold text-gray-800 mb-8 text-center font-monserat">Create your account</h3>
 
