@@ -1,5 +1,3 @@
-# _under development_
-
 # FutureForge: Forge Ahead With Us
 
 FutureForge is a full-stack career improvement platform that simplifies job searching by integrating smart job matching, customizable portfolio creation, professional resume building, AI Interviewer, and interactive quizzes in one unified solution.
@@ -123,3 +121,96 @@ Below are the initial hand-drawn UI concepts for FutureForge’s dashboard and t
 ![FutureForge UI Dashboard](./assets/FutureForge%20UI%20Dashboard.png)
 
 ![FutureForge UI Dashboard](./assets/FutureForge%20UI%20Tools.png)
+
+## ⚙️ Setup Instructions
+
+Follow the steps below to set up and run **FutureForge** locally.
+
+1. Clone the Repository
+   ```bash
+   git clone https://github.com/FutureForgeOrg/FutureForge.git
+   cd FutureForge
+   ```
+   
+2. Environment Setup
+   - Each folder contains its own .env.example file, Copy the example file and create your own .env configuration in each service directory
+   - Repeat this for the following folders:
+     - frontend
+     - backend
+     - admin-client
+   - Fill in the required keys based on the .env.example templates provided.
+
+3. Frontend Setup
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+4. Backend Setup
+   ```bash
+   cd backend
+   npm install
+   npm run dev
+   ```
+   
+5. Admin Client Setup
+   ```bash
+   cd admin-client
+   npm install
+   npm run dev
+   ```
+
+6. Job Engine Service Setup
+   1. Navigate to the Folder
+   ```bash
+   cd services/job_engine
+   ```
+   2. Create & Activate Conda Environment
+   ```bash
+   conda create -n futureforge_jobs python=3.10 -y
+   conda activate futureforge_jobs
+   ```
+   3. Install Dependencies
+   ```
+   pip install -r requirements.txt
+   ```
+   4. Setup Environment Variables
+      - Copy the example environment file and update your own keys
+
+   5. Setup the Database
+   ```bash
+   python scripts/setup_db.py
+   ```
+   6. Run the Job Scraper
+   ```bash
+   python scripts/run_scraper.py --test
+   ```
+
+7. AI Interviewer Setup
+   1. Navigate to the Folder
+   ```bash
+   cd services/ai_interviewer
+   ```
+   2. Create & Activate Conda Environment
+   ```bash
+   conda create -n futureforge_ai python=3.10 -y
+   conda activate futureforge_ai
+   ```
+   3. Install Dependencies
+   ```bash
+   pip install -r requirements.txt
+   ```
+   
+   4. Setup Environment Variables
+      - Copy the example environment file and update your own keys
+
+   5. Run the AI Interviewer Service
+      - Start the Flask app in full mode (API + UI):
+        ```bash
+        python run.py
+        ```
+      - Or run in API-only mode (for backend integration only):
+        ```bash
+        python run.py --api-only
+        ```
