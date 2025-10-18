@@ -35,9 +35,12 @@
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) scale(1);
   }
+
   50% {
     transform: translateY(-20px) scale(1.05);
   }
@@ -81,3 +84,11 @@ html {
 } */
 
 
+.animate-jelly {
+  animation: jellyBorder 6s linear infinite, pulseGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from { box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+  to { box-shadow: 0 0 25px rgba(255,255,255,0.7); }
+}

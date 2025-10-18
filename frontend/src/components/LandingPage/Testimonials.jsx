@@ -1,25 +1,25 @@
 import React from 'react'
-import {Star} from 'lucide-react';
+import { Star } from 'lucide-react';
 function Testimonials() {
 
 
     const testimonials = [
         {
             name: "Ananya Verma",
-            role: "Data Analyst at Deloitte",
-            content: "FutureForge’s smart job search found me roles I never saw elsewhere — landed two interviews within the first week!",
+            role: "SDE-2",
+            content: "FutureForge’s smart job search found me roles I never saw elsewhere - landed two interviews within the first week!",
             avatar: "AV"
         },
         {
-            name: "Rohan Mehta",
-            role: "UI/UX Designer at Swiggy",
+            name: "Simran Kapoor",
+            role: "UI/UX Designer",
             content: "Their resume and portfolio tools helped me stand out. Recruiters loved my professional design and personal portfolio link!",
             avatar: "RM"
         },
         {
-            name: "Simran Kapoor",
-            role: "Software Engineer at Amazon",
-            content: "The AI interviewer prepared me so well that my real interview felt easy — the feedback was spot-on every time!",
+            name: "Rohan Mehta",
+            role: "Final Grade Student",
+            content: "The AI interviewer prepared me so well that my real interview felt easy - the feedback was spot-on every time!",
             avatar: "SK"
         }
     ];
@@ -39,8 +39,9 @@ function Testimonials() {
                                         <Star key={i} className="h-6 w-6 text-yellow-400 fill-current mx-0.5" />
                                     ))}
                                 </div>
-
-                                <p className="text-gray-700 mb-8 italic text-lg font-medium">"{testimonial.content}"</p>
+                                <div className='min-h-[180px] pb-4 text-gray-700 italic text-lg font-medium'>
+                                    "{testimonial.content}"
+                                </div>
 
                                 <div className="flex items-center justify-center space-x-4">
                                     <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
