@@ -104,13 +104,23 @@ const Navbar = () => {
                 transition-all duration-300 origin-top
                 ${showToolsDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}
               `}>
-                {['Resume', 'Portfolio', 'Interview', 'Quiz'].map(tool => (
+                {['Portfolio', 'Interview', 'Quiz', 'Resume'].map(tool => (
                   <button
                     key={tool}
                     onClick={() => handleToolsClick(tool.toLowerCase())}
                     className="w-full text-left px-4 py-3 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-indigo-300 transition-all duration-200"
                   >
-                    {tool}
+                    <div>
+                      {tool === 'Resume' ? (
+                        <div>Resume
+                          <span className='text-[10px] bg-blue-500 text-white rounded-full px-2.5 py-1 ml-2 align-top'>
+                            beta
+                          </span>
+                        </div>
+                      ) : (
+                        <span>{tool}</span>
+                      )}
+                    </div>
                   </button>
                 ))}
               </div>
