@@ -65,7 +65,7 @@ export default function Login() {
 
       {/* Main Container */}
       <div className="w-full max-w-6xl rounded-3xl overflow-hidden shadow-2xl"
-        style={{ backgroundColor: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)' }}>
+        >
 
         <div className="flex flex-col lg:flex-row min-h-[550px]">
 
@@ -115,7 +115,7 @@ export default function Login() {
           </div>
 
           {/* Right Panel - Login Form */}
-          <div className="lg:w-1/2 md:p-12 p-8 bg-gray-50 flex items-center">
+          <div className=" lg:w-1/2 md:p-16 p-16 bg-gray-50 flex items-center">
             <div className="max-w-md mx-auto w-full">
               <h3 className="text-3xl font-bold text-gray-800 mb-2 text-center">Sign In</h3>
               <p className="text-gray-600 text-center mb-8">Access your account</p>
