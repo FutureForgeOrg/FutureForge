@@ -201,7 +201,7 @@ const Quiz = () => {
     <>
       <Navbar />
       <BackgroundWrapper>
-        <div className="w-[95%] sm:w-[90%] md:max-w-4xl mx-auto pt-24">
+        <div className="w-[95%] sm:w-[90%] md:max-w-4xl mx-auto pt-20 md:pt-24 pb-2">
 
           {/* --- CATEGORY SELECTION --- */}
           {showCategorySelection && (
@@ -301,7 +301,7 @@ const Quiz = () => {
           {quizStarted && currentQuestions.length > 0 && !showResult && (
             <>
               {/* Header */}
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 mb-6 border border-white/20">
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 mb-4 border border-white/20">
                 <div className="flex items-center justify-between mb-4">
                   <div className="text-white font-semibold">
                     Question {currentQuestionIndex + 1} of {currentQuestions.length}
@@ -320,8 +320,8 @@ const Quiz = () => {
               </div>
 
               {/* Question */}
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-8 mb-6 border border-white/20">
-                <h2 className="text-2xl font-semibold text-white mb-8 leading-relaxed">{currentQuestions[currentQuestionIndex].question}</h2>
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+                <h2 className="text-xl md:text-2xl font-semibold text-white mb-8 leading-relaxed">{currentQuestions[currentQuestionIndex].question}</h2>
                 <div className="space-y-4">
                   {currentQuestions[currentQuestionIndex].options.map((option, index) => {
                     let buttonClass = "w-full p-4 text-left rounded-xl border-2 transition-all duration-200 ";
@@ -342,7 +342,7 @@ const Quiz = () => {
                         disabled={selectedAnswer !== null}
                       >
                         <div className="flex items-center">
-                          <div className="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center mr-4 text-sm font-semibold">
+                          <div className="size-6 md:size-8 rounded-full border-2 border-current flex items-center justify-center mr-4 text-sm font-semibold">
                             {String.fromCharCode(65 + index)}
                           </div>
                           <div className="flex-1">{option}</div>
@@ -361,13 +361,13 @@ const Quiz = () => {
 
               {/* Navigation */}
               <div className="flex justify-between items-center">
-                <div className="text-gray-300">
+                <div className="text-gray-300 mt-2">
                   Score: <span className="text-white font-semibold">{score}/{currentQuestionIndex + (selectedAnswer !== null ? 1 : 0)}</span>
                 </div>
                 {selectedAnswer !== null && (
                   <button
                     onClick={nextQuestion}
-                    className="py-3 px-8 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-semibold hover:opacity-90 transition-opacity"
+                    className="py-2 px-6 mt-2 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-semibold hover:opacity-90 transition-opacity"
                   >
                     {currentQuestionIndex < currentQuestions.length - 1 ? 'Next Question' : 'Finish Quiz'}
                   </button>
