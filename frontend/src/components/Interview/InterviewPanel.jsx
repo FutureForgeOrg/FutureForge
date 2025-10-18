@@ -76,6 +76,8 @@ function InterviewPanel() {
     }
   }, [evaluationResult]);
 
+
+
   const handleVoiceRecording = () => {
     if (!isRecording) {
       // Start recording
