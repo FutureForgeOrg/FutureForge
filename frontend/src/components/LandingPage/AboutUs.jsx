@@ -107,7 +107,7 @@ function AboutUs() {
                 </div>
                 <div>
                   <div className="font-semibold text-lg text-gray-900">Prit Patel</div>
-                  <div className="text-sm text-pink-600 font-medium mb-2">Software Developer</div>
+                  <div className="text-sm text-pink-600 font-medium mb-2">Technical Support</div>
                   <a
                     href="https://github.com/Pritlimbani269"
                     target="_blank"

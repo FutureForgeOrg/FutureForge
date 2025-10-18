@@ -125,7 +125,7 @@ const LandingPage = () => {
 
               {/* Existing Terms */}
               <Link
-                to="/Terms"
+                to="/terms"
                 state={{ from: "LandingPage" }}
                 className="hover:text-purple-300 transition-colors duration-300 font-medium"
               >

@@ -249,7 +249,7 @@ const Portfolio = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
                   {[
                     'modern', 'classic', 'glass', 'darkcard',
-                    'neobrutal', 'pastel', 'resume', 'terminal',
+                    'neobrutal', 'pastel', 'resume', 'jsoncode',
                     'neon', 'retro', 'space', 'funky'
                   ].map((themeKey) => (
                     <div
