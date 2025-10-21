@@ -93,7 +93,7 @@ export default function Register() {
       return;
     }
 
-    console.log('Form submitted:', formData);
+    // console.log('Form submitted:', formData);
     // toast.success('Account created successfully!');
     signup(formData, navigate);
     setFormData({

@@ -120,20 +120,18 @@ export default function TemplatesTwoPanel({ data }) {
 
   return (
     <div className="max-w-6xl mx-auto bg-white text-gray-800 font-sans border shadow-lg rounded overflow-hidden">
-      
+
       {/* Header */}
       <header className="bg-gray-800 text-white py-3 px-4 rounded-t mb-2">
         <h1 className="text-2xl font-bold">{name}</h1>
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs mt-1">
-          <span>{email}</span>
-          <span>|</span>
-          <span>{phone}</span>
-          <span>|</span>
-          <span>{address}</span>
-          {links.map((link, i) => (
-            <React.Fragment key={i}>
-              <span>|</span>
+          {[
+            email && <span key="email">{email}</span>,
+            phone && <span key="phone">{phone}</span>,
+            address && <span key="address">{address}</span>,
+            ...(links?.filter(l => l.label && l.url).map((link, i) => (
               <a
+                key={`link-${i}`}
                 href={link.url}
                 target="_blank"
                 rel="noreferrer"
@@ -141,14 +139,22 @@ export default function TemplatesTwoPanel({ data }) {
               >
                 {link.label}
               </a>
-            </React.Fragment>
-          ))}
+            )) || []),
+          ]
+            .filter(Boolean)
+            .map((item, i, arr) => (
+              <React.Fragment key={i}>
+                {item}
+                {i < arr.length - 1 && <span className="text-gray-400">|</span>}
+              </React.Fragment>
+            ))}
         </div>
+
       </header>
 
       {/* Two Panel Layout */}
       <div className="flex gap-4 p-4">
-        
+
         {/* Left Panel - Projects Only */}
         <div className="w-1/2 space-y-2">
           <div>
@@ -176,7 +182,7 @@ export default function TemplatesTwoPanel({ data }) {
 
         {/* Right Panel - All Other Sections */}
         <div className="w-1/2 space-y-2 text-sm">
-          
+
           {/* Skills */}
           <div>
             <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm mb-2">Skills</h2>

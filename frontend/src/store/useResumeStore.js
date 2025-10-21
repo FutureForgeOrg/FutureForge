@@ -27,7 +27,15 @@ const useResumeStore = create((set) => ({
   selectedTemplate: 1,
 
   // Actions
-  setFormData: (data) => set({ formData: data }),
+  // setFormData will accept fn not just plain object to avoid stale closures
+  setFormData: (updater) =>
+    set((state) => ({
+      formData:
+        typeof updater === 'function'
+          ? updater(state.formData)
+          : { ...state.formData, ...updater }
+    })),
+
   updateFormField: (field, value) =>
     set((state) => ({
       formData: { ...state.formData, [field]: value }
@@ -59,6 +67,9 @@ const useResumeStore = create((set) => ({
       },
       selectedTemplate: 1
     }),
+    
+  profileLoaded: false,
+  setProfileLoaded: (value) => set({ profileLoaded: value }),
 }));
 
 export default useResumeStore;

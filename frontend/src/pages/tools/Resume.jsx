@@ -16,28 +16,16 @@ function Resume() {
 
   const navigate = useNavigate();
   const previewRef = useRef();
+  const { profileLoaded, setProfileLoaded } = useResumeStore();
 
   useEffect(() => {
-
-    // ! learning: zustand set function expects a plain object, not a function
-
-    // if (!isProfileDataLoading && profile) {
-    // const mappedData = mapProfileToResume(profile);
-    // console.log('Mapped Data:', mappedData);
-    // setFormData((prevData) => ({
-    //   ...prevData,
-    //   ...mappedData
-    // }));
-    // console.log('Form Data after mapping (my error):', formData);
-    // because zustand setformdata expects a plain object and we were passing a function
-    // }
-
-    if (!isProfileDataLoading && profile) {
+    if (!isProfileDataLoading && profile && !profileLoaded) {
       const mappedData = mapProfileToResume(profile);
-      setFormData({ ...formData, ...mappedData });
+      setFormData(prev => ({ ...prev, ...mappedData }));
+      setProfileLoaded(true);
     }
+  }, [isProfileDataLoading, profile, profileLoaded, setFormData, setProfileLoaded]);
 
-  }, [profile, setFormData]);
 
   useEffect(() => {
     // Basic validation: check if name and email are filled
@@ -68,7 +56,7 @@ function Resume() {
     setIsLoading(true);
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsLoading(false);
-    navigate('/PreviewPage'); // data will persist because of Zustand
+    navigate('/preview-page'); // data will persist because of Zustand
   };
 
   // const handleSaveDraft = () => {

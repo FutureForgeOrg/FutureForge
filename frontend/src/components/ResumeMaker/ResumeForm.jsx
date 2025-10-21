@@ -3,48 +3,73 @@ import { User, Mail, Phone, MapPin, Code, Briefcase, Link, GraduationCap, Folder
 
 export default function ResumeForm({ formData, setFormData }) {
   const handleChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value
+    }));
   };
 
-  const handleArrayChange = (field, index, value) => {
-    const updatedArray = [...formData[field]];
-    updatedArray[index] = value;
-    setFormData({ ...formData, [field]: updatedArray });
-  };
+  // const handleArrayChange = (field, index, value) => {
+  //   const updatedArray = [...formData[field]];
+  //   updatedArray[index] = value;
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [field]: updatedArray
+  //   }));
+  // };
 
-  const handleAddField = (field) => {
-    setFormData({ ...formData, [field]: [...formData[field], ""] });
-  };
+  // const handleAddField = (field) => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [field]: [...prevData[field], ""]
+  //   }));
+  // };
 
   const handleProjectChange = (index, field, value) => {
     const updatedProjects = [...formData.projects];
     updatedProjects[index][field] = value;
-    setFormData({ ...formData, projects: updatedProjects });
+    setFormData((prevData) => ({
+      ...prevData,
+      projects: updatedProjects
+    })
+    )
   };
 
   const handleEducationChange = (index, field, value) => {
     const updatedEducation = [...formData.education];
     updatedEducation[index][field] = value;
-    setFormData({ ...formData, education: updatedEducation });
+    setFormData((prevData) => ({
+      ...prevData,
+      education: updatedEducation
+    })
+    )
   };
 
   const handleCertificateChange = (index, field, value) => {
     const updatedCertificates = [...formData.certificates];
     updatedCertificates[index][field] = value;
-    setFormData({ ...formData, certificates: updatedCertificates });
+    setFormData((prevData) => ({
+      ...prevData,
+      certificates: updatedCertificates
+    })
+    );
   };
 
   const handleLinkChange = (index, field, value) => {
     const updatedLinks = [...formData.links];
     updatedLinks[index][field] = value;
-    setFormData({ ...formData, links: updatedLinks });
+    setFormData((prevData) => ({
+      ...prevData,
+      links: updatedLinks
+    })
+    );
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        
+
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Column - Personal Info */}
@@ -159,10 +184,14 @@ export default function ResumeForm({ formData, setFormData }) {
                 <button
                   type="button"
                   onClick={() =>
-                    setFormData({
-                      ...formData,
-                      links: [...formData.links, { label: "", url: "" }]
-                    })
+                    // setFormData({
+                    //   ...formData,
+                    //   links: [...formData.links, { label: "", url: "" }]
+                    // })
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      links: [...prevData.links, { label: "", url: "" }]
+                    }))
                   }
                 >
                   Add Link
@@ -222,10 +251,16 @@ export default function ResumeForm({ formData, setFormData }) {
 
                 <button
                   type="button"
-                  onClick={() => setFormData({
-                    ...formData,
-                    education: [...formData.education, { degree: "", institution: "", year: "", percentage: "" }]
-                  })}
+                  // onClick={() => setFormData({
+                  //   ...formData,
+                  //   education: [...formData.education, { degree: "", institution: "", year: "", percentage: "" }]
+                  // })}
+                  onClick={() =>
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      education: [...prevData.education, { degree: "", institution: "", year: "", percentage: "" }]
+                    }))
+                  }
                   className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200 group"
                 >
                   <Plus className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
@@ -285,10 +320,10 @@ export default function ResumeForm({ formData, setFormData }) {
                 ))}
                 <button
                   type="button"
-                  onClick={() => setFormData({
-                    ...formData,
-                    projects: [...formData.projects, { name: "", description: "", link: "" }]
-                  })}
+                  onClick={() => setFormData((prevData) => ({
+                    ...prevData,
+                    projects: [...prevData.projects, { name: "", description: "", link: "" }]
+                  }))}
                   className="flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium transition-colors duration-200"
                 >
                   <Plus className="w-4 h-4" /> Add Project
@@ -329,10 +364,10 @@ export default function ResumeForm({ formData, setFormData }) {
                 <button
                   type="button"
                   onClick={() =>
-                    setFormData({
-                      ...formData,
-                      certificates: [...formData.certificates, { name: "", issuer: "" }]
-                    })
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      certificates: [...prevData.certificates, { name: "", issuer: "" }]
+                    }))
                   }
                   className="flex items-center gap-2 text-red-600 hover:text-red-700 font-medium transition-colors duration-200 group"
                 >

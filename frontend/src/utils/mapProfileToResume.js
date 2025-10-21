@@ -9,12 +9,12 @@ export function mapProfileToResume(profile) {
     about: profile.about || "",
     title: profile.title || "",
 
-    // ✅ Convert array → string for textarea binding
+    // Convert array → string for textarea binding
     skills: Array.isArray(profile.skills)
       ? profile.skills.join(", ")
       : profile.skills || "",
 
-    // ✅ Convert experience array → multiline string
+    // Convert experience array → multiline string
     experience: Array.isArray(profile.experience)
       ? profile.experience
           .map(

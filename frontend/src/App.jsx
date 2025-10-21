@@ -57,7 +57,7 @@ function App() {
           <Route path='/tools/resume' element={<Resume />} />
           <Route path='/tools/Interview/*' element={<Interview />} />
           <Route path='/tools/Quiz' element={<Quiz/>}/>
-          <Route path='/PreviewPage' element={<PreviewPage />} />
+          <Route path='/preview-page' element={<PreviewPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/verify-email/:token" element={<EmailVerificationHandler />} />
           {/* 404 Not Found Route */}
