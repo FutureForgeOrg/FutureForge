@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purv Patel | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            animation: {
+              fadeInUp: 'fadeInUp 1s ease-out both',
+              fadeIn: 'fadeIn 1s ease-out both',
+            },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gradient-to-br from-white via-gray-50 to-gray-200 text-gray-800 dark:from-gray-900 dark:to-gray-800 dark:text-white">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-8 text-center shadow-lg">
+      <h1 class="text-4xl font-extrabold tracking-tight animate-fadeInUp">Purv Patel</h1>
+      <p class="text-lg mt-2 font-medium animate-fadeIn delay-200">software developer SDE2</p>
+    </header>
+
+    <!-- About -->
+    <section class="p-6 max-w-4xl mx-auto mt-8 animate-fadeInUp">
+      <h2 class="text-3xl font-semibold border-b-2 border-indigo-400 pb-2 mb-4">About Me</h2>
+      <p class="text-gray-700 dark:text-gray-300 leading-relaxed">i am currently learning next js with typeScripp.i am available to work .</p>
+    </section>
+
+    <!-- Skills -->
+    <section class="p-6 max-w-4xl mx-auto animate-fadeInUp">
+      <h2 class="text-3xl font-semibold border-b-2 border-indigo-400 pb-2 mb-4">Skills</h2>
+      <div class="flex flex-wrap gap-3">
+        <span class="bg-indigo-100 text-indigo-700 px-4 py-1 rounded-full text-sm font-semibold shadow hover:scale-105 transition">html,css,js,react,nodejs,expressjs</span>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="p-6 max-w-4xl mx-auto animate-fadeInUp">
+      <h2 class="text-3xl font-semibold border-b-2 border-indigo-400 pb-2 mb-4">Experience</h2>
+      <div class="mb-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition">
+        <h3 class="text-xl font-bold text-indigo-700 dark:text-indigo-300">junior-dev - google</h3>
+        <p class="text-sm text-gray-500">2020-22</p>
+        <p class="mt-2 text-gray-700 dark:text-gray-300">i worked 2 year in goggle as junior software developer.</p>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="p-6 max-w-4xl mx-auto animate-fadeInUp">
+      <h2 class="text-3xl font-semibold border-b-2 border-indigo-400 pb-2 mb-4">Projects</h2>
+      <div class="grid gap-6 sm:grid-cols-2">
+        <div class="p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md hover:scale-105 transition-transform duration-300">
+          <h3 class="text-lg font-bold text-indigo-700 dark:text-indigo-300">DoctorAppointmentSystem</h3>
+          <p class="text-sm mt-2 text-gray-700 dark:text-gray-300">BookMyDoc is a web-based doctor appointment system designed to streamline medical consultation scheduling. It allows patients to book appointments with doctors, receive updates, and leverage machine learning for disease prediction based on symptoms.</p>
+          <a href="bookmydoc-five.vercel.app" target="_blank" class="text-indigo-600 hover:underline inline-block mt-2">Live Demo →</a>
+        </div>
+        <div class="p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md hover:scale-105 transition-transform duration-300">
+          <h3 class="text-lg font-bold text-indigo-700 dark:text-indigo-300">BlogApp</h3>
+          <p class="text-sm mt-2 text-gray-700 dark:text-gray-300">A full-stack blogging platform built with the MERN stack, enabling administrators to manage blog posts while allowing users to view content and contact the admin.</p>
+          <a href="blog-app-peach-one.vercel.app" target="_blank" class="text-indigo-600 hover:underline inline-block mt-2">Live Demo →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="p-6 max-w-4xl mx-auto animate-fadeInUp">
+      <h2 class="text-3xl font-semibold border-b-2 border-indigo-400 pb-2 mb-4">Education</h2>
+      <div class="mb-4 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow">
+        <h3 class="text-lg font-bold text-indigo-700 dark:text-indigo-300">BECE</h3>
+        <p class="text-sm text-gray-500">LDRP (2026)</p>
+      </div>
+      <div class="mb-4 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow">
+        <h3 class="text-lg font-bold text-indigo-700 dark:text-indigo-300">SSC</h3>
+        <p class="text-sm text-gray-500">gurukul (2020)</p>
+      </div>
+      <div class="mb-4 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow">
+        <h3 class="text-lg font-bold text-indigo-700 dark:text-indigo-300">hsc</h3>
+        <p class="text-sm text-gray-500">gurukul (2022)</p>
+      </div>
+    </section>
+
+    <!-- Social -->
+    <footer class="p-6 bg-indigo-50 dark:bg-gray-900 mt-12 text-center">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Connect with Me</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/purvpatel123" target="_blank" class="text-indigo-600 hover:underline font-medium transition hover:text-indigo-800">GitHub</a>
+      </div>
+      <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">© Purv Patel - Portfolio</p>
+    </footer>
+
+  </body>
+</html>

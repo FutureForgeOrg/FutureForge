@@ -42,9 +42,14 @@ export default function Profile() {
   }, [completionData, setProfileCompletion]);
 
   if (isLoading) return (
-    <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
-      <Loader />
-    </div>
+    <>
+      <Navbar />
+      <BackgroundWrapper >
+        <div className="flex items-center justify-center h-screen">
+          <Loader />
+        </div>
+      </BackgroundWrapper>
+    </>
   );
   if (!profile) return <p>No profile found.</p>;
 
