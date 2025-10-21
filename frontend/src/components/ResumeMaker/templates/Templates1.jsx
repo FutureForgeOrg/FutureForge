@@ -22,16 +22,13 @@ export default function Templates1({ data }) {
         <h1 className="text-3xl font-bold mb-2">{name}</h1>
 
         <div className="flex flex-wrap justify-center items-center text-sm">
-          <span>{email}</span>
-          <span className="mx-2">|</span>
-          <span>{phone}</span>
-          <span className="mx-2">|</span>
-          <span>{address}</span>
-
-          {links.map((link, i) => (
-            <React.Fragment key={i}>
-              <span className="mx-2">|</span>
+          {[
+            email && <span key="email">{email}</span>,
+            phone && <span key="phone">{phone}</span>,
+            address && <span key="address">{address}</span>,
+            ...(links?.filter(l => l.label && l.url).map((link, i) => (
               <a
+                key={`link-${i}`}
                 href={link.url}
                 target="_blank"
                 rel="noreferrer"
@@ -39,9 +36,17 @@ export default function Templates1({ data }) {
               >
                 {link.label}
               </a>
-            </React.Fragment>
-          ))}
+            )) || []),
+          ]
+            .filter(Boolean) // remove any falsy (empty) items
+            .map((item, i, arr) => (
+              <React.Fragment key={i}>
+                {item}
+                {i < arr.length - 1 && <span className="mx-2">|</span>} {/* add dash only between */}
+              </React.Fragment>
+            ))}
         </div>
+
       </header>
 
 
@@ -122,7 +127,7 @@ export default function Templates1({ data }) {
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:underline"
                     >
-                     🔗 View
+                      🔗 View
                     </a>
                   )}
                 </li>

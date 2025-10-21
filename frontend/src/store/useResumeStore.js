@@ -18,16 +18,24 @@ const useResumeStore = create((set) => ({
     certificates: [
       { name: "", issuer: "" }
     ],
-   links: [
-  { label: "", url: "" },
- 
-]
+    links: [
+      { label: "", url: "" },
+
+    ]
 
   },
   selectedTemplate: 1,
 
   // Actions
-  setFormData: (data) => set({ formData: data }),
+  // setFormData will accept fn not just plain object to avoid stale closures
+  setFormData: (updater) =>
+    set((state) => ({
+      formData:
+        typeof updater === 'function'
+          ? updater(state.formData)
+          : { ...state.formData, ...updater }
+    })),
+
   updateFormField: (field, value) =>
     set((state) => ({
       formData: { ...state.formData, [field]: value }
@@ -43,22 +51,25 @@ const useResumeStore = create((set) => ({
         address: "",
         skills: "",
         education: [
-      { degree: "", institution: "", year: "", percentage: "" },
-    ],
+          { degree: "", institution: "", year: "", percentage: "" },
+        ],
         experience: "",
         projects: [
           { name: "", description: "", link: "" }
         ],
         certificates: [
-      { name: "", issuer: "" }
-    ],
+          { name: "", issuer: "" }
+        ],
         links: [
-  { label: "", url: "" },
- ]
+          { label: "", url: "" },
+        ]
 
       },
       selectedTemplate: 1
     }),
+    
+  profileLoaded: false,
+  setProfileLoaded: (value) => set({ profileLoaded: value }),
 }));
 
 export default useResumeStore;

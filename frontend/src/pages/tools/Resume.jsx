@@ -4,20 +4,50 @@ import { useNavigate } from 'react-router-dom';
 import useResumeStore from '../../store/useResumeStore';
 import Navbar from '../../components/Navbar';
 import BackgroundWrapper from '../../components/ui/BackgroundWrapper';
+import { mapProfileToResume } from '../../utils/mapProfileToResume';
+import { useProfileQuery } from '../../hooks/useProfile';
+import { Loader } from 'lucide-react';
 
 function Resume() {
   const { formData, setFormData, selectedTemplate, resetForm } = useResumeStore();
   const [isFormValid, setIsFormValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { data: profile, isLoading: isProfileDataLoading } = useProfileQuery();
 
   const navigate = useNavigate();
   const previewRef = useRef();
+  const { profileLoaded, setProfileLoaded } = useResumeStore();
 
   useEffect(() => {
-    const hasBasicInfo = formData.name.trim() && formData.email.trim();
-    setIsFormValid(hasBasicInfo);
+    if (!isProfileDataLoading && profile && !profileLoaded) {
+      const mappedData = mapProfileToResume(profile);
+      setFormData(prev => ({ ...prev, ...mappedData }));
+      setProfileLoaded(true);
+    }
+  }, [isProfileDataLoading, profile, profileLoaded, setFormData, setProfileLoaded]);
+
+
+  useEffect(() => {
+    // Basic validation: check if name and email are filled
+    if (formData.name.trim() !== "" || formData.email.trim() !== "") {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
   }, [formData]);
 
+  if (isProfileDataLoading) {
+    return (
+      <>
+        <Navbar />
+        <BackgroundWrapper>
+          <div className="flex items-center justify-center h-screen">
+            <Loader />
+          </div>
+        </BackgroundWrapper>
+      </>
+    );
+  }
   const handlePreview = async () => {
     if (!isFormValid) {
       alert('Please fill in at least your name and email before previewing.');
@@ -26,7 +56,7 @@ function Resume() {
     setIsLoading(true);
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsLoading(false);
-    navigate('/PreviewPage'); // data will persist because of Zustand
+    navigate('/preview-page'); // data will persist because of Zustand
   };
 
   // const handleSaveDraft = () => {

@@ -16,28 +16,43 @@ export default function TemplatesCompact({ data }) {
 
   return (
     <div className="max-w-4xl mx-auto bg-white text-gray-800 font-sans border shadow-lg rounded overflow-hidden">
-      
+
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-2 px-3">
         <h1 className="text-xl font-bold mb-1">{name}</h1>
         <div className="flex flex-wrap items-center gap-x-2 text-xs">
-          <span>{email}</span>
-          <span className="text-blue-200">•</span>
-          <span>{phone}</span>
-          <span className="text-blue-200">•</span>
-          <span>{address}</span>
-          {links.map((link, i) => (
-            <React.Fragment key={i}>
-              <span className="text-blue-200">•</span>
-              <a href={link.url} target="_blank" rel="noreferrer" className="text-blue-300 hover:text-white underline">{link.label}</a>
-            </React.Fragment>
-          ))}
+          {[
+            email && <span key="email">{email}</span>,
+            phone && <span key="phone">{phone}</span>,
+            address && <span key="address">{address}</span>,
+            ...(links?.filter(l => l.label && l.url).map((link, i) => (
+              <a
+                key={`link-${i}`}
+                href={link.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-300 hover:text-white underline"
+              >
+                {link.label}
+              </a>
+            )) || []),
+          ]
+            .filter(Boolean)
+            .map((item, i, arr) => (
+              <React.Fragment key={i}>
+                {item}
+                {i < arr.length - 1 && (
+                  <span className="text-blue-200">•</span>
+                )}
+              </React.Fragment>
+            ))}
         </div>
+
       </header>
 
       {/* Content */}
       <div className="p-3 space-y-2 text-xs leading-tight">
-        
+
         {/* Skills */}
         <section>
           <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Technical Skills</h2>

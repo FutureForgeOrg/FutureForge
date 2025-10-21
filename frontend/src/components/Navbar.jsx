@@ -205,7 +205,17 @@ const Navbar = () => {
                     onClick={() => { handleLinkClick(); navigate(`/tools/${tool.toLowerCase()}`); }}
                     className="block w-full text-left px-4 py-2 rounded-lg text-sm text-white/80 hover:bg-white/10 hover:text-indigo-300 transition"
                   >
-                    {tool}
+                    <div>
+                      {tool === 'Resume' ? (
+                        <div>Resume
+                          <span className='text-[10px] bg-blue-500 text-white rounded-full px-2.5 py-1 ml-2 align-top'>
+                            beta
+                          </span>
+                        </div>
+                      ) : (
+                        <span>{tool}</span>
+                      )}
+                    </div>
                   </button>
                 ))}
               </div>
