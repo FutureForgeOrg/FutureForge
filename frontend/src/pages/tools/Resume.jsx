@@ -4,20 +4,62 @@ import { useNavigate } from 'react-router-dom';
 import useResumeStore from '../../store/useResumeStore';
 import Navbar from '../../components/Navbar';
 import BackgroundWrapper from '../../components/ui/BackgroundWrapper';
+import { mapProfileToResume } from '../../utils/mapProfileToResume';
+import { useProfileQuery } from '../../hooks/useProfile';
+import { Loader } from 'lucide-react';
 
 function Resume() {
   const { formData, setFormData, selectedTemplate, resetForm } = useResumeStore();
   const [isFormValid, setIsFormValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { data: profile, isLoading: isProfileDataLoading } = useProfileQuery();
 
   const navigate = useNavigate();
   const previewRef = useRef();
 
   useEffect(() => {
-    const hasBasicInfo = formData.name.trim() && formData.email.trim();
-    setIsFormValid(hasBasicInfo);
+
+    // ! learning: zustand set function expects a plain object, not a function
+
+    // if (!isProfileDataLoading && profile) {
+    // const mappedData = mapProfileToResume(profile);
+    // console.log('Mapped Data:', mappedData);
+    // setFormData((prevData) => ({
+    //   ...prevData,
+    //   ...mappedData
+    // }));
+    // console.log('Form Data after mapping (my error):', formData);
+    // because zustand setformdata expects a plain object and we were passing a function
+    // }
+
+    if (!isProfileDataLoading && profile) {
+      const mappedData = mapProfileToResume(profile);
+      setFormData({ ...formData, ...mappedData });
+    }
+
+  }, [profile, setFormData]);
+
+  useEffect(() => {
+    // Basic validation: check if name and email are filled
+    if (formData.name.trim() !== "" || formData.email.trim() !== "") {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
   }, [formData]);
 
+  if (isProfileDataLoading) {
+    return (
+      <>
+        <Navbar />
+        <BackgroundWrapper>
+          <div className="flex items-center justify-center h-screen">
+            <Loader />
+          </div>
+        </BackgroundWrapper>
+      </>
+    );
+  }
   const handlePreview = async () => {
     if (!isFormValid) {
       alert('Please fill in at least your name and email before previewing.');

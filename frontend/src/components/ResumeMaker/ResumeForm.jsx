@@ -136,7 +136,7 @@ export default function ResumeForm({ formData, setFormData }) {
                 </div>
 
 
-                {formData.links.map((link, i) => (
+                {formData.links?.map((link, i) => (
                   <div key={i} className="space-y-2">
                     <input
                       type="text"
@@ -182,7 +182,7 @@ export default function ResumeForm({ formData, setFormData }) {
               </h2>
 
               <div className="space-y-6">
-                {formData.education.map((edu, i) => (
+                {formData.education?.map((edu, i) => (
                   <div key={i} className="p-4 border border-gray-200 rounded-lg space-y-3 relative">
                     <GraduationCap className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
 
@@ -243,7 +243,7 @@ export default function ResumeForm({ formData, setFormData }) {
               </h2>
 
               <div className="space-y-3">
-                {formData.projects.map((proj, i) => (
+                {formData.projects?.map((proj, i) => (
 
                   <div key={i} className="p-4 border border-gray-200 rounded-lg space-y-3">
 
@@ -304,7 +304,7 @@ export default function ResumeForm({ formData, setFormData }) {
               </h2>
 
               <div className="space-y-6">
-                {formData.certificates.map((cert, i) => (
+                {formData.certificates?.map((cert, i) => (
                   <div key={i} className="relative p-4 border border-gray-200 rounded-lg space-y-3">
                     <Award className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
 

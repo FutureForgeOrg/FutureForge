@@ -18,10 +18,10 @@ const useResumeStore = create((set) => ({
     certificates: [
       { name: "", issuer: "" }
     ],
-   links: [
-  { label: "", url: "" },
- 
-]
+    links: [
+      { label: "", url: "" },
+
+    ]
 
   },
   selectedTemplate: 1,
@@ -43,18 +43,18 @@ const useResumeStore = create((set) => ({
         address: "",
         skills: "",
         education: [
-      { degree: "", institution: "", year: "", percentage: "" },
-    ],
+          { degree: "", institution: "", year: "", percentage: "" },
+        ],
         experience: "",
         projects: [
           { name: "", description: "", link: "" }
         ],
         certificates: [
-      { name: "", issuer: "" }
-    ],
+          { name: "", issuer: "" }
+        ],
         links: [
-  { label: "", url: "" },
- ]
+          { label: "", url: "" },
+        ]
 
       },
       selectedTemplate: 1
