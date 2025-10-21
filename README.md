@@ -140,55 +140,74 @@ Follow the steps below to set up and run **FutureForge** locally.
    ```
 
 6. Job Engine Service Setup
+
    1. Navigate to the Folder
-   ```bash
-   cd services/job_engine
-   ```
+
+      ```bash
+      cd services/job_engine
+      ```
+
    2. Create & Activate Conda Environment
-   ```bash
-   conda create -n futureforge_jobs python=3.10 -y
-   conda activate futureforge_jobs
-   ```
+
+      ```bash
+      conda create -n futureforge_jobs python=3.10 -y
+      conda activate futureforge_jobs
+      ```
+
    3. Install Dependencies
-   ```
-   pip install -r requirements.txt
-   ```
-   4. Setup Environment Variables
+
+      ```bash
+      pip install -r requirements.txt
+      ```
+
+   4. Setup Environment Variables  
       - Copy the example environment file and update your own keys
 
    5. Setup the Database
-   ```bash
-   python scripts/setup_db.py
-   ```
+
+      ```bash
+      python scripts/setup_db.py
+      ```
+
    6. Run the Job Scraper
-   ```bash
-   python scripts/run_scraper.py --test
-   ```
+
+      ```bash
+      python scripts/run_scraper.py --test
+      ```
 
 7. AI Interviewer Setup
+
    1. Navigate to the Folder
-   ```bash
-   cd services/ai_interviewer
-   ```
+
+      ```bash
+      cd services/ai_interviewer
+      ```
+
    2. Create & Activate Conda Environment
-   ```bash
-   conda create -n futureforge_ai python=3.10 -y
-   conda activate futureforge_ai
-   ```
+
+      ```bash
+      conda create -n futureforge_ai python=3.10 -y
+      conda activate futureforge_ai
+      ```
+
    3. Install Dependencies
-   ```bash
-   pip install -r requirements.txt
-   ```
-   
-   4. Setup Environment Variables
+
+      ```bash
+      pip install -r requirements.txt
+      ```
+
+   4. Setup Environment Variables  
       - Copy the example environment file and update your own keys
 
-   5. Run the AI Interviewer Service
+   5. Run the AI Interviewer Service  
       - Start the Flask app in full mode (API + UI):
+
         ```bash
         python run.py
         ```
+
       - Or run in API-only mode (for backend integration only):
+
         ```bash
         python run.py --api-only
         ```
