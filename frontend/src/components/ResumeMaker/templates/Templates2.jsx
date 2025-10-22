@@ -1,90 +1,4 @@
-// import React from "react";
-
-// export default function Template2({ data }) {
-//   const {
-//     name,
-//     email,
-//     phone,
-//     address,
-//     skills,
-//     education,
-//     experience,
-//     projects,
-//     certificates,
-//     links,
-//   } = data;
-
-//   return (
-//     <div className="flex font-sans text-sm text-gray-900">
-//       {/* Sidebar */}
-//       <div className="w-1/3 bg-gray-100 p-4 space-y-4">
-//         <h1 className="text-2xl font-bold">{name}</h1>
-//         <p>{email}</p>
-//         <p>{phone}</p>
-//         <p>{address}</p>
-
-//         <div>
-//           <h2 className="text-lg font-semibold border-b">Skills</h2>
-//           <ul className="list-disc pl-4">
-//             {skills.split(",").map((skill, index) => (
-//               <li key={index}>{skill.trim()}</li>
-//             ))}
-//           </ul>
-//         </div>
-//       </div>
-
-//       {/* Main Content */}
-//       <div className="w-2/3 p-6 space-y-6">
-//         <div>
-//           <h2 className="text-xl font-semibold border-b">Experience</h2>
-//           <p>{experience}</p>
-//         </div>
-
-//         <div>
-//           <h2 className="text-xl font-semibold border-b">Education</h2>
-//           <ul className="list-disc pl-5">
-//             {education.map((edu, i) => (
-//               <li key={i}>{edu}</li>
-//             ))}
-//           </ul>
-//         </div>
-
-//         <div>
-//           <h2 className="text-xl font-semibold border-b">Projects</h2>
-//           <ul className="list-disc pl-5">
-//             {projects.map((proj, i) => (
-//               <li key={i}>{proj}</li>
-//             ))}
-//           </ul>
-//         </div>
-
-//         <div>
-//           <h2 className="text-xl font-semibold border-b">Certificates</h2>
-//           <ul className="list-disc pl-5">
-//             {certificates.map((cert, i) => (
-//               <li key={i}>{cert}</li>
-//             ))}
-//           </ul>
-//         </div>
-
-//         <div>
-//           <h2 className="text-xl font-semibold border-b">Links</h2>
-//           <ul className="list-disc pl-5">
-//             {links.split(",").map((link, i) => (
-//               <li key={i}>
-//                 <a href={link.trim()} target="_blank" rel="noreferrer" className="text-blue-600 underline">
-//                   {link.trim()}
-//                 </a>
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
+import { Dot, Mail, MapPin, Phone } from "lucide-react";
 import React from "react";
 
 export default function TemplatesCompact({ data }) {
@@ -109,9 +23,9 @@ export default function TemplatesCompact({ data }) {
         <h1 className="text-2xl font-bold">{name}</h1>
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs mt-1">
           {[
-            email && <span key="email">{email}</span>,
-            phone && <span key="phone">{phone}</span>,
-            address && <span key="address">{address}</span>,
+            email && <div className="flex items-center gap-1"> <Mail size={16} className="pt-0.5" /><span key="email">{email}</span></div>,
+            phone && <div className="flex items-center gap-1"> <Phone size={16} className="pt-0.5" /><span key="phone">{phone}</span></div>,
+            address && <div className="flex items-center gap-1"> <MapPin size={16} className="" /><span key="address">{address}</span></div>,
             ...(links?.filter(l => l.label && l.url).map((link, i) => (
               <a
                 key={`link-${i}`}
@@ -124,88 +38,108 @@ export default function TemplatesCompact({ data }) {
               </a>
             )) || []),
           ]
-            .filter(Boolean) // remove any falsy (empty) items
+            .filter(Boolean)
             .map((item, i, arr) => (
               <React.Fragment key={i}>
                 {item}
-                {i < arr.length - 1 && <span className="mx-2">|</span>} {/* add dash only between */}
+                {i < arr.length - 1 && <span className="mx-2">|</span>}
               </React.Fragment>
             ))}
         </div>
       </header>
 
       {/* All sections in one column */}
-      <div className="space-y-2 text-sm">
+      <div className="space-y-3 text-sm">
 
         {/* Skills */}
-        <div>
-          <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Skills</h2>
-          <ul className="list-disc pl-4 flex flex-wrap gap-x-4 gap-y-1">
-            {skills.split(",").map((skill, i) => (
-              <li key={i}>{skill.trim()}</li>
+        {skills && skills.trim() !== "" && (
+          <div>
+            <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Skills</h2>
+            {/* <Dot>
+              {skills.split(",").map((skill, i) => (
+                <li key={i}>{skill.trim()}</li>
+              ))}
+            </Dot> */}
+            {skills.split(',').map((skill, i) => (
+              <div className="inline-flex items-center" key={i}>
+                <Dot className="pt-0.5" />
+                <span key={i} className="">{skill.trim()}</span>
+              </div>
             ))}
-          </ul>
-        </div>
+
+          </div>
+        )}
 
         {/* Certificates */}
-        <div>
-          <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Certificates</h2>
-          <ul className="list-disc pl-4">
-            {certificates.map((cert, i) => (
-              <li key={i}>
-                {cert.issuer ? cert.issuer : "-"}{cert.name ? ` - ${cert.name}` : ""}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {Array.isArray(certificates) && certificates.some(cert => cert.issuer || cert.name) && (
+          <div>
+            <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Certificates</h2>
+            <ul className="list-disc pl-4">
+              {certificates
+                .filter(cert => cert.issuer || cert.name)
+                .map((cert, i) => (
+                  <li key={i}>
+                    {cert.issuer ? cert.issuer : "-"}
+                    {cert.name ? ` - ${cert.name}` : ""}
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
 
         {/* Experience */}
-        <div>
-          <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Experience</h2>
-          <p className="whitespace-pre-line break-words">{experience}</p>
-        </div>
+        {experience && experience.trim() !== "" && (
+          <div>
+            <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Experience</h2>
+            <p className="whitespace-pre-line break-words">{experience}</p>
+          </div>
+        )}
 
         {/* Education */}
-        <div>
-          <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Education</h2>
-          <ul className="list-disc pl-4 space-y-1">
-            {education.map((edu, i) => (
-              <li key={i}>
-                <div className="flex gap-4">
-                  <div className="flex-1"><strong>Degree:</strong> {edu.degree || "-"}</div>
-                  <div className="flex-1"><strong>Institution:</strong> {edu.institution || "-"}</div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="flex-1"><strong>Year:</strong> {edu.year || "-"}</div>
-                  <div className="flex-1"><strong>Percentage:</strong> {edu.percentage || "-"}</div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {Array.isArray(education) && education.some(edu => edu.degree || edu.institution) && (
+          <div>
+            <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Education</h2>
+            <ul className="list-disc pl-4 space-y-1">
+              {education.map((edu, i) => (
+                <li key={i}>
+                  <div className="flex gap-4">
+                    <div className="flex-1"><strong>Degree:</strong> {edu.degree || "-"}</div>
+                    <div className="flex-1"><strong>Institution:</strong> {edu.institution || "-"}</div>
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="flex-1"><strong>Year:</strong> {edu.year || "-"}</div>
+                    <div className="flex-1"><strong>Percentage:</strong> {edu.percentage || "-"}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Projects */}
-        <div>
-          <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Projects</h2>
-          <ul className="list-disc pl-4 space-y-1">
-            {projects.map((proj, i) => (
-              <li key={i}>
-                <div className="font-semibold">{proj.name}</div>
-                <div className="text-gray-600">{proj.description}</div>
-                {proj.link && (
-                  <a
-                    href={proj.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline"
-                  >
-                    🔗 View
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {Array.isArray(projects) && projects.some(proj => proj.name || proj.description) && (
+          <div>
+            <h2 className="font-semibold border-b border-gray-300 text-blue-700 text-sm">Projects</h2>
+            <ul className="list-disc pl-4 space-y-1">
+              {projects.map((proj, i) => (
+                <li key={i}>
+                  <div className="font-semibold">{proj.name}</div>
+                  <div className="text-gray-600">{proj.description}</div>
+                  {proj.link && (
+                    <a
+                      href={proj.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      🔗 View
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
       </div>
     </div>

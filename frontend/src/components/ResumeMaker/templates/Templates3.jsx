@@ -1,3 +1,4 @@
+import { Mail, MapPin, Phone } from "lucide-react";
 import React from "react";
 
 export default function TemplatesCompact({ data }) {
@@ -22,9 +23,9 @@ export default function TemplatesCompact({ data }) {
         <h1 className="text-xl font-bold mb-1">{name}</h1>
         <div className="flex flex-wrap items-center gap-x-2 text-xs">
           {[
-            email && <span key="email">{email}</span>,
-            phone && <span key="phone">{phone}</span>,
-            address && <span key="address">{address}</span>,
+            email && <div className="flex items-center gap-1"> <Mail size={16} className="pt-0.5" /><span key="email">{email}</span></div>,
+            phone && <div className="flex items-center gap-1"> <Phone size={16} className="pt-0.5" /><span key="phone">{phone}</span></div>,
+            address && <div className="flex items-center gap-1"> <MapPin size={16} className="" /><span key="address">{address}</span></div>,
             ...(links?.filter(l => l.label && l.url).map((link, i) => (
               <a
                 key={`link-${i}`}
@@ -47,78 +48,88 @@ export default function TemplatesCompact({ data }) {
               </React.Fragment>
             ))}
         </div>
-
       </header>
 
       {/* Content */}
       <div className="p-3 space-y-2 text-xs leading-tight">
 
         {/* Skills */}
-        <section>
-          <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Technical Skills</h2>
-          <div className="flex flex-wrap gap-1">
-            {skills.split(",").map((skill, i) => (
-              <span key={i} className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-xs">{skill.trim()}</span>
-            ))}
-          </div>
-        </section>
+        {skills && skills.trim() !== "" && (
+          <section>
+            <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Technical Skills</h2>
+            <div className="flex flex-wrap gap-1">
+              {skills.split(",").map((skill, i) => (
+                <span key={i} className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-xs">{skill.trim()}</span>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Experience */}
-        <section>
-          <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Experience</h2>
-          <div className="bg-gray-50 p-2 rounded">
-            <pre className="whitespace-pre-line text-gray-700 font-sans text-xs">{experience}</pre>
-          </div>
-        </section>
+        {experience && experience.trim() !== "" && (
+          <section>
+            <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Experience</h2>
+            <div className="bg-gray-50 p-2 rounded">
+              <pre className="whitespace-pre-line text-gray-700 font-sans text-xs">{experience}</pre>
+            </div>
+          </section>
+        )}
 
         {/* Education */}
-        <section>
-          <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Education</h2>
-          <div className="space-y-1">
-            {education.map((edu, i) => (
-              <div key={i} className="bg-gray-50 p-2 rounded border-l-2 border-blue-400">
-                <div className="grid grid-cols-2 gap-1 text-xs">
-                  <div><span className="font-semibold">Degree:</span> {edu.degree || "N/A"}</div>
-                  <div><span className="font-semibold">Institution:</span> {edu.institution || "N/A"}</div>
-                  <div><span className="font-semibold">Year:</span> {edu.year || "N/A"}</div>
-                  <div><span className="font-semibold">Grade:</span> {edu.percentage || "N/A"}</div>
+        {Array.isArray(education) && education.some(edu => edu.degree || edu.institution) && (
+          <section>
+            <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Education</h2>
+            <div className="space-y-1">
+              {education.map((edu, i) => (
+                <div key={i} className="bg-gray-50 p-2 rounded border-l-2 border-blue-400">
+                  <div className="grid grid-cols-2 gap-1 text-xs">
+                    <div><span className="font-semibold">Degree:</span> {edu.degree || "N/A"}</div>
+                    <div><span className="font-semibold">Institution:</span> {edu.institution || "N/A"}</div>
+                    <div><span className="font-semibold">Year:</span> {edu.year || "N/A"}</div>
+                    <div><span className="font-semibold">Grade:</span> {edu.percentage || "N/A"}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Projects */}
-        <section>
-          <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Projects</h2>
-          <div className="space-y-1">
-            {projects.map((proj, i) => (
-              <div key={i} className="bg-gray-50 p-2 rounded border-l-2 border-green-400">
-                <h3 className="font-semibold text-gray-800 text-xs">{proj.name}</h3>
-                <p className="text-gray-600 text-xs leading-tight">{proj.description}</p>
-                {proj.link && (
-                  <a href={proj.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-xs">🔗 View</a>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
+        {Array.isArray(projects) && projects.some(proj => proj.name || proj.description) && (
+          <section>
+            <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Projects</h2>
+            <div className="space-y-1">
+              {projects.map((proj, i) => (
+                <div key={i} className="bg-gray-50 p-2 rounded border-l-2 border-green-400">
+                  {proj.name && <h3 className="font-semibold text-gray-800 text-xs">{proj.name}</h3>}
+                  {proj.description && <p className="text-gray-600 text-xs leading-tight">{proj.description}</p>}
+                  {proj.link && (
+                    <a href={proj.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-xs">🔗 View</a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Certificates */}
-        <section>
-          <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Certifications</h2>
-          <div className="space-y-1">
-            {certificates.map((cert, i) => (
-              <div key={i} className="flex items-center bg-gray-50 p-1.5 rounded border-l-2 border-yellow-400">
-                <span className="mr-1 text-xs"></span>
-                <div className="text-xs">
-                  <span className="font-medium">{cert.name || "Certification"}</span>
-                  {cert.issuer && <span className="text-gray-600"> - {cert.issuer}</span>}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        {Array.isArray(certificates) && certificates.some(cert => cert.name || cert.issuer) && (
+          <section>
+            <h2 className="font-bold text-blue-800 text-sm mb-1 border-b border-blue-200">Certifications</h2>
+            <div className="space-y-1">
+              {certificates
+                .filter(cert => cert.name || cert.issuer)
+                .map((cert, i) => (
+                  <div key={i} className="flex items-center bg-gray-50 p-1.5 rounded border-l-2 border-yellow-400">
+                    <div className="text-xs">
+                      {cert.name && <span className="font-medium">{cert.name}</span>}
+                      {cert.issuer && <span className="text-gray-600"> - {cert.issuer}</span>}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </section>
+        )}
 
       </div>
     </div>
