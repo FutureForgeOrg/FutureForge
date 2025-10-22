@@ -16,7 +16,7 @@ export default function TemplatesTwoPanel({ data }) {
   } = data;
 
   return (
-    <div className="max-w-4xl mx-auto bg-white text-gray-800 font-sans border shadow-lg rounded overflow-hidden">
+    <div className="max-w-3xl mx-auto bg-white text-gray-800 font-sans border shadow-lg rounded overflow-hidden">
 
       {/* Header */}
       <header className="bg-gray-800 text-white py-3 px-4 rounded-t mb-2">

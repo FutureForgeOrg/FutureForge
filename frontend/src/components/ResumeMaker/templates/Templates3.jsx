@@ -16,7 +16,7 @@ export default function TemplatesCompact({ data }) {
   } = data;
 
   return (
-    <div className="max-w-4xl mx-auto bg-white text-gray-800 font-sans border shadow-lg rounded overflow-hidden">
+    <div className="max-w-3xl mx-auto bg-white text-gray-800 font-sans border shadow-lg rounded overflow-hidden">
 
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-2 px-3">

@@ -5,7 +5,7 @@ export default function TemplatesDark({ data }) {
   const { name, email, phone, address, skills, education, experience, projects, certificates, links } = data;
 
   return (
-    <div className="max-w-4xl mx-auto bg-gray-900 text-gray-200 font-sans border border-gray-700 rounded-lg">
+    <div className="max-w-3xl mx-auto bg-gray-900 text-gray-200 font-sans border border-gray-700 rounded-lg">
 
       {/* Header */}
       <header className="bg-gray-800 text-white py-4 px-6 text-center rounded-t-lg">

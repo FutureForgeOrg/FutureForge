@@ -19,7 +19,7 @@ export default function Templates1({ data }) {
   } = data;
 
   return (
-    <div className="max-w-4xl mx-auto bg-white text-gray-800 font-sans border shadow-lg rounded">
+    <div className="max-w-3xl mx-auto bg-white text-gray-800 font-sans border shadow-lg rounded">
       {/* Header */}
       <header className="bg-gray-800 text-white py-6 px-8 text-center rounded-t">
         <h1 className="text-3xl font-bold mb-2">{name}</h1>
