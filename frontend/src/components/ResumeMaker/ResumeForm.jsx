@@ -181,21 +181,38 @@ export default function ResumeForm({ formData, setFormData }) {
                   </div>
                 ))}
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    // setFormData({
-                    //   ...formData,
-                    //   links: [...formData.links, { label: "", url: "" }]
-                    // })
-                    setFormData((prevData) => ({
-                      ...prevData,
-                      links: [...prevData.links, { label: "", url: "" }]
-                    }))
-                  }
-                >
-                  Add Link
-                </button>
+                {/* 🔹 Add / Remove Buttons */}
+                <div className="flex items-center gap-4 mt-4">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        links: [...prevData.links, { label: "", url: "" }],
+                      }))
+                    }
+                    className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200 group"
+                  >
+                    <Plus className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                    Add Link
+                  </button>
+
+                  {formData.links.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prevData) => ({
+                          ...prevData,
+                          links: prevData.links.slice(0, -1),
+                        }))
+                      }
+                      className="flex items-center gap-2 text-red-500 hover:text-red-600 font-medium transition-colors duration-200"
+                    >
+                      Remove Last
+                    </button>
+                  )}
+                </div>
+
 
               </div>
             </div>
@@ -203,7 +220,9 @@ export default function ResumeForm({ formData, setFormData }) {
 
           {/* Right Column - Dynamic Sections */}
           <div className="space-y-6">
+
             {/* Education Section */}
+
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
               <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
                 <GraduationCap className="w-5 h-5 text-purple-500" />
@@ -212,7 +231,10 @@ export default function ResumeForm({ formData, setFormData }) {
 
               <div className="space-y-6">
                 {formData.education?.map((edu, i) => (
-                  <div key={i} className="p-4 border border-gray-200 rounded-lg space-y-3 relative">
+                  <div
+                    key={i}
+                    className="p-4 border border-gray-200 rounded-lg space-y-3 relative"
+                  >
                     <GraduationCap className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
 
                     <input
@@ -227,7 +249,9 @@ export default function ResumeForm({ formData, setFormData }) {
                       type="text"
                       placeholder="Institution"
                       value={edu.institution}
-                      onChange={(e) => handleEducationChange(i, "institution", e.target.value)}
+                      onChange={(e) =>
+                        handleEducationChange(i, "institution", e.target.value)
+                      }
                       className="w-full border p-2 rounded focus:ring-2 focus:ring-purple-500"
                     />
 
@@ -243,29 +267,48 @@ export default function ResumeForm({ formData, setFormData }) {
                       type="text"
                       placeholder="Percentage"
                       value={edu.percentage}
-                      onChange={(e) => handleEducationChange(i, "percentage", e.target.value)}
+                      onChange={(e) =>
+                        handleEducationChange(i, "percentage", e.target.value)
+                      }
                       className="w-full border p-2 rounded focus:ring-2 focus:ring-purple-500"
                     />
                   </div>
                 ))}
 
-                <button
-                  type="button"
-                  // onClick={() => setFormData({
-                  //   ...formData,
-                  //   education: [...formData.education, { degree: "", institution: "", year: "", percentage: "" }]
-                  // })}
-                  onClick={() =>
-                    setFormData((prevData) => ({
-                      ...prevData,
-                      education: [...prevData.education, { degree: "", institution: "", year: "", percentage: "" }]
-                    }))
-                  }
-                  className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200 group"
-                >
-                  <Plus className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                  Add Education
-                </button>
+                {/* 🔸 Add & Remove Buttons Side by Side */}
+                <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        education: [
+                          ...prevData.education,
+                          { degree: "", institution: "", year: "", percentage: "" },
+                        ],
+                      }))
+                    }
+                    className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200 group"
+                  >
+                    <Plus className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                    Add Education
+                  </button>
+
+                  {formData.education.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prevData) => ({
+                          ...prevData,
+                          education: prevData.education.slice(0, -1),
+                        }))
+                      }
+                      className="flex items-center gap-2 text-red-500 hover:text-red-600 font-medium transition-colors duration-200"
+                    >
+                      Remove Last
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -277,12 +320,11 @@ export default function ResumeForm({ formData, setFormData }) {
                 Projects
               </h2>
 
-              <div className="space-y-3">
+              <div className="space-y-6">
                 {formData.projects?.map((proj, i) => (
+                  <div key={i} className="relative p-4 border border-gray-200 rounded-lg space-y-3">
+                    <FolderOpen className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
 
-                  <div key={i} className="p-4 border border-gray-200 rounded-lg space-y-3">
-
-                    {/* Project Name */}
                     <input
                       type="text"
                       placeholder="Project Name"
@@ -291,7 +333,6 @@ export default function ResumeForm({ formData, setFormData }) {
                       className="w-full border p-2 rounded focus:ring-2 focus:ring-orange-500"
                     />
 
-                    {/* Project Description */}
                     <textarea
                       placeholder="Project Description"
                       value={proj.description}
@@ -300,14 +341,12 @@ export default function ResumeForm({ formData, setFormData }) {
                       className="w-full border p-2 rounded focus:ring-2 focus:ring-orange-500 resize-none"
                     />
 
-                    {/* Project Link */}
                     <input
                       type="text"
                       placeholder="Project Link"
                       value={proj.link}
                       onChange={(e) => {
                         let val = e.target.value.trim();
-                        // Automatically prepend https:// if user types something that doesn't start with http/https and isn't empty
                         if (val && !val.startsWith("http://") && !val.startsWith("https://")) {
                           val = "https://" + val;
                         }
@@ -315,21 +354,44 @@ export default function ResumeForm({ formData, setFormData }) {
                       }}
                       className="w-full border p-2 rounded focus:ring-2 focus:ring-orange-500"
                     />
-
                   </div>
                 ))}
-                <button
-                  type="button"
-                  onClick={() => setFormData((prevData) => ({
-                    ...prevData,
-                    projects: [...prevData.projects, { name: "", description: "", link: "" }]
-                  }))}
-                  className="flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium transition-colors duration-200"
-                >
-                  <Plus className="w-4 h-4" /> Add Project
-                </button>
+
+                {/* 🔹 Add / Remove Buttons */}
+                <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        projects: [...prevData.projects, { name: "", description: "", link: "" }],
+                      }))
+                    }
+                    className="flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium transition-colors duration-200 group"
+                  >
+                    <Plus className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                    Add Project
+                  </button>
+
+                  {formData.projects.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prevData) => ({
+                          ...prevData,
+                          projects: prevData.projects.slice(0, -1),
+                        }))
+                      }
+                      className="flex items-center gap-2 text-red-500 hover:text-red-600 font-medium transition-colors duration-200"
+                    >
+                      Remove Last
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
+
+
 
             {/* Certificates Section */}
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
@@ -361,22 +423,41 @@ export default function ResumeForm({ formData, setFormData }) {
                   </div>
                 ))}
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    setFormData((prevData) => ({
-                      ...prevData,
-                      certificates: [...prevData.certificates, { name: "", issuer: "" }]
-                    }))
-                  }
-                  className="flex items-center gap-2 text-red-600 hover:text-red-700 font-medium transition-colors duration-200 group"
-                >
-                  <Plus className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                  Add Certificate
-                </button>
-              </div>
+                {/* 🔹 Add / Remove Buttons */}
+                <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        certificates: [...prevData.certificates, { name: "", issuer: "" }],
+                      }))
+                    }
+                    className="flex items-center gap-2 text-red-600 hover:text-red-700 font-medium transition-colors duration-200 group"
+                  >
+                    <Plus className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                    Add Certificate
+                  </button>
 
+                  {formData.certificates.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prevData) => ({
+                          ...prevData,
+                          certificates: prevData.certificates.slice(0, -1),
+                        }))
+                      }
+                      className="flex items-center gap-2 text-red-500 hover:text-red-600 font-medium transition-colors duration-200"
+                    >
+                      Remove Last
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
+
+
           </div>
         </div>
       </div>
