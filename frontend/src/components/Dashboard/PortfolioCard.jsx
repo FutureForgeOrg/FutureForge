@@ -92,7 +92,7 @@ const PortfolioCard = () => {
 
 
                         {/* CTA Button */}
-                        <button onClick={() => navigate('/tools/Portfolio')}
+                        <button onClick={() => navigate('/tools/portfolio')}
                             className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 relative overflow-hidden">
                             <span className="relative z-10">Start Building Now</span>
                             <Zap className="w-4 h-4 relative z-10" />

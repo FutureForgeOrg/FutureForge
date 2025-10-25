@@ -46,7 +46,7 @@ const LandingPage = () => {
               Testimonials
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-blue-400 group-hover:w-full transition-all duration-300"></span>
             </a>
-            <Link to="/Login">
+            <Link to="/login">
               <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-2xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 border border-purple-400/30">
                 Login
               </button>
@@ -70,7 +70,7 @@ const LandingPage = () => {
               <a href="#About Us" className="hover:text-purple-300 transition-colors py-2 text-white font-medium">About Us</a>
               <a href="#features" className="hover:text-purple-300 transition-colors py-2 text-white font-medium">Features</a>
               <a href="#testimonials" className="hover:text-purple-300 transition-colors py-2 text-white font-medium">Testimonials</a>
-              <Link to="/Login">
+              <Link to="/login">
                 <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-full font-semibold mt-4 hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
                   Login
                 </button>
