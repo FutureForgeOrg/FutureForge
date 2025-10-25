@@ -42,7 +42,7 @@ function Hero() {
                     {/* Enhanced Stats */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 mb-2">5K+</div>
+                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 mb-2">1K+</div>
                             <div className="text-gray-300 font-medium">Jobs Matched</div>
                         </div>
                         <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
@@ -54,7 +54,7 @@ function Hero() {
                             <div className="text-gray-300 font-medium">Portfolio Templates</div>
                         </div>
                         <div className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 mb-2">2K+</div>
+                            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 mb-2">15+</div>
                             <div className="text-gray-300 font-medium">Happy Users</div>
                         </div>
                     </div>

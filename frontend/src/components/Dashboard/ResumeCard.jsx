@@ -78,7 +78,7 @@ const ResumeCard = () => {
 
                         {/* CTA Button */}
                         <button
-                            onClick={() => navigate('/tools/Resume')}
+                            onClick={() => navigate('/tools/resume')}
                             className="w-full bg-gradient-to-r from-blue-600 via-green-600 to-blue-600 text-white py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 relative overflow-hidden"
                         >
                             <span className="relative z-10">Create Resume Now</span>

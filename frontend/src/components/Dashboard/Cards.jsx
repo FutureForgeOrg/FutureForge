@@ -41,7 +41,7 @@ export default function Cards() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 my-10">
       {/* Profile Setup Card */}
       <div
-        onClick={() => navigate('/Profile')}
+        onClick={() => navigate('/profile')}
         className="rounded-3xl shadow-2xl p-6 md:p-8 border border-white/10 
                    bg-gradient-to-br from-[#1f1f2f]/70 to-[#1a1a2a]/70 
                    backdrop-blur-md transition-transform duration-700 
