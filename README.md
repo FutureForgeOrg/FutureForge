@@ -12,7 +12,7 @@ FutureForge is a full-stack career improvement platform that simplifies job sear
 - Smart filtering by role, location, and keywords
 - Bookmark system for saving interesting positions
 
-### 📄 Resume Builder
+### 📄 Resume Builder (Beta Version)
 
 - **Professional**: Clean two-page format
 - **Creative**: Dual-column layout with prominent skills
@@ -27,7 +27,7 @@ FutureForge is a full-stack career improvement platform that simplifies job sear
 - Server-side rendered (SSR) previews for faster and SEO-friendly access
 - Instantly shareable portfolio links to showcase your skills
 
-### 🤖 AI Interviewer (Beta Version)
+### 🤖 AI Interviewer
 
 - Choose your **level**: Beginner, Intermediate, or Advanced
 - Select by **topic** (Python, SQL, MongoDB, DSA theory, etc.) or **role** (Frontend, Backend, Data Science)
@@ -49,6 +49,12 @@ FutureForge is a full-stack career improvement platform that simplifies job sear
 - Supports **mixed quizzes** combining multiple fields
 - Provides instant evaluation with correct answers and explanations
 - Currently available in **hardcore mode** (direct practice without hints)
+
+### 🧮 Admin Dashboard
+
+- View user statistics, deployed portfolios, active job listings, and monitor gender distribution through male–female ratio charts.
+- Manage user access — ban or unban users with a single click.
+- Gain control over job listings with edit, update, or remove options directly from the dashboard.
 
 ### 🤖 Future Features
 
@@ -211,3 +217,9 @@ Follow the steps below to set up and run **FutureForge** locally.
         ```bash
         python run.py --api-only
         ```
+
+## 🤝 Contribution & Feedback
+
+We welcome all contributions, suggestions, and ideas to make FutureForge even better!
+If you’d like to improve the codebase, fix a bug, or add new features — feel free to open a pull request (PR) or start a discussion.
+For feedback or suggestions, you can also reach out via email at contact.futureforge@gmail.com
